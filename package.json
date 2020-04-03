@@ -1,0 +1,46 @@
+{
+  "name": "sudoku-master",
+  "version": "0.0.1",
+  "description": "A utility that analyzes a Sudoku grid and gives hints on how to solve it.",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib/**/*"
+  ],
+  "scripts": {
+    "test": "jest --config jestconfig.json",
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "lint": "tslint -p tsconfig.json",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VAdri/sudoku-master.git"
+  },
+  "keywords": [
+    "sudoku",
+    "solver",
+    "game",
+    "puzzle"
+  ],
+  "author": "VAdri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VAdri/sudoku-master/issues"
+  },
+  "homepage": "https://github.com/VAdri/sudoku-master#readme",
+  "devDependencies": {
+    "@types/jest": "^25.1.5",
+    "jest": "^25.2.7",
+    "prettier": "^2.0.2",
+    "ts-jest": "^25.3.1",
+    "tslint": "^6.1.1",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.8.3"
+  }
+}
