@@ -1,9 +1,4 @@
 {
-  "globals": {
-    "ts-jest": {
-      "tsConfigFile": "tsconfig.jest.json"
-    }
-  },
   "transform": {
     "^.+\\.(t|j)sx?$": "ts-jest"
   },
