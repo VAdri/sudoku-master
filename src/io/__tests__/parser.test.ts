@@ -1,5 +1,5 @@
 import { parseGrid } from "../parser";
-import { SudokuGrid } from "../..";
+import { SudokuGrid } from "../../types";
 
 describe("Parse valid strings with empty cells", () => {
   let grid: SudokuGrid | null;

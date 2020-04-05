@@ -1,9 +1,10 @@
-import { Digit, Pencilmarks, SudokuGrid } from "..";
+import { Digit, Pencilmarks, SudokuGrid } from "../types";
 import includes from "lodash/fp/includes";
 
 /**
  * Pattern for a single line with no pencilmarks but empty cells instead
  * (marked as ".", "-", "*" or "0").
+ * @private
  * @example
  * ".234..8..6....7......53.62...5......84.....36......1...52.96......1....7..8..521."
  * "-234--8--6----7------53-62---5------84-----36------1---52-96------1----7--8--521-"
@@ -14,6 +15,7 @@ export const PATTERN_LINE_WITHOUT_CANDIDATES = /^([1-9]|[\.\-\*0]){81}$/;
 
 /**
  * Pattern for a single line with pencilmarks (cells are delimited by spaces).
+ * @private
  * @example
  * "1579 2 3 4 16 19 8 579 159 6 189 149 289 128 7 3459 459 13459 1479 1789 1479 5 3 189 6 2 149 12379 13679 5 236789 124678 123489 479 4789 2489 8 4 179 279 1257 129 579 3 6 2379 3679 679 236789 245678 23489 1 45789 24589 1347 5 2 378 9 6 34 48 348 349 369 469 1 248 2348 3459 45689 7 3479 3679 8 37 47 5 2 1 349"
  */
@@ -21,6 +23,7 @@ export const PATTERN_LINE_WITH_SPACES = /^([1-9]+\s){80}[1-9]+$/;
 
 /**
  * Pattern for multiple lines with pencilmarks (cells are delimited by spaces).
+ * @private
  * @example
  * `1579 2 3 4 16 19 8 579 159
  * 6 189 149 289 128 7 3459 459 13459
@@ -37,6 +40,7 @@ export const PATTERN_LINES_WITH_SPACES = /^[\n\s1-9]{81,}$/;
 /**
  * Pattern for multiple lines lines with pencilmarks (cells are surrounded by
  * brackets like "{}", "()" or "[]"). Brackets around big numbers are optional.
+ * @private
  * @example
  * `{1579}234{16}{19}8{579}{159}
  * [6][189][149][289][128][7][3459][459][13459]
@@ -53,6 +57,7 @@ export const PATTERN_LINES_WITH_BRACKETS = /^[\n\s]*((([\{\(\[])[1-9]+[\}|\)|\]]
 /**
  * Pattern for a table with no pencilmarks but empty cells instead (marked as
  * ".", "-", "*" or "0") and no grid lines.
+ * @private
  * @example
  * `
  * .234..8..
@@ -70,6 +75,7 @@ export const PATTERN_NAKED_TABLE_WITHOUT_CANDIDATES = /^([\n\s]*([1-9]|[\.\-\*0]
 /**
  * Pattern for a table with no pencilmarks but empty cells instead (marked as
  * ".", "-", "*" or "0") and with grid lines.
+ * @private
  * @example
  * `
  * +---+---+---+
@@ -90,6 +96,7 @@ export const PATTERN_TABLE_WITHOUT_CANDIDATES = /^[\n\s]*((\+\-+){3}\+[\n\s]+(((
 
 /**
  * Pattern for a table with pencilmarks and grid lines.
+ * @private
  * @example
  * `
  * +----------------------+----------------------+----------------------+
@@ -111,6 +118,7 @@ export const PATTERN_TABLE = /^[\n\s]*((\+\-+){3}\+[\n\s]+(((\|(\s+[1-9]+\s*){3}
 /**
  * Pattern for a table with pencilmarks and grid lines like it is described in
  * sudopedia.
+ * @private
  * @see http://sudopedia.enjoysudoku.com/Diagrams_and_Notations.html
  * @example
  * `
