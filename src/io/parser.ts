@@ -11,7 +11,7 @@ import includes from "lodash/fp/includes";
  * "*234**8**6****7******53*62***5******84*****36******1***52*96******1****7**8**521*"
  * "023400800600007000000530620005000000840000036000000100052096000000100007008005210"
  */
-export const PATTERN_LINE_WITHOUT_CANDIDATES = /^([1-9]|[\.\-\*0]){81}$/;
+export const PATTERN_LINE_WITHOUT_CANDIDATES = /^([1-9]|[.\-*0]){81}$/;
 
 /**
  * Pattern for a single line with pencilmarks (cells are delimited by spaces).
@@ -52,7 +52,7 @@ export const PATTERN_LINES_WITH_SPACES = /^[\n\s1-9]{81,}$/;
  * (349)(369)(469)(1)(248)(2348)(3459)(45689)(7)
  * [3479][3679][8][37][47][5][2][1][349]`
  */
-export const PATTERN_LINES_WITH_BRACKETS = /^[\n\s]*((([\{\(\[])[1-9]+[\}|\)|\]]|[1-9]+){9}[\n\s]*){9}$/;
+export const PATTERN_LINES_WITH_BRACKETS = /^[\n\s]*((([{([])[1-9]+[}|)|\]]|[1-9]+){9}[\n\s]*){9}$/;
 
 /**
  * Pattern for a table with no pencilmarks but empty cells instead (marked as
@@ -70,7 +70,7 @@ export const PATTERN_LINES_WITH_BRACKETS = /^[\n\s]*((([\{\(\[])[1-9]+[\}|\)|\]]
  * ...1....7
  * ..8..521.`
  */
-export const PATTERN_NAKED_TABLE_WITHOUT_CANDIDATES = /^([\n\s]*([1-9]|[\.\-\*0]){9}[\n\s]*){9}$/;
+export const PATTERN_NAKED_TABLE_WITHOUT_CANDIDATES = /^([\n\s]*([1-9]|[.\-*0]){9}[\n\s]*){9}$/;
 
 /**
  * Pattern for a table with no pencilmarks but empty cells instead (marked as
@@ -92,7 +92,7 @@ export const PATTERN_NAKED_TABLE_WITHOUT_CANDIDATES = /^([\n\s]*([1-9]|[\.\-\*0]
  * |..8|..5|21.|
  * +---+---+---+`
  */
-export const PATTERN_TABLE_WITHOUT_CANDIDATES = /^[\n\s]*((\+\-+){3}\+[\n\s]+(((\|([1-9]|[\.\-\*0]){3}){3}\|[\n\s]+){3})){3}(\+\-+){3}\+[\n\s]*$/;
+export const PATTERN_TABLE_WITHOUT_CANDIDATES = /^[\n\s]*((\+-+){3}\+[\n\s]+(((\|([1-9]|[.\-*0]){3}){3}\|[\n\s]+){3})){3}(\+-+){3}\+[\n\s]*$/;
 
 /**
  * Pattern for a table with pencilmarks and grid lines.
@@ -113,7 +113,7 @@ export const PATTERN_TABLE_WITHOUT_CANDIDATES = /^[\n\s]*((\+\-+){3}\+[\n\s]+(((
  * | 3479   3679   8      | 37     47     5      | 2      1      349    |
  * +----------------------+----------------------+----------------------+`
  */
-export const PATTERN_TABLE = /^[\n\s]*((\+\-+){3}\+[\n\s]+(((\|(\s+[1-9]+\s*){3}){3}\|[\n\s]+){3})){3}(\+\-+){3}\+[\n\s]*$/;
+export const PATTERN_TABLE = /^[\n\s]*((\+-+){3}\+[\n\s]+(((\|(\s+[1-9]+\s*){3}){3}\|[\n\s]+){3})){3}(\+-+){3}\+[\n\s]*$/;
 
 /**
  * Pattern for a table with pencilmarks and grid lines like it is described in
@@ -136,7 +136,32 @@ export const PATTERN_TABLE = /^[\n\s]*((\+\-+){3}\+[\n\s]+(((\|(\s+[1-9]+\s*){3}
  * | 3479   3679   8      | 37     47     5      | 2      1      349    |
  * '----------------------'----------------------'----------------------'`
  */
-export const PATTERN_TABLE_SUDOPEDIA = /^[\n\s]*(\.-+){3}\.(([\n\s]+\|((\s\d+\s*){3}\|\s*){3}){3}[\n\s]+:(-+[\+\s]){2}-+:\s*){2}([\n\s]+\|((\s\d+\s*){3}\|\s*){3}){3}[\n\s]+('-+){3}'[\n\s]*$/;
+export const PATTERN_TABLE_SUDOPEDIA = /^[\n\s]*(\.-+){3}\.(([\n\s]+\|((\s\d+\s*){3}\|\s*){3}){3}[\n\s]+:(-+[+\s]){2}-+:\s*){2}([\n\s]+\|((\s\d+\s*){3}\|\s*){3}){3}[\n\s]+('-+){3}'[\n\s]*$/;
+
+function parseLine(line: string, delimiter: string, ignoredCellSymbols: readonly string[] = []): SudokuGrid {
+  const digits = new Map<number, Digit>();
+  const candidates = new Map<number, Pencilmarks>();
+
+  const cells = line.split(delimiter);
+  for (let index = 0; index < cells.length; index++) {
+    const cell = cells[index];
+    if (!includes(cell)(ignoredCellSymbols)) {
+      if (cell.length === 1) {
+        digits.set(index, parseInt(cell, 10) as Digit);
+      } else {
+        candidates.set(
+          index,
+          cell.split("").map((d) => parseInt(d, 10) as Digit),
+        );
+      }
+    }
+  }
+
+  return {
+    digits,
+    candidates,
+  } as SudokuGrid;
+}
 
 /**
  * Converts a string into a sudoku grid.
@@ -164,20 +189,20 @@ export const PATTERN_TABLE_SUDOPEDIA = /^[\n\s]*(\.-+){3}\.(([\n\s]+\|((\s\d+\s*
  *
  * @example
  * const grid = parseGrid(`
- *    +---+---+---+
- *    |*23|4**|8**|
- *    |6**|**7|***|
- *    |***|53*|62*|
- *    +---+---+---+
- *    |**5|***|***|
- *    |84*|***|*36|
- *    |***|***|1**|
- *    +---+---+---+
- *    |*52|*96|***|
- *    |***|1**|**7|
- *    |**8|**5|21*|
- *    +---+---+---+
- *  `);
+ *   +---+---+---+
+ *   |*23|4**|8**|
+ *   |6**|**7|***|
+ *   |***|53*|62*|
+ *   +---+---+---+
+ *   |**5|***|***|
+ *   |84*|***|*36|
+ *   |***|***|1**|
+ *   +---+---+---+
+ *   |*52|*96|***|
+ *   |***|1**|**7|
+ *   |**8|**5|21*|
+ *   +---+---+---+
+ * `);
  */
 export function parseGrid(stringGrid: string): SudokuGrid | null {
   if (stringGrid.match(PATTERN_LINE_WITHOUT_CANDIDATES)) {
@@ -196,7 +221,7 @@ export function parseGrid(stringGrid: string): SudokuGrid | null {
     } else if (stringGrid.match(PATTERN_LINES_WITH_BRACKETS)) {
       return parseGrid(
         stringGrid
-          .replace(/(?!\{|\(|\[)\b[1-9]+\b(?![\w\s]*[\}\)\]])/g, (match) => match.split("").join(" "))
+          .replace(/(?!\{|\(|\[)\b[1-9]+\b(?![\w\s]*[})\]])/g, (match) => match.split("").join(" "))
           .replace(/\n/g, " ")
           .replace(/(\{|\}|\(|\)|\[|\])/g, " ")
           .replace(/(^[\n\s]+)|([\n\s]+$)/g, "")
@@ -205,47 +230,14 @@ export function parseGrid(stringGrid: string): SudokuGrid | null {
     } else if (stringGrid.match(PATTERN_NAKED_TABLE_WITHOUT_CANDIDATES)) {
       return parseGrid(stringGrid.replace(/(\n|\s)/g, ""));
     } else if (stringGrid.match(PATTERN_TABLE_WITHOUT_CANDIDATES)) {
-      return parseGrid(stringGrid.replace(/((\+\-+){3}\+|\||\n|\s)/g, ""));
+      return parseGrid(stringGrid.replace(/((\+-+){3}\+|\||\n|\s)/g, ""));
     } else if (stringGrid.match(PATTERN_TABLE)) {
-      return parseGrid(stringGrid.replace(/((\+\-+){3}\+|\||\n|\s)/g, " "));
+      return parseGrid(stringGrid.replace(/((\+-+){3}\+|\||\n|\s)/g, " "));
     } else if (stringGrid.match(PATTERN_TABLE_SUDOPEDIA)) {
-      return parseGrid(stringGrid.replace(/((\.-+){3}\.|:(-+[\+\s]){2}-+:|('-+){3}'|\||\n|\s)/g, " "));
+      return parseGrid(stringGrid.replace(/((\.-+){3}\.|:(-+[+\s]){2}-+:|('-+){3}'|\||\n|\s)/g, " "));
     }
   }
 
   // The given string is not formatted correctly
   return null;
-}
-
-function a() {
-  if (Math.random() > 0.5) {
-    return "a";
-  } else {
-    return null;
-  }
-}
-
-function parseLine(line: string, delimiter: string, ignoredCellSymbols: readonly string[] = []) {
-  const digits = new Map<number, Digit>();
-  const candidates = new Map<number, Pencilmarks>();
-
-  const cells = line.split(delimiter);
-  for (let index = 0; index < cells.length; index++) {
-    const cell = cells[index];
-    if (!includes(cell)(ignoredCellSymbols)) {
-      if (cell.length === 1) {
-        digits.set(index, parseInt(cell, 10) as Digit);
-      } else {
-        candidates.set(
-          index,
-          cell.split("").map((d) => parseInt(d, 10) as Digit),
-        );
-      }
-    }
-  }
-
-  return {
-    digits,
-    candidates,
-  } as SudokuGrid;
 }

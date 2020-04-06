@@ -1,0 +1,8 @@
+# Don't ever lint node_modules
+node_modules
+
+# Don't lint build output
+lib
+
+# Don't lint doc
+doc
