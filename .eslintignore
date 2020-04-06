@@ -6,3 +6,6 @@ lib
 
 # Don't lint doc
 doc
+
+# Don't lint tests
+__tests__

@@ -1,5 +1,9 @@
 import { Digit, Pencilmarks, SudokuGrid } from "../types";
+import flow from "lodash/fp/flow";
+import filter from "lodash/fp/filter";
 import includes from "lodash/fp/includes";
+import map from "lodash/fp/map";
+import toPairs from "lodash/fp/toPairs";
 
 /**
  * Pattern for a single line with no pencilmarks but empty cells instead
@@ -139,23 +143,28 @@ export const PATTERN_TABLE = /^[\n\s]*((\+-+){3}\+[\n\s]+(((\|(\s+[1-9]+\s*){3})
 export const PATTERN_TABLE_SUDOPEDIA = /^[\n\s]*(\.-+){3}\.(([\n\s]+\|((\s\d+\s*){3}\|\s*){3}){3}[\n\s]+:(-+[+\s]){2}-+:\s*){2}([\n\s]+\|((\s\d+\s*){3}\|\s*){3}){3}[\n\s]+('-+){3}'[\n\s]*$/;
 
 function parseLine(line: string, delimiter: string, ignoredCellSymbols: readonly string[] = []): SudokuGrid {
-  const digits = new Map<number, Digit>();
-  const candidates = new Map<number, Pencilmarks>();
-
   const cells = line.split(delimiter);
-  for (let index = 0; index < cells.length; index++) {
-    const cell = cells[index];
-    if (!includes(cell)(ignoredCellSymbols)) {
-      if (cell.length === 1) {
-        digits.set(index, parseInt(cell, 10) as Digit);
-      } else {
-        candidates.set(
-          index,
-          cell.split("").map((d) => parseInt(d, 10) as Digit),
-        );
-      }
-    }
-  }
+
+  const digits = new Map<number, Digit>(
+    flow(
+      toPairs,
+      map((entry: readonly [string, string]) => [parseInt(entry[0]), entry[1]]),
+      filter((entry: readonly [number, string]) => entry[1].length === 1 && !includes(entry[1])(ignoredCellSymbols)),
+      map((entry: readonly [number, string]): readonly [number, Digit] => [entry[0], parseInt(entry[1], 10) as Digit]),
+    )(cells),
+  );
+
+  const candidates = new Map<number, Pencilmarks>(
+    flow(
+      toPairs,
+      map((entry: readonly [string, string]) => [parseInt(entry[0]), entry[1]]),
+      filter((entry: readonly [number, string]) => entry[1].length > 1),
+      map((entry: readonly [number, string]): readonly [number, Pencilmarks] => [
+        entry[0],
+        entry[1].split("").map((d) => parseInt(d, 10) as Digit),
+      ]),
+    )(cells),
+  );
 
   return {
     digits,
@@ -235,9 +244,9 @@ export function parseGrid(stringGrid: string): SudokuGrid | null {
       return parseGrid(stringGrid.replace(/((\+-+){3}\+|\||\n|\s)/g, " "));
     } else if (stringGrid.match(PATTERN_TABLE_SUDOPEDIA)) {
       return parseGrid(stringGrid.replace(/((\.-+){3}\.|:(-+[+\s]){2}-+:|('-+){3}'|\||\n|\s)/g, " "));
+    } else {
+      // The given string is not formatted correctly
+      return null;
     }
   }
-
-  // The given string is not formatted correctly
-  return null;
 }

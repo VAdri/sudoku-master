@@ -4,6 +4,6 @@ export type Digit = typeof VALID_DIGITS[number];
 export type Pencilmarks = readonly Digit[];
 
 export type SudokuGrid = {
-  digits: ReadonlyMap<number, Digit>;
-  candidates: ReadonlyMap<number, readonly Digit[]>;
+  readonly digits: ReadonlyMap<number, Digit>;
+  readonly candidates: ReadonlyMap<number, readonly Digit[]>;
 };
