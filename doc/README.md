@@ -5,12 +5,15 @@
 -   [parseGrid][1]
     -   [Parameters][2]
     -   [Examples][3]
+-   [toIndexValuePairs][4]
+    -   [Parameters][5]
+    -   [Examples][6]
 
 ## parseGrid
 
--   **See: [http://sudopedia.enjoysudoku.com/Diagrams_and_Notations.html][4]
+-   **See: [http://sudopedia.enjoysudoku.com/Diagrams_and_Notations.html][7]
     **
--   **See: [http://www.sadmansoftware.com/sudoku/faq22.php][5]
+-   **See: [http://www.sadmansoftware.com/sudoku/faq22.php][8]
     **
 
 Converts a string into a sudoku grid.
@@ -27,30 +30,50 @@ validate these formats are exported in constants prefixed with "PATTERN\_".
 
 ### Parameters
 
--   `stringGrid` **[string][6]** The string representing a sudoku grid.
+-   `stringGrid` **[string][9]** The string representing a sudoku grid.
 
 ### Examples
 
 ```javascript
 const grid = parseGrid(`
-   +---+---+---+
-   |*23|4**|8**|
-   |6**|**7|***|
-   |***|53*|62*|
-   +---+---+---+
-   |**5|***|***|
-   |84*|***|*36|
-   |***|***|1**|
-   +---+---+---+
-   |*52|*96|***|
-   |***|1**|**7|
-   |**8|**5|21*|
-   +---+---+---+
- `);
+  +---+---+---+
+  |*23|4**|8**|
+  |6**|**7|***|
+  |***|53*|62*|
+  +---+---+---+
+  |**5|***|***|
+  |84*|***|*36|
+  |***|***|1**|
+  +---+---+---+
+  |*52|*96|***|
+  |***|1**|**7|
+  |**8|**5|21*|
+  +---+---+---+
+`);
 ```
 
 Returns **(SudokuGrid | null)** The `SudokuGrid` that was parsed, or `null`
 if the given string was not in a valid format.
+
+**Meta**
+
+-   **since**: 0.0.1
+
+## toIndexValuePairs
+
+Creates an array of tuples containing the index-value pairs for the array that was given.
+
+### Parameters
+
+-   `array` **ReadonlyArray&lt;T>** The array to query.
+
+### Examples
+
+```javascript
+const array = ["a", "b", "c"];
+toIndexValuePairs(array);
+// => [[0, "a"], [1, "b"], [2, "c"]]
+```
 
 **Meta**
 
@@ -62,8 +85,14 @@ if the given string was not in a valid format.
 
 [3]: #examples
 
-[4]: http://sudopedia.enjoysudoku.com/Diagrams_and_Notations.html
+[4]: #toindexvaluepairs
 
-[5]: http://www.sadmansoftware.com/sudoku/faq22.php
+[5]: #parameters-1
 
-[6]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[6]: #examples-1
+
+[7]: http://sudopedia.enjoysudoku.com/Diagrams_and_Notations.html
+
+[8]: http://www.sadmansoftware.com/sudoku/faq22.php
+
+[9]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String

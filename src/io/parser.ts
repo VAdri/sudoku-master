@@ -1,9 +1,9 @@
 import { Digit, Pencilmarks, SudokuGrid } from "../types";
+import { toIndexValuePairs } from "../utils/collection";
 import flow from "lodash/fp/flow";
 import filter from "lodash/fp/filter";
 import includes from "lodash/fp/includes";
 import map from "lodash/fp/map";
-import toPairs from "lodash/fp/toPairs";
 
 /**
  * Pattern for a single line with no pencilmarks but empty cells instead
@@ -147,8 +147,7 @@ function parseLine(line: string, delimiter: string, ignoredCellSymbols: readonly
 
   const digits = new Map<number, Digit>(
     flow(
-      toPairs,
-      map((entry: readonly [string, string]) => [parseInt(entry[0]), entry[1]]),
+      toIndexValuePairs,
       filter((entry: readonly [number, string]) => entry[1].length === 1 && !includes(entry[1])(ignoredCellSymbols)),
       map((entry: readonly [number, string]): readonly [number, Digit] => [entry[0], parseInt(entry[1], 10) as Digit]),
     )(cells),
@@ -156,8 +155,7 @@ function parseLine(line: string, delimiter: string, ignoredCellSymbols: readonly
 
   const candidates = new Map<number, Pencilmarks>(
     flow(
-      toPairs,
-      map((entry: readonly [string, string]) => [parseInt(entry[0]), entry[1]]),
+      toIndexValuePairs,
       filter((entry: readonly [number, string]) => entry[1].length > 1),
       map((entry: readonly [number, string]): readonly [number, Pencilmarks] => [
         entry[0],
