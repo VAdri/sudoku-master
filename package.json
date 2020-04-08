@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "build:doc": "documentation build lib/**.js -f md -o doc/README.md",
+    "build:doc": "documentation build lib/**/*.js -f md -o doc/README.md",
     "test": "jest --verbose --config jestconfig.json",
     "test:doc": "markdown-doctest doc/*.md",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
