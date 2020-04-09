@@ -1,5 +1,6 @@
 import {
   CellIndex,
+  GridIndex,
   House,
   HouseIndex,
   HouseType,
@@ -46,15 +47,21 @@ export function getCellIndexInGrid(houseType: HouseType, houseIndex: HouseIndex,
     case "box":
       return (
         Math.floor(cellIndex / 3) * 9 + // row
-        Math.floor(cellIndex % 3) + // col
+        (cellIndex % 3) + // col
         Math.floor(houseIndex / 3) * 9 * 3 + // row offset
-        Math.floor(houseIndex % 3) * 3 // col offset
+        (houseIndex % 3) * 3 // col offset
       );
     default:
       return -1;
   }
 }
 
+/**
+ * The list of all the houses in the grid.
+ *
+ * @private
+ * @since 0.0.1
+ */
 export const HOUSES_LIST: readonly House[] = flatMap((houseType: HouseType) =>
   map((houseIndex: HouseIndex) => {
     return {
@@ -71,6 +78,28 @@ export const HOUSES_LIST: readonly House[] = flatMap((houseType: HouseType) =>
 )(VALID_HOUSE_TYPES);
 
 /**
+ * Get the row, column and box on which a cell is located.
+ *
+ * @since 0.0.1
+ *
+ * @param {GridIndex} index The index of a cell in the grid.
+ * @returns {readonly [House, House, House]} A tuple containing the row, the column and the box of the given cell.
+ *
+ * @example
+ * const [row, col, box] = getCellHouses(45);
+ */
+export function getCellHouses(index: GridIndex): readonly [House, House, House] {
+  const rowIndex = Math.floor(index / 9);
+  const colIndex = index % 9;
+  const boxIndex = (Math.floor(index / 3) % 3) + Math.floor(index / 9 / 3) * 3;
+  return [
+    HOUSES_LIST.find((house) => house.type === "row" && house.index === rowIndex) as House,
+    HOUSES_LIST.find((house) => house.type === "col" && house.index === colIndex) as House,
+    HOUSES_LIST.find((house) => house.type === "box" && house.index === boxIndex) as House,
+  ];
+}
+
+/**
  * Verify that a house (row, column or box) does not contain any duplicate value, meaning it is valid according to the
  * rules of Sudoku. However, it does not mean that the house is complete nor that the digits in the house are correct:
  * they can be placed according to the rules in their own house but could be in conflict in another house, or lead to an
@@ -80,7 +109,8 @@ export const HOUSES_LIST: readonly House[] = flatMap((houseType: HouseType) =>
  *
  * @since 0.0.1
  *
- * @param {readonly grid: SudokuGrid; readonly house: House} param0 The context of the house to validate.
+ * @param {SudokuGrid} $0.grid The grid containing the house to validate.
+ * @param {House} $0.house The house to validate.
  * @returns {boolean} `true` if the given house is currently valid; otherwise, `false`.
  *
  * @example
@@ -104,8 +134,8 @@ export const HOUSES_LIST: readonly House[] = flatMap((houseType: HouseType) =>
 export function isValidHouse({ grid, house }: { readonly grid: SudokuGrid; readonly house: House }): boolean {
   return flow(
     map((index: CellIndex) => house.cells[index]),
-    filter((cell: number) => grid.digits.has(cell)),
-    countBy((cell: number) => grid.digits.get(cell)),
+    filter((cell: GridIndex) => grid.digits.has(cell)),
+    countBy((cell: GridIndex) => grid.digits.get(cell)),
     values,
     every((count: number) => count === 1),
   )(VALID_CELL_INDEXES);
