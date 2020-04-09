@@ -1,2 +1,2 @@
 export * from "./utils/collection";
-export { getCellIndexInGrid, HOUSES_LIST } from "./utils/house";
+export { getCellIndexInGrid, getCellHouses, HOUSES_LIST } from "./utils/house";

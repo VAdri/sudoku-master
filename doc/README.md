@@ -5,15 +5,32 @@
 -   [parseGrid][1]
     -   [Parameters][2]
     -   [Examples][3]
--   [toIndexValuePairs][4]
+-   [solveWithBacktracking][4]
     -   [Parameters][5]
-    -   [Examples][6]
+-   [getCandidatesForCell][6]
+    -   [Parameters][7]
+    -   [Examples][8]
+-   [getCandidates][9]
+    -   [Parameters][10]
+    -   [Examples][11]
+-   [isValidGrid][12]
+    -   [Parameters][13]
+    -   [Examples][14]
+-   [getCellIndexInGrid][15]
+    -   [Parameters][16]
+    -   [Examples][17]
+-   [getCellHouses][18]
+    -   [Parameters][19]
+    -   [Examples][20]
+-   [isValidHouse][21]
+    -   [Parameters][22]
+    -   [Examples][23]
 
 ## parseGrid
 
--   **See: [http://sudopedia.enjoysudoku.com/Diagrams_and_Notations.html][7]
+-   **See: [http://sudopedia.enjoysudoku.com/Diagrams_and_Notations.html][24]
     **
--   **See: [http://www.sadmansoftware.com/sudoku/faq22.php][8]
+-   **See: [http://www.sadmansoftware.com/sudoku/faq22.php][25]
     **
 
 Converts a string into a sudoku grid.
@@ -30,7 +47,7 @@ validate these formats are exported in constants prefixed with "PATTERN\_".
 
 ### Parameters
 
--   `stringGrid` **[string][9]** The string representing a sudoku grid.
+-   `stringGrid` **[string][26]** The string representing a sudoku grid.
 
 ### Examples
 
@@ -59,21 +76,233 @@ if the given string was not in a valid format.
 
 -   **since**: 0.0.1
 
-## toIndexValuePairs
+## solveWithBacktracking
 
-Creates an array of tuples containing the index-value pairs for the array that was given.
+-   **See: [http://sudopedia.enjoysudoku.com/Backtracking_Algorithms.html][27]
+    **
+-   **See: [https://en.wikipedia.org/wiki/Backtracking][28]
+    **
+-   **See: [https://en.wikipedia.org/wiki/Sudoku_solving_algorithms][29]
+    **
+
+Solves a grid using a backtracking algorithm.
+
+The program will place a digit into a cell (following the constraints of the game), and continue until it finds the
+solution or hits a dead end. If the algorithm cannot place any new digit according to the constraints of the game,
+meaning it has reached a dead end, it removes the one or several placed digits and tries a new alternative. This
+process continue until either all alternatives have been tried or the grid has been solved.
+
+**Note:** This process can be slow. Some grids are also designed to resist this kind of algorithm for a longer time.
 
 ### Parameters
 
--   `array` **ReadonlyArray&lt;T>** The array to query.
+-   `grid` **SudokuGrid** The grid to solve.
+-   `mode` **BruteForceMode** The type of algorithm to use to solve the puzzle. (optional, default `BruteForceMode.DepthFirstSearch`)
+
+Returns **(ReadonlyMap&lt;GridIndex, Digit> | [undefined][30])** The solution of the grid if it has been found; otherwise,
+`undefined`.
+
+**Meta**
+
+-   **since**: 0.0.1
+
+## getCandidatesForCell
+
+Resolve the list of candidates that can be placed in a cell according to the digits that have been placed in the same
+houses.
+
+### Parameters
+
+-   `digits` **ReadonlyMap&lt;GridIndex, Digit>** The list of all the digits placed in the grid.
+-   `index` **GridIndex** The index of the cell in the grid.
 
 ### Examples
 
 ```javascript
-const array = ["a", "b", "c"];
-toIndexValuePairs(array);
-// => [[0, "a"], [1, "b"], [2, "c"]]
+const grid = parseGrid(`
+  .23......
+  456......
+  789......
+  .........
+  .........
+  .........
+  .........
+  .........
+  .........
+`);
+
+getCandidatesForCell(grid.digits, 0);
+// => [1]
+getCandidatesForCell(grid.digits, 1);
+// => undefined
+getCandidatesForCell(grid.digits, 3);
+// => [1, 4, 5, 6, 7, 8, 9]
+getCandidatesForCell(grid.digits, 80);
+// => [1, 2, 3, 4, 5, 6, 7, 8, 9]
 ```
+
+Returns **(Pencilmarks | [undefined][30])** The list of candidates that can be placed in the cell; otherwise, if the cell
+already has a digit placed, `undefined`.
+
+**Meta**
+
+-   **since**: 0.0.1
+
+## getCandidates
+
+Determine all the candidates that can be placed in the empty cells of a grid.
+
+### Parameters
+
+-   `digits` **ReadonlyMap&lt;GridIndex, Digit>** The list of all the digits placed in the grid.
+
+### Examples
+
+```javascript
+const grid = parseGrid(`
+  +---+---+---+
+  |.71|263|584|
+  |345|798|126|
+  |268|.45|937|
+  +---+---+---+
+  |437|519|862|
+  |156|824|793|
+  |892|376|451|
+  +---+---+---+
+  |713|952|648|
+  |584|631|279|
+  |629|487|315|
+  +---+---+---+`);
+
+getCandidates(grid.digits);
+// => [[0, 9], [21, 1]]
+```
+
+Returns **(Pencilmarks | [undefined][30])** A list containing all the candidates that can be placed in the empty cells of the
+grid.
+
+**Meta**
+
+-   **since**: 0.0.1
+
+## isValidGrid
+
+Verify that a grid is valid according to the three constraints of Sudoku: every row, every column and every 3x3 box
+must contain only one occurence of the digits 1 through 9. However, it does not verify that the gris is complete or
+that the digits are well placed, it only indicates that there is currently no duplicate values in any row, column or
+box.
+
+### Parameters
+
+-   `grid` **SudokuGrid** The grid to validate.
+
+### Examples
+
+```javascript
+const grid = parseGrid(`
+  .------------------.------------------.------------------.
+  | 19    7     169  | 2     156   3    | 459   8     49   |
+  | 3     4     5    | 7     9     8    | 1     2     6    |
+  | 2     169   8    | 16    4     156  | 3579  35    379  |
+  :------------------+------------------+------------------:
+  | 4     136   1367 | 5     1367  9    | 8     36    2    |
+  | 17    5     12367| 8     12367 4    | 367   9     37   |
+  | 8     369   23679| 36    2367  26   | 34567 3456  1    |
+  :------------------+------------------+------------------:
+  | 1579  139   13479| 13469 12356 1256 | 23469 346   8    |
+  | 159   8     1349 | 13469 12356 1256 | 23469 7     349  |
+  | 6     2     349  | 349   8     7    | 349   1     5    |
+  '------------------'------------------'------------------'`);
+isValidGrid(grid);
+// => true
+```
+
+Returns **[boolean][31]** `true` if the given grid is currently valid; otherwise, `false`.
+
+**Meta**
+
+-   **since**: 0.0.1
+
+## getCellIndexInGrid
+
+Calculate the index (between 0 and 80) of a given cell according to its position inside its house.
+
+### Parameters
+
+-   `houseType` **HouseType** The type of house (row, column or box) on which the cell is located.
+-   `houseIndex` **HouseIndex** The index of the house (e.g. row 1, or box 5...) in which the cell is located.
+-   `cellIndex` **CellIndex** The position of the cell inside its house.
+
+### Examples
+
+```javascript
+getCellIndexInGrid("row", 2, 0);
+// => 18
+getCellIndexInGrid("col", 5, 4);
+// => 41
+getCellIndexInGrid("box", 7, 6);
+// => 75
+```
+
+Returns **[number][32]** The index of the cell in the grid, or `-1` if the cell is not valid.
+
+**Meta**
+
+-   **since**: 0.0.1
+
+## getCellHouses
+
+Get the row, column and box on which a cell is located.
+
+### Parameters
+
+-   `index` **GridIndex** The index of a cell in the grid.
+
+### Examples
+
+```javascript
+const [row, col, box] = getCellHouses(45);
+```
+
+**Meta**
+
+-   **since**: 0.0.1
+
+## isValidHouse
+
+Verify that a house (row, column or box) does not contain any duplicate value, meaning it is valid according to the
+rules of Sudoku. However, it does not mean that the house is complete nor that the digits in the house are correct:
+they can be placed according to the rules in their own house but could be in conflict in another house, or lead to an
+error if the game continue.
+
+### Parameters
+
+-   `$0` **[Object][33]** 
+    -   `$0.grid`  
+    -   `$0.house`  
+
+### Examples
+
+```javascript
+const grid = parseGrid(`
+  .------------------.------------------.------------------.
+  | 19    7     169  | 2     156   3    | 459   8     49   |
+  | 3     4     5    | 7     9     8    | 1     2     6    |
+  | 2     169   8    | 16    4     156  | 3579  35    379  |
+  :------------------+------------------+------------------:
+  | 4     136   1367 | 5     1367  9    | 8     36    2    |
+  | 17    5     12367| 8     12367 4    | 367   9     37   |
+  | 8     369   23679| 36    2367  26   | 34567 3456  1    |
+  :------------------+------------------+------------------:
+  | 1579  139   13479| 13469 12356 1256 | 23469 346   8    |
+  | 159   8     1349 | 13469 12356 1256 | 23469 7     349  |
+  | 6     2     349  | 349   8     7    | 349   1     5    |
+  '------------------'------------------'------------------'`);
+isValidHouse({ grid, house: HOUSES_LIST[0] });
+// => true
+```
+
+Returns **[boolean][31]** `true` if the given house is currently valid; otherwise, `false`.
 
 **Meta**
 
@@ -85,14 +314,62 @@ toIndexValuePairs(array);
 
 [3]: #examples
 
-[4]: #toindexvaluepairs
+[4]: #solvewithbacktracking
 
 [5]: #parameters-1
 
-[6]: #examples-1
+[6]: #getcandidatesforcell
 
-[7]: http://sudopedia.enjoysudoku.com/Diagrams_and_Notations.html
+[7]: #parameters-2
 
-[8]: http://www.sadmansoftware.com/sudoku/faq22.php
+[8]: #examples-1
 
-[9]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[9]: #getcandidates
+
+[10]: #parameters-3
+
+[11]: #examples-2
+
+[12]: #isvalidgrid
+
+[13]: #parameters-4
+
+[14]: #examples-3
+
+[15]: #getcellindexingrid
+
+[16]: #parameters-5
+
+[17]: #examples-4
+
+[18]: #getcellhouses
+
+[19]: #parameters-6
+
+[20]: #examples-5
+
+[21]: #isvalidhouse
+
+[22]: #parameters-7
+
+[23]: #examples-6
+
+[24]: http://sudopedia.enjoysudoku.com/Diagrams_and_Notations.html
+
+[25]: http://www.sadmansoftware.com/sudoku/faq22.php
+
+[26]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[27]: http://sudopedia.enjoysudoku.com/Backtracking_Algorithms.html
+
+[28]: https://en.wikipedia.org/wiki/Backtracking
+
+[29]: https://en.wikipedia.org/wiki/Sudoku_solving_algorithms
+
+[30]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined
+
+[31]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+
+[32]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+
+[33]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
