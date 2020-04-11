@@ -10,13 +10,9 @@ import {
   VALID_HOUSE_TYPES,
   VALID_HOUSE_INDEXES,
 } from "../types";
+import { filter, flatMap, map, pipe, first } from "remeda";
 import countBy from "lodash/fp/countBy";
-import every from "lodash/fp/every";
-import flatMap from "lodash/fp/flatMap";
 import fromPairs from "lodash/fp/fromPairs";
-import map from "lodash/fp/map";
-import flow from "lodash/fp/flow";
-import filter from "lodash/fp/filter";
 import values from "lodash/fp/values";
 
 /**
@@ -132,11 +128,14 @@ export function getCellHouses(index: GridIndex): readonly [House, House, House] 
  * // => true
  */
 export function isValidHouse({ grid, house }: { readonly grid: SudokuGrid; readonly house: House }): boolean {
-  return flow(
+  const invalidHouseDuplicate = pipe(
+    VALID_CELL_INDEXES,
     map((index: CellIndex) => house.cells[index]),
     filter((cell: GridIndex) => grid.digits.has(cell)),
     countBy((cell: GridIndex) => grid.digits.get(cell)),
     values,
-    every((count: number) => count === 1),
-  )(VALID_CELL_INDEXES);
+    filter((count: number) => count !== 1),
+    first(),
+  );
+  return invalidHouseDuplicate === undefined ? true : false;
 }

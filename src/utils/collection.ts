@@ -1,5 +1,4 @@
-import flow from "lodash/fp/flow";
-import map from "lodash/fp/map";
+import { map, pipe } from "remeda";
 import toPairs from "lodash/fp/toPairs";
 
 /**
@@ -17,7 +16,8 @@ import toPairs from "lodash/fp/toPairs";
  * // => [[0, "a"], [1, "b"], [2, "c"]]
  */
 export const toIndexValuePairs = <T>(array: ReadonlyArray<T>): ReadonlyArray<readonly [number, T]> =>
-  flow(
+  pipe(
+    array,
     toPairs,
     map((entry: readonly [string, T]) => [parseInt(entry[0]), entry[1]]),
-  )(array);
+  );

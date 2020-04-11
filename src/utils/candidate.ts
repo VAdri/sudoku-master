@@ -1,23 +1,19 @@
 import { Digit, GridIndex, House, Pencilmarks, VALID_DIGITS, VALID_GRID_INDEXES } from "../types";
 import { getCellHouses } from "./house";
-import difference from "lodash/fp/difference";
-import flow from "lodash/fp/flow";
-import filter from "lodash/fp/filter";
-import flatMap from "lodash/fp/flatMap";
-import map from "lodash/fp/map";
+import { difference, filter, flatMap, map, pipe } from "remeda";
 import values from "lodash/fp/values";
 
 /**
  * Resolve the list of candidates that can be placed in a cell according to the digits that have been placed in the same
  * houses.
- * 
+ *
  * @since 0.0.1
- * 
+ *
  * @param {ReadonlyMap<GridIndex, Digit>} digits The list of all the digits placed in the grid.
  * @param {GridIndex} index The index of the cell in the grid.
  * @returns {Pencilmarks | undefined} The list of candidates that can be placed in the cell; otherwise, if the cell
  * already has a digit placed, `undefined`.
- * 
+ *
  * @example
  * const grid = parseGrid(`
  *   .23......
@@ -30,7 +26,7 @@ import values from "lodash/fp/values";
  *   .........
  *   .........
  * `);
- * 
+ *
  * getCandidatesForCell(grid.digits, 0);
  * // => [1]
  * getCandidatesForCell(grid.digits, 1);
@@ -42,26 +38,27 @@ import values from "lodash/fp/values";
  */
 export function getCandidatesForCell(digits: ReadonlyMap<GridIndex, Digit>, index: GridIndex): Pencilmarks | undefined {
   if (digits.has(index)) {
-    return ;
+    return;
   } else {
-    const candidates = flow(
-      flatMap((house: House) => map((cell: GridIndex) => digits.get(cell))(values(house.cells))),
+    const candidates = pipe(
+      getCellHouses(index),
+      flatMap((house: House) => map(values(house.cells), (cell: GridIndex) => digits.get(cell))),
       filter((digit: Digit | undefined) => digit !== undefined),
-    )(getCellHouses(index)) as Pencilmarks;
-  
-    return difference(VALID_DIGITS)(candidates);
+    ) as Pencilmarks;
+
+    return difference(VALID_DIGITS, candidates);
   }
 }
 
 /**
  * Determine all the candidates that can be placed in the empty cells of a grid.
- * 
+ *
  * @since 0.0.1
- * 
+ *
  * @param {ReadonlyMap<GridIndex, Digit>} digits The list of all the digits placed in the grid.
  * @returns {Pencilmarks | undefined} A list containing all the candidates that can be placed in the empty cells of the
  * grid.
- * 
+ *
  * @example
  * const grid = parseGrid(`
  *   +---+---+---+
@@ -77,15 +74,16 @@ export function getCandidatesForCell(digits: ReadonlyMap<GridIndex, Digit>, inde
  *   |584|631|279|
  *   |629|487|315|
  *   +---+---+---+`);
- * 
+ *
  * getCandidates(grid.digits);
  * // => [[0, 9], [21, 1]]
  */
 export function getCandidates(digits: ReadonlyMap<GridIndex, Digit>): ReadonlyMap<GridIndex, Pencilmarks> {
   return new Map<GridIndex, Pencilmarks>(
-    flow(
+    pipe(
+      VALID_GRID_INDEXES,
       filter((index: GridIndex) => !digits.has(index)),
       map((index: GridIndex) => [index, getCandidatesForCell(digits, index)] as readonly [GridIndex, Pencilmarks]),
-    )(VALID_GRID_INDEXES),
+    ),
   );
 }
