@@ -1,5 +1,4 @@
-import { Digit, Pencilmarks, SudokuGrid } from "../types";
-import { toIndexValuePairs } from "../utils/collection";
+import { Digit, Pencilmarks, SudokuGrid, GridIndex } from "../types";
 import { filter, map, pipe } from "remeda";
 import includes from "lodash/fp/includes";
 
@@ -143,24 +142,21 @@ export const PATTERN_TABLE_SUDOPEDIA = /^[\n\s]*(\.-+){3}\.(([\n\s]+\|((\s\d+\s*
 function parseLine(line: string, delimiter: string, ignoredCellSymbols: readonly string[] = []): SudokuGrid {
   const cells = line.split(delimiter);
 
-  const digits = new Map<number, Digit>(
+  const digits = new Map<GridIndex, Digit>(
     pipe(
       cells,
-      toIndexValuePairs,
-      filter((entry: readonly [number, string]) => entry[1].length === 1 && !includes(entry[1])(ignoredCellSymbols)),
-      map((entry: readonly [number, string]): readonly [number, Digit] => [entry[0], parseInt(entry[1], 10) as Digit]),
+      map.indexed((cell: string, index: number) => [index, cell] as readonly [GridIndex, string]),
+      filter((entry: readonly [GridIndex, string]) => entry[1].length === 1 && !includes(entry[1])(ignoredCellSymbols)),
+      map((entry: readonly [GridIndex, string]) => [entry[0], parseInt(entry[1], 10) as Digit]),
     ),
   );
 
-  const candidates = new Map<number, Pencilmarks>(
+  const candidates = new Map<GridIndex, Pencilmarks>(
     pipe(
       cells,
-      toIndexValuePairs,
-      filter((entry: readonly [number, string]) => entry[1].length > 1),
-      map((entry: readonly [number, string]): readonly [number, Pencilmarks] => [
-        entry[0],
-        entry[1].split("").map((d) => parseInt(d, 10) as Digit),
-      ]),
+      map.indexed((cell: string, index: number) => [index, cell] as readonly [GridIndex, string]),
+      filter((entry: readonly [GridIndex, string]) => entry[1].length > 1),
+      map((entry: readonly [GridIndex, string]) => [entry[0], entry[1].split("").map((d) => parseInt(d, 10) as Digit)]),
     ),
   );
 
