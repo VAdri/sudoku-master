@@ -35,9 +35,10 @@ import map from "lodash/fp/map";
  * // => true
  */
 export function isValidGrid(grid: SudokuGrid): boolean {
+  const rows = HOUSES_LIST.filter((house) => house.type === "row");
   return every(isValidHouse)(
     map((house) => {
       return { grid, house };
-    })(HOUSES_LIST),
+    })(rows),
   );
 }
