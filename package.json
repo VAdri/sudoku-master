@@ -13,7 +13,7 @@
     "test": "jest --verbose --config jestconfig.json",
     "test:wip": "jest --verbose --config jestconfig.wip.json",
     "test:doc": "markdown-doctest doc/*.md",
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "prepare": "npm run build && npm run build:doc",
     "prepublishOnly": "npm test && npm run test:doc && npm run lint",

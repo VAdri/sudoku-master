@@ -119,11 +119,7 @@ export function getCellBox(index: GridIndex): House {
  * const [row, col, box] = getCellHouses(45);
  */
 export function getCellHouses(index: GridIndex): readonly [House, House, House] {
-  return [
-    getCellRow(index),
-    getCellCol(index),
-    getCellBox(index),
-  ];
+  return [getCellRow(index), getCellCol(index), getCellBox(index)];
 }
 
 export function sameHouse(houseType: HouseType, gridIndex1: GridIndex, gridIndex2: GridIndex): boolean {
