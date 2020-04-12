@@ -1,7 +1,7 @@
 import { Digit, GridIndex, Pencilmarks, SudokuGrid } from "../types";
 import { filter, map, pipe } from "remeda";
-import { EMPTY_CELL_SYMBOLS } from ".";
-import includes from "lodash/fp/includes";
+import { EMPTY_CELL_SYMBOLS } from "./types";
+import { includes } from "ramda";
 
 /**
  * Pattern for a single line with no pencilmarks but empty cells instead

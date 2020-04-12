@@ -1,19 +1,18 @@
 import {
   CellIndex,
+  Digit,
   GridIndex,
   House,
+  HouseCells,
   HouseIndex,
   HouseType,
-  HouseCells,
   SudokuGrid,
   VALID_CELL_INDEXES,
-  VALID_HOUSE_TYPES,
   VALID_HOUSE_INDEXES,
+  VALID_HOUSE_TYPES,
 } from "../types";
-import { filter, flatMap, map, pipe, first } from "remeda";
-import countBy from "lodash/fp/countBy";
-import fromPairs from "lodash/fp/fromPairs";
-import values from "lodash/fp/values";
+import { filter, first, flatMap, map, pipe } from "remeda";
+import { countBy, fromPairs, values } from "ramda";
 
 /**
  * Calculate the index (between 0 and 80) of a given cell according to its position inside its house.
@@ -34,22 +33,42 @@ import values from "lodash/fp/values";
  * getCellIndexInGrid("box", 7, 6);
  * // => 75
  */
-export function getCellIndexInGrid(houseType: HouseType, houseIndex: HouseIndex, cellIndex: CellIndex): number {
+export function getCellIndexInGrid(houseType: HouseType, houseIndex: HouseIndex, cellIndex: CellIndex): GridIndex | -1 {
   switch (houseType) {
     case "row":
-      return houseIndex * 9 + cellIndex;
+      return (houseIndex * 9 + cellIndex) as GridIndex;
     case "col":
-      return houseIndex + cellIndex * 9;
+      return (houseIndex + cellIndex * 9) as GridIndex;
     case "box":
-      return (
-        Math.floor(cellIndex / 3) * 9 + // row
-        (cellIndex % 3) + // col
-        Math.floor(houseIndex / 3) * 9 * 3 + // row offset
-        (houseIndex % 3) * 3 // col offset
-      );
+      return (Math.floor(cellIndex / 3) * 9 + // row
+      (cellIndex % 3) + // col
+      Math.floor(houseIndex / 3) * 9 * 3 + // row offset
+        (houseIndex % 3) * 3) as GridIndex; // col offset
     default:
       return -1;
   }
+}
+
+/**
+ * Calculate the index (between 0 and 80) of a given cell according to its row and column positions.
+ *
+ * @since 0.0.1
+ *
+ * @param rowIndex The index of the row.
+ * @param colIndex The index of the column.
+ *
+ * @returns {number} The index of the cell in the grid, or `-1` if the cell is not valid.
+ *
+ * @example
+ * getCellIndexInGridByCoord(2, 0);
+ * // => 18
+ * getCellIndexInGridByCoord(5, 4);
+ * // => 49
+ * getCellIndexInGridByCoord(7, 6);
+ * // => 69
+ */
+export function getCellIndexInGridByCoord(rowIndex: HouseIndex, colIndex: HouseIndex): GridIndex {
+  return (rowIndex * 9 + colIndex) as GridIndex;
 }
 
 /**
@@ -64,14 +83,29 @@ export const HOUSES_LIST: readonly House[] = flatMap((houseType: HouseType) =>
       type: houseType,
       index: houseIndex,
       cells: fromPairs(
-        map((cellIndex: CellIndex) => {
+        map(VALID_CELL_INDEXES, (cellIndex: CellIndex) => {
           const indexInGrid = getCellIndexInGrid(houseType, houseIndex, cellIndex);
           return [cellIndex, indexInGrid];
-        })(VALID_CELL_INDEXES),
+        }),
       ) as HouseCells,
     };
   })(VALID_HOUSE_INDEXES),
 )(VALID_HOUSE_TYPES);
+
+export function getCellRow(index: GridIndex): House {
+  const rowIndex = Math.floor(index / 9);
+  return HOUSES_LIST.find((house) => house.type === "row" && house.index === rowIndex) as House;
+}
+
+export function getCellCol(index: GridIndex): House {
+  const colIndex = index % 9;
+  return HOUSES_LIST.find((house) => house.type === "col" && house.index === colIndex) as House;
+}
+
+export function getCellBox(index: GridIndex): House {
+  const boxIndex = (Math.floor(index / 3) % 3) + Math.floor(index / 9 / 3) * 3;
+  return HOUSES_LIST.find((house) => house.type === "box" && house.index === boxIndex) as House;
+}
 
 /**
  * Get the row, column and box on which a cell is located.
@@ -85,14 +119,18 @@ export const HOUSES_LIST: readonly House[] = flatMap((houseType: HouseType) =>
  * const [row, col, box] = getCellHouses(45);
  */
 export function getCellHouses(index: GridIndex): readonly [House, House, House] {
-  const rowIndex = Math.floor(index / 9);
-  const colIndex = index % 9;
-  const boxIndex = (Math.floor(index / 3) % 3) + Math.floor(index / 9 / 3) * 3;
   return [
-    HOUSES_LIST.find((house) => house.type === "row" && house.index === rowIndex) as House,
-    HOUSES_LIST.find((house) => house.type === "col" && house.index === colIndex) as House,
-    HOUSES_LIST.find((house) => house.type === "box" && house.index === boxIndex) as House,
+    getCellRow(index),
+    getCellCol(index),
+    getCellBox(index),
   ];
+}
+
+export function sameHouse(houseType: HouseType, gridIndex1: GridIndex, gridIndex2: GridIndex): boolean {
+  return (
+    getCellHouses(gridIndex1).find((house) => house.type === houseType)?.index ===
+    getCellHouses(gridIndex2).find((house) => house.type === houseType)?.index
+  );
 }
 
 /**
@@ -130,9 +168,9 @@ export function getCellHouses(index: GridIndex): readonly [House, House, House] 
 export function isValidHouse({ grid, house }: { readonly grid: SudokuGrid; readonly house: House }): boolean {
   const invalidHouseDuplicate = pipe(
     VALID_CELL_INDEXES,
-    map((index: CellIndex) => house.cells[index]),
-    filter((cell: GridIndex) => grid.digits.has(cell)),
-    countBy((cell: GridIndex) => grid.digits.get(cell)),
+    map((index) => house.cells[index]),
+    filter((cell) => grid.digits.has(cell)),
+    countBy((cell) => grid.digits.get(cell) as Digit),
     values,
     filter((count: number) => count !== 1),
     first(),

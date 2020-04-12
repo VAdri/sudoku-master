@@ -1,5 +1,5 @@
 export * from "./types";
-export { parseGrid } from "./io/parser";
+export * from "./io";
 export { solveWithBacktracking } from "./solver/bruteForce";
 export { getCandidatesForCell, getCandidates } from "./utils/candidate";
 export { isValidGrid } from "./utils/grid";
