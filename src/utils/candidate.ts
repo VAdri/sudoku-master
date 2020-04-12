@@ -1,7 +1,7 @@
 import { Digit, GridIndex, House, Pencilmarks, VALID_DIGITS, VALID_GRID_INDEXES } from "../types";
 import { getCellHouses } from "./house";
 import { difference, filter, flatMap, map, pipe } from "remeda";
-import values from "lodash/fp/values";
+import { values } from "ramda";
 
 /**
  * Resolve the list of candidates that can be placed in a cell according to the digits that have been placed in the same

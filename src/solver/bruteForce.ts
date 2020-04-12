@@ -1,6 +1,6 @@
-import { Digit, GridIndex, SudokuGrid, House } from "../types";
-import { getCandidates } from "../utils/candidate";
+import { Digit, GridIndex, House, SudokuGrid } from "../types";
 import { getCellHouses, isValidHouse } from "../utils/house";
+import { getCandidates } from "../utils/candidate";
 import { filter, first, map, pipe } from "remeda";
 
 export enum BruteForceMode {

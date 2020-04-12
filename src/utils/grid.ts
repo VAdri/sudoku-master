@@ -1,7 +1,7 @@
+import { HOUSES_LIST, isValidHouse } from "./house";
 import { SudokuGrid } from "../types";
-import { isValidHouse, HOUSES_LIST } from "./house";
-import every from "lodash/fp/every";
-import map from "lodash/fp/map";
+import { map } from "remeda";
+import { all } from "ramda";
 
 /**
  * Verify that a grid is valid according to the three constraints of Sudoku: every row, every column and every 3x3 box
@@ -35,9 +35,9 @@ import map from "lodash/fp/map";
  * // => true
  */
 export function isValidGrid(grid: SudokuGrid): boolean {
-  return every(isValidHouse)(
-    map((house) => {
+  return all(isValidHouse)(
+    map(HOUSES_LIST, (house) => {
       return { grid, house };
-    })(HOUSES_LIST),
+    }),
   );
 }
