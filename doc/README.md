@@ -19,18 +19,21 @@
 -   [getCellIndexInGrid][15]
     -   [Parameters][16]
     -   [Examples][17]
--   [getCellHouses][18]
+-   [getCellIndexInGridByCoord][18]
     -   [Parameters][19]
     -   [Examples][20]
--   [isValidHouse][21]
+-   [getCellHouses][21]
     -   [Parameters][22]
     -   [Examples][23]
+-   [isValidHouse][24]
+    -   [Parameters][25]
+    -   [Examples][26]
 
 ## parseGrid
 
--   **See: [http://sudopedia.enjoysudoku.com/Diagrams_and_Notations.html][24]
+-   **See: [http://sudopedia.enjoysudoku.com/Diagrams_and_Notations.html][27]
     **
--   **See: [http://www.sadmansoftware.com/sudoku/faq22.php][25]
+-   **See: [http://www.sadmansoftware.com/sudoku/faq22.php][28]
     **
 
 Converts a string into a sudoku grid.
@@ -47,7 +50,9 @@ validate these formats are exported in constants prefixed with "PATTERN\_".
 
 ### Parameters
 
--   `stringGrid` **[string][26]** The string representing a sudoku grid.
+-   `stringGrid` **[string][29]** The string representing a sudoku grid.
+-   `singleLine` **[boolean][30]** The string must match one of the single
+    line patterns. (optional, default `false`)
 
 ### Examples
 
@@ -78,11 +83,11 @@ if the given string was not in a valid format.
 
 ## solveWithBacktracking
 
--   **See: [http://sudopedia.enjoysudoku.com/Backtracking_Algorithms.html][27]
+-   **See: [http://sudopedia.enjoysudoku.com/Backtracking_Algorithms.html][31]
     **
--   **See: [https://en.wikipedia.org/wiki/Backtracking][28]
+-   **See: [https://en.wikipedia.org/wiki/Backtracking][32]
     **
--   **See: [https://en.wikipedia.org/wiki/Sudoku_solving_algorithms][29]
+-   **See: [https://en.wikipedia.org/wiki/Sudoku_solving_algorithms][33]
     **
 
 Solves a grid using a backtracking algorithm.
@@ -99,7 +104,7 @@ process continue until either all alternatives have been tried or the grid has b
 -   `grid` **SudokuGrid** The grid to solve.
 -   `mode` **BruteForceMode** The type of algorithm to use to solve the puzzle. (optional, default `BruteForceMode.DepthFirstSearch`)
 
-Returns **(ReadonlyMap&lt;GridIndex, Digit> | [undefined][30])** The solution of the grid if it has been found; otherwise,
+Returns **(ReadonlyMap&lt;GridIndex, Digit> | [undefined][34])** The solution of the grid if it has been found; otherwise,
 `undefined`.
 
 **Meta**
@@ -141,7 +146,7 @@ getCandidatesForCell(grid.digits, 80);
 // => [1, 2, 3, 4, 5, 6, 7, 8, 9]
 ```
 
-Returns **(Pencilmarks | [undefined][30])** The list of candidates that can be placed in the cell; otherwise, if the cell
+Returns **(Pencilmarks | [undefined][34])** The list of candidates that can be placed in the cell; otherwise, if the cell
 already has a digit placed, `undefined`.
 
 **Meta**
@@ -178,7 +183,7 @@ getCandidates(grid.digits);
 // => [[0, 9], [21, 1]]
 ```
 
-Returns **(Pencilmarks | [undefined][30])** A list containing all the candidates that can be placed in the empty cells of the
+Returns **(Pencilmarks | [undefined][34])** A list containing all the candidates that can be placed in the empty cells of the
 grid.
 
 **Meta**
@@ -217,7 +222,7 @@ isValidGrid(grid);
 // => true
 ```
 
-Returns **[boolean][31]** `true` if the given grid is currently valid; otherwise, `false`.
+Returns **[boolean][30]** `true` if the given grid is currently valid; otherwise, `false`.
 
 **Meta**
 
@@ -244,7 +249,33 @@ getCellIndexInGrid("box", 7, 6);
 // => 75
 ```
 
-Returns **[number][32]** The index of the cell in the grid, or `-1` if the cell is not valid.
+Returns **[number][35]** The index of the cell in the grid, or `-1` if the cell is not valid.
+
+**Meta**
+
+-   **since**: 0.0.1
+
+## getCellIndexInGridByCoord
+
+Calculate the index (between 0 and 80) of a given cell according to its row and column positions.
+
+### Parameters
+
+-   `rowIndex`  The index of the row.
+-   `colIndex`  The index of the column.
+
+### Examples
+
+```javascript
+getCellIndexInGridByCoord(2, 0);
+// => 18
+getCellIndexInGridByCoord(5, 4);
+// => 49
+getCellIndexInGridByCoord(7, 6);
+// => 69
+```
+
+Returns **[number][35]** The index of the cell in the grid, or `-1` if the cell is not valid.
 
 **Meta**
 
@@ -277,7 +308,7 @@ error if the game continue.
 
 ### Parameters
 
--   `$0` **[Object][33]** 
+-   `$0` **[Object][36]** 
     -   `$0.grid`  
     -   `$0.house`  
 
@@ -302,7 +333,7 @@ isValidHouse({ grid, house: HOUSES_LIST[0] });
 // => true
 ```
 
-Returns **[boolean][31]** `true` if the given house is currently valid; otherwise, `false`.
+Returns **[boolean][30]** `true` if the given house is currently valid; otherwise, `false`.
 
 **Meta**
 
@@ -342,34 +373,40 @@ Returns **[boolean][31]** `true` if the given house is currently valid; otherwis
 
 [17]: #examples-4
 
-[18]: #getcellhouses
+[18]: #getcellindexingridbycoord
 
 [19]: #parameters-6
 
 [20]: #examples-5
 
-[21]: #isvalidhouse
+[21]: #getcellhouses
 
 [22]: #parameters-7
 
 [23]: #examples-6
 
-[24]: http://sudopedia.enjoysudoku.com/Diagrams_and_Notations.html
+[24]: #isvalidhouse
 
-[25]: http://www.sadmansoftware.com/sudoku/faq22.php
+[25]: #parameters-8
 
-[26]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[26]: #examples-7
 
-[27]: http://sudopedia.enjoysudoku.com/Backtracking_Algorithms.html
+[27]: http://sudopedia.enjoysudoku.com/Diagrams_and_Notations.html
 
-[28]: https://en.wikipedia.org/wiki/Backtracking
+[28]: http://www.sadmansoftware.com/sudoku/faq22.php
 
-[29]: https://en.wikipedia.org/wiki/Sudoku_solving_algorithms
+[29]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 
-[30]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined
+[30]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
 
-[31]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+[31]: http://sudopedia.enjoysudoku.com/Backtracking_Algorithms.html
 
-[32]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+[32]: https://en.wikipedia.org/wiki/Backtracking
 
-[33]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+[33]: https://en.wikipedia.org/wiki/Sudoku_solving_algorithms
+
+[34]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined
+
+[35]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+
+[36]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object

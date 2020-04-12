@@ -1,1 +1,1 @@
-export { getCellIndexInGrid, getCellHouses, HOUSES_LIST } from "./utils/house";
+export { getCellIndexInGrid, getCellIndexInGridByCoord, getCellHouses, HOUSES_LIST } from "./utils/house";
