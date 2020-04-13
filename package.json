@@ -32,7 +32,7 @@
     "puzzle"
   ],
   "author": "VAdri",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/VAdri/sudoku-master/issues"
   },
