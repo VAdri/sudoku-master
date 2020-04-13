@@ -5,8 +5,8 @@ import { filter, first, map, pipe } from "remeda";
 
 export enum BruteForceMode {
   DepthFirstSearch,
-  DancingLinks,
-  AriadnesThread,
+  // TODO: DancingLinks,
+  // TODO: AriadnesThread,
 }
 
 type Solution = readonly (readonly [GridIndex, Digit])[];
@@ -75,41 +75,41 @@ function solveWithDFS(grid: SudokuGrid): ReadonlyMap<GridIndex, Digit> | undefin
   return solution ? new Map([...digits, ...solution]) : undefined;
 }
 
-/**
- * Solves a grid using the dancing links bactracking algorithm.
- *
- * @private
- * @todo
- *
- * @param {SudokuGrid} grid The grid to solve.
- * @returns {ReadonlyMap<GridIndex, Digit> | undefined} The solution of the grid if it has been found; otherwise,
- * `undefined`.
- *
- * @see http://sudopedia.enjoysudoku.com/Dancing_Links.html
- * @see https://en.wikipedia.org/wiki/Dancing_Links
- */
-function solveWithDancingLinks(grid: SudokuGrid): ReadonlyMap<GridIndex, Digit> | undefined {
-  // TODO
-  return grid ? undefined : undefined;
-}
+// TODO
+// /**
+//  * Solves a grid using the dancing links bactracking algorithm.
+//  *
+//  * @private
+//  * @todo
+//  *
+//  * @param {SudokuGrid} grid The grid to solve.
+//  * @returns {ReadonlyMap<GridIndex, Digit> | undefined} The solution of the grid if it has been found; otherwise,
+//  * `undefined`.
+//  *
+//  * @see http://sudopedia.enjoysudoku.com/Dancing_Links.html
+//  * @see https://en.wikipedia.org/wiki/Dancing_Links
+//  */
+// function solveWithDancingLinks(grid: SudokuGrid): ReadonlyMap<GridIndex, Digit> | undefined {
+//   return grid ? undefined : undefined;
+// }
 
-/**
- * Solves a grid using the Ariadne's thread bactracking algorithm.
- *
- * @private
- * @todo
- *
- * @param {SudokuGrid} grid The grid to solve.
- * @returns {ReadonlyMap<GridIndex, Digit> | undefined} The solution of the grid if it has been found; otherwise,
- * `undefined`.
- *
- * @see http://sudopedia.enjoysudoku.com/Ariadne%27s_Thread.html
- * @see https://en.wikipedia.org/wiki/Ariadne%27s_thread_%28logic%29
- */
-function solveWithAriadnesThread(grid: SudokuGrid): ReadonlyMap<GridIndex, Digit> | undefined {
-  // TODO
-  return grid ? undefined : undefined;
-}
+// TODO
+// /**
+//  * Solves a grid using the Ariadne's thread bactracking algorithm.
+//  *
+//  * @private
+//  * @todo
+//  *
+//  * @param {SudokuGrid} grid The grid to solve.
+//  * @returns {ReadonlyMap<GridIndex, Digit> | undefined} The solution of the grid if it has been found; otherwise,
+//  * `undefined`.
+//  *
+//  * @see http://sudopedia.enjoysudoku.com/Ariadne%27s_Thread.html
+//  * @see https://en.wikipedia.org/wiki/Ariadne%27s_thread_%28logic%29
+//  */
+// function solveWithAriadnesThread(grid: SudokuGrid): ReadonlyMap<GridIndex, Digit> | undefined {
+//   return grid ? undefined : undefined;
+// }
 
 /**
  * Solves a grid using a backtracking algorithm.
@@ -129,7 +129,26 @@ function solveWithAriadnesThread(grid: SudokuGrid): ReadonlyMap<GridIndex, Digit
  * @param {BruteForceMode} mode The type of algorithm to use to solve the puzzle.
  * @returns {ReadonlyMap<GridIndex, Digit> | undefined} The solution of the grid if it has been found; otherwise,
  * `undefined`.
- *
+ * 
+ * @example
+ * const grid = parseGrid(`
+ *   +---+---+---+
+ *   |-7-|2-3|-8-|
+ *   |345|798|126|
+ *   |2-8|-4-|---|
+ *   +---+---+---+
+ *   |4--|5-9|8-2|
+ *   |-5-|8-4|-9-|
+ *   |8--|---|--1|
+ *   +---+---+---+
+ *   |---|---|--8|
+ *   |-8-|---|-7-|
+ *   |62-|-87|-15|
+ *   +---+---+---+`);
+ * const solution = solveWithBacktracking(grid);
+ * serializeGrid({ digits: solution, candidates: new Map() });
+ * // => "971263584345798126268145937437519862156824793892376451713952648584631279629487315"
+ * 
  * @see http://sudopedia.enjoysudoku.com/Backtracking_Algorithms.html
  * @see https://en.wikipedia.org/wiki/Backtracking
  * @see https://en.wikipedia.org/wiki/Sudoku_solving_algorithms
@@ -142,11 +161,13 @@ export function solveWithBacktracking(
     case BruteForceMode.DepthFirstSearch:
       return solveWithDFS(grid);
 
-    case BruteForceMode.DancingLinks:
-      return solveWithDancingLinks(grid);
+    // TODO:
+    // case BruteForceMode.DancingLinks:
+    //   return solveWithDancingLinks(grid);
 
-    case BruteForceMode.AriadnesThread:
-      return solveWithAriadnesThread(grid);
+    // TODO:
+    // case BruteForceMode.AriadnesThread:
+    //   return solveWithAriadnesThread(grid);
 
     default:
       return;

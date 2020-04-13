@@ -7,6 +7,7 @@ import { values } from "ramda";
  * Resolve the list of candidates that can be placed in a cell according to the digits that have been placed in the same
  * houses.
  *
+ * @private
  * @since 0.0.1
  *
  * @param {ReadonlyMap<GridIndex, Digit>} digits The list of all the digits placed in the grid.
@@ -53,6 +54,7 @@ export function getCandidatesForCell(digits: ReadonlyMap<GridIndex, Digit>, inde
 /**
  * Determine all the candidates that can be placed in the empty cells of a grid.
  *
+ * @private
  * @since 0.0.1
  *
  * @param {ReadonlyMap<GridIndex, Digit>} digits The list of all the digits placed in the grid.

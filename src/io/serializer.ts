@@ -33,17 +33,6 @@ export type SerializerOptions = SerializerOptionsWithPencilmarks | SerializerOpt
 
 type Row3ColCellsLength = readonly [number, number, number];
 type Row3ColLength = readonly [Row3ColCellsLength, Row3ColCellsLength, Row3ColCellsLength];
-type CellsLengths = readonly [
-  Row3ColLength,
-  Row3ColLength,
-  Row3ColLength,
-  Row3ColLength,
-  Row3ColLength,
-  Row3ColLength,
-  Row3ColLength,
-  Row3ColLength,
-  Row3ColLength,
-];
 
 /**
  * @private
@@ -141,6 +130,31 @@ function _gridSymbols(isSudopedia: boolean): (lineType: "start" | "middle" | "en
   }
 }
 
+/**
+ * Converts a Sudoku grid into a string that can be read by humans or converted back into a Sudoku program.
+ * 
+ * @since 0.0.1
+ * 
+ * @param {SudokuGrid} grid The grid to serialize.
+ * @param {SerializerOptions} [options] Options to apply on the serialized output.
+ * @param {("singleLine" | "multiLines" | "grid" | "sudopedia")} [options.style="singleLine"] Describes the formatting style of the
+ * output.
+ * @param {boolean} options.pencilmarks Indicates whether to show the candidates on the output.
+ * @param {("{}" | "()" | "[]")} [options.brackets=undefined] The brackets to use arround the cells (only for singleLine and
+ * multiLines styles).
+ * @param {("." | "*" | "-" | "0")} [options.emptyCellSymbol="."] The symbol to use to indicate an empty cell.
+ * @returns {string} The grid converted into a string.
+ * 
+ * @example
+ * const grid = parseGrid(".234..8..6....7......53.62...5......84.....36......1...52.96......1....7..8..521.");
+ * const options = {
+ *    style: "singleLine",
+ *    pencilmarks: true,
+ *    brackets: "{}",
+ *  };
+ * serializeGrid(grid, options);
+ * // => {1579}{2}{3}{4}{16}{19}{8}{579}{159}{6}{189}{149}{289}{128}{7}{3459}{459}{13459}{1479}{1789}{1479}{5}{3}{189}{6}{2}{149}{12379}{13679}{5}{236789}{124678}{123489}{479}{4789}{2489}{8}{4}{179}{279}{1257}{129}{579}{3}{6}{2379}{3679}{679}{236789}{245678}{23489}{1}{45789}{24589}{1347}{5}{2}{378}{9}{6}{34}{48}{348}{349}{369}{469}{1}{248}{2348}{3459}{45689}{7}{3479}{3679}{8}{37}{47}{5}{2}{1}{349}
+ */
 export function serializeGrid(grid: SudokuGrid, options?: SerializerOptions): string | null {
   const pencilmarks = options?.pencilmarks || false;
   const style = options?.style || SERIALIZER_STYLES[0];

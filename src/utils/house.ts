@@ -17,6 +17,7 @@ import { countBy, fromPairs, values } from "ramda";
 /**
  * Calculate the index (between 0 and 80) of a given cell according to its position inside its house.
  *
+ * @private
  * @since 0.0.1
  *
  * @param {HouseType} houseType The type of house (row, column or box) on which the cell is located.
@@ -52,6 +53,7 @@ export function getCellIndexInGrid(houseType: HouseType, houseIndex: HouseIndex,
 /**
  * Calculate the index (between 0 and 80) of a given cell according to its row and column positions.
  *
+ * @private
  * @since 0.0.1
  *
  * @param rowIndex The index of the row.
@@ -110,6 +112,7 @@ export function getCellBox(index: GridIndex): House {
 /**
  * Get the row, column and box on which a cell is located.
  *
+ * @private
  * @since 0.0.1
  *
  * @param {GridIndex} index The index of a cell in the grid.
@@ -137,6 +140,7 @@ export function sameHouse(houseType: HouseType, gridIndex1: GridIndex, gridIndex
  *
  * @summary Determines whether a house is valid.
  *
+ * @private
  * @since 0.0.1
  *
  * @param {SudokuGrid} $0.grid The grid containing the house to validate.

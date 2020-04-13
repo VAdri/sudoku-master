@@ -11,6 +11,7 @@ import { all } from "ramda";
  *
  * @summary Determines whether the current state of the grid is valid.
  *
+ * @private
  * @since 0.0.1
  *
  * @param {SudokuGrid} grid The grid to validate.
