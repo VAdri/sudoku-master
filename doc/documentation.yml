@@ -1,0 +1,12 @@
+toc:
+  - name: Input/Output (IO)
+    description: |
+      These methods are used to send and receive data with the program.
+    children:
+      - parseGrid
+      - serializeGrid
+  - name: Solver
+    description: |
+      Algorithms used to solve a Sudoku.
+    children:
+      - solveWithBacktracking
