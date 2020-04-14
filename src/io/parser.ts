@@ -24,6 +24,15 @@ export const PATTERN_LINE_WITHOUT_CANDIDATES = /^([1-9]|[.\-*0]){81}$/;
 export const PATTERN_LINE_WITH_SPACES = /^([1-9]+[ ]){80}[1-9]+$/;
 
 /**
+ * Pattern for a single line from the HoDoKu software.
+ * @private
+ * @see http://hodoku.sourceforge.net/en/index.php
+ * @example
+ * ":0708:28:963.1....+27.3........+6.27+3.7.9.6.+3.......+35...3.....9.+6+8+7.3.+1+525..+286+9+73+3+9+2+571846::218 848: "
+ */
+export const PATTERN_LINE_FROM_HODOKU = /^:.*:.*:.*([\d.+]{81,}):.*:.*:.*\s*$/;
+
+/**
  * Pattern for multiple lines with pencilmarks (cells are delimited by spaces).
  * @private
  * @example
@@ -185,8 +194,8 @@ function parseLine(line: string, delimiter: string, ignoredCellSymbols: readonly
  * @since 0.0.1
  *
  * @param {string} stringGrid The string representing a sudoku grid.
- * @param {boolean} [singleLine=false] The string must match one of the single
- * line patterns.
+ * @param {boolean} [onlyCleanString=false] The string must match one of the
+ * clean patterns.
  * @returns {(SudokuGrid | null)} The `SudokuGrid` that was parsed, or `null`
  * if the given string was not in a valid format.
  *
@@ -211,20 +220,29 @@ function parseLine(line: string, delimiter: string, ignoredCellSymbols: readonly
  * `);
  */
 // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-export function parseGrid(stringGrid: string, singleLine: boolean = false): SudokuGrid | null {
+export function parseGrid(stringGrid: string, onlyCleanString: boolean = false): SudokuGrid | null {
   if (stringGrid.match(PATTERN_LINE_WITHOUT_CANDIDATES)) {
     return parseLine(stringGrid, "", EMPTY_CELL_SYMBOLS);
   } else if (stringGrid.match(PATTERN_LINE_WITH_SPACES)) {
     return parseLine(stringGrid, " ");
-  } else if (!singleLine) {
+  } else if (!onlyCleanString) {
     // We may need to clean the string and parse it again
-    if (stringGrid.match(PATTERN_LINES_WITH_SPACES)) {
+    if (stringGrid.match(PATTERN_LINE_FROM_HODOKU)) {
+      return parseGrid(
+        stringGrid
+          .replace(/^(:[^:]*:[^:]*:)/, "")
+          .replace(/(:[^:]*:[^:]*:\s*)$/, "")
+          .replace(/(\+)/g, "")
+          .replace(/(\s)/g, ""),
+        /* onlyCleanString: */ true,
+      );
+    } else if (stringGrid.match(PATTERN_LINES_WITH_SPACES)) {
       return parseGrid(
         stringGrid
           .replace(/[^1-9]/g, " ")
           .replace(/(^\s+)|(\s+$)/g, "")
           .replace(/\s{2,}/g, " "),
-        /* singleLine: */ true,
+        /* onlyCleanString: */ true,
       );
     } else if (stringGrid.match(PATTERN_LINES_WITH_BRACKETS)) {
       return parseGrid(

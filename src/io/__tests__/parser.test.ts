@@ -1,8 +1,8 @@
 import { parseGrid } from "../parser";
-import { SudokuGrid } from "../../types";
+import { SudokuGrid, GridIndex, Digit } from "../../types";
 
 describe("Parse valid strings with empty cells", () => {
-  let grid: SudokuGrid | null;
+  let grid: SudokuGrid | null | undefined;
 
   test("Single line with dots", () => {
     grid = parseGrid(".234..8..6....7......53.62...5......84.....36......1...52.96......1....7..8..521.");
@@ -10,6 +10,50 @@ describe("Parse valid strings with empty cells", () => {
 
   test("Single line with zeros", () => {
     grid = parseGrid("023400800600007000000530620005000000840000036000000100052096000000100007008005210");
+  });
+
+  test("Single line from the HoDoKu software", () => {
+    // Chain taken from this page: http://hodoku.sourceforge.net/en/show_example.php?file=aic202&tech=Alternate+Inference+Chain+Type+2
+    grid = parseGrid(
+      ":0708:28:963.1....+27.3........+6.27+3.7.9.6.+3.......+35...3.....9.+6+8+7.3.+1+525..+286+9+73+3+9+2+571846::218 848: ",
+    );
+
+    // Validity
+    expect(grid).not.toBeNull();
+    if (!grid) {
+      return;
+    }
+
+    // Length
+    expect(grid.digits.size).toBe(42);
+    expect(grid.candidates.size).toBe(0);
+
+    // Expected grid
+    const expectedGrid = parseGrid(`
+      .------------------.------------------.------------------.
+      | 9    6     3     | 478    1    4578 | 24   28    458   |
+      | 2    7     1458  | 3      459  4589 | 46   168   14589 |
+      | 148  145   1458  | 6      459  2    | 7    3     14589 |
+      :------------------+------------------+------------------:
+      | 7    1245  9     | 148    6    458  | 3    128   148   |
+      | 148  124   1468  | 14789  249  3    | 5    1268  1478  |
+      | 148  3     14568 | 1478   245  4578 | 246  9     1478  |
+      :------------------+------------------+------------------:
+      | 6    8     7     | 49     3    49   | 1    5     2     |
+      | 5    14    14    | 2      8    6    | 9    7     3     |
+      | 3    9     2     | 5      7    1    | 8    4     6     |
+      '------------------'------------------'------------------'`);
+    expect(expectedGrid).not.toBeNull();
+    if (!expectedGrid) {
+      return;
+    }
+
+    [...expectedGrid.digits.entries()].forEach(([expectedIndex, expectedValue]: [GridIndex, Digit | undefined]) => {
+      expect((grid as SudokuGrid).digits.get(expectedIndex)).toBe(expectedValue);
+    });
+
+    // Set grid to undefined to skip the afterEach method
+    grid = undefined;
   });
 
   test("Single line with hyphens", () => {
@@ -55,7 +99,7 @@ describe("Parse valid strings with empty cells", () => {
   afterEach(() => {
     // Validity
     expect(grid).not.toBeNull();
-    if (grid === null) {
+    if (!grid) {
       return;
     }
 
