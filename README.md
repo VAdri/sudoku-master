@@ -18,7 +18,7 @@ data or cause any side-effects.
   - [x] [Depth-first search algorithm](https://en.wikipedia.org/wiki/Depth-first_search).
 - [ ] Indicates the cells that can be [solved](http://sudopedia.enjoysudoku.com/Cell.html#Cell_Status):
   - [x] [Full House](http://sudopedia.enjoysudoku.com/Full_House.html)
-  - [ ] [Last Digit](http://sudopedia.enjoysudoku.com/Last_Digit.html)
+  - [x] [Last Digit](http://sudopedia.enjoysudoku.com/Last_Digit.html)
   - [ ] [Naked Single](http://sudopedia.enjoysudoku.com/Naked_Single.html)
   - [ ] [Hidden Single](http://sudopedia.enjoysudoku.com/Hidden_Single.html)
 - [ ] Indicates the candidates that can be [eliminated](http://sudopedia.enjoysudoku.com/Eliminate.html):
