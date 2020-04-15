@@ -19,7 +19,7 @@ data or cause any side-effects.
 - [ ] Indicates the cells that can be [solved](http://sudopedia.enjoysudoku.com/Cell.html#Cell_Status):
   - [x] [Full House](http://sudopedia.enjoysudoku.com/Full_House.html)
   - [x] [Last Digit](http://sudopedia.enjoysudoku.com/Last_Digit.html)
-  - [ ] [Naked Single](http://sudopedia.enjoysudoku.com/Naked_Single.html)
+  - [x] [Naked Single](http://sudopedia.enjoysudoku.com/Naked_Single.html)
   - [ ] [Hidden Single](http://sudopedia.enjoysudoku.com/Hidden_Single.html)
 - [ ] Indicates the candidates that can be [eliminated](http://sudopedia.enjoysudoku.com/Eliminate.html):
   - [ ] [Locked Candidates](http://sudopedia.enjoysudoku.com/Locked_Candidates.html)
