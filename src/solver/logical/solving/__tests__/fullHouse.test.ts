@@ -9,11 +9,11 @@ describe("solveFullHouse", () => {
     expect(grid).not.toBeFalsy();
     if (grid) {
       const solvedFullHouse = solveFullHouse(grid);
-      expect(solvedFullHouse).not.toBeFalsy();
-      if (solvedFullHouse) {
-        expect(solvedFullHouse.technique).toBe("Full House");
-        expect(solvedFullHouse.coord).toStrictEqual([4, 7]);
-        expect(solvedFullHouse.digit).toBe(1);
+      expect(solvedFullHouse).toHaveLength(1);
+      if (solvedFullHouse[0]) {
+        expect(solvedFullHouse[0].technique).toBe("Full House");
+        expect(solvedFullHouse[0].coord).toStrictEqual([4, 7]);
+        expect(solvedFullHouse[0].digit).toBe(1);
       }
     }
   });
@@ -23,11 +23,11 @@ describe("solveFullHouse", () => {
     expect(grid).not.toBeFalsy();
     if (grid) {
       const solvedFullHouse = solveFullHouse(grid);
-      expect(solvedFullHouse).not.toBeFalsy();
-      if (solvedFullHouse) {
-        expect(solvedFullHouse.technique).toBe("Full House");
-        expect(solvedFullHouse.coord).toStrictEqual([8, 4]);
-        expect(solvedFullHouse.digit).toBe(9);
+      expect(solvedFullHouse).toHaveLength(1);
+      if (solvedFullHouse[0]) {
+        expect(solvedFullHouse[0].technique).toBe("Full House");
+        expect(solvedFullHouse[0].coord).toStrictEqual([8, 4]);
+        expect(solvedFullHouse[0].digit).toBe(9);
       }
     }
   });
@@ -39,11 +39,11 @@ describe("solveFullHouse", () => {
     expect(grid).not.toBeFalsy();
     if (grid) {
       const solvedFullHouse = solveFullHouse(grid);
-      expect(solvedFullHouse).not.toBeFalsy();
-      if (solvedFullHouse) {
-        expect(solvedFullHouse.technique).toBe("Full House");
-        expect(solvedFullHouse.coord).toStrictEqual([8, 5]);
-        expect(solvedFullHouse.digit).toBe(6);
+      expect(solvedFullHouse).toHaveLength(1);
+      if (solvedFullHouse[0]) {
+        expect(solvedFullHouse[0].technique).toBe("Full House");
+        expect(solvedFullHouse[0].coord).toStrictEqual([8, 5]);
+        expect(solvedFullHouse[0].digit).toBe(6);
       }
     }
   });
@@ -53,22 +53,39 @@ describe("solveFullHouse", () => {
     expect(grid).not.toBeFalsy();
     if (grid) {
       const solvedFullHouse = solveFullHouse(grid);
-      expect(solvedFullHouse).toBeUndefined();
+      expect(solvedFullHouse).toHaveLength(0);
     }
   });
 });
 
-describe("solveFullHouse with skip", () => {
+describe("solveFullHouse with skip or take", () => {
   it("skips a full house when requested", () => {
     const grid = parseGrid("000012000 000023000 000034000 000045000 000056000 000067000 000078000 000089000 000000000");
     expect(grid).not.toBeFalsy();
     if (grid) {
       const solvedFullHouse = solveFullHouse(grid, 1);
-      expect(solvedFullHouse).not.toBeFalsy();
-      if (solvedFullHouse) {
-        expect(solvedFullHouse.technique).toBe("Full House");
-        expect(solvedFullHouse.coord).toStrictEqual([8, 5]);
-        expect(solvedFullHouse.digit).toBe(1);
+      expect(solvedFullHouse).toHaveLength(1);
+      if (solvedFullHouse[0]) {
+        expect(solvedFullHouse[0].technique).toBe("Full House");
+        expect(solvedFullHouse[0].coord).toStrictEqual([8, 5]);
+        expect(solvedFullHouse[0].digit).toBe(1);
+      }
+    }
+  });
+
+  it("takes multiple full house when requested", () => {
+    const grid = parseGrid("000012000 000023000 000034000 000045000 000056000 000067000 000078000 000089000 000000000");
+    expect(grid).not.toBeFalsy();
+    if (grid) {
+      const solvedFullHouse = solveFullHouse(grid, 0, 2);
+      expect(solvedFullHouse).toHaveLength(2);
+      if (solvedFullHouse[0] && solvedFullHouse[1]) {
+        expect(solvedFullHouse[0].technique).toBe("Full House");
+        expect(solvedFullHouse[0].coord).toStrictEqual([8, 4]);
+        expect(solvedFullHouse[0].digit).toBe(9);
+        expect(solvedFullHouse[1].technique).toBe("Full House");
+        expect(solvedFullHouse[1].coord).toStrictEqual([8, 5]);
+        expect(solvedFullHouse[1].digit).toBe(1);
       }
     }
   });
@@ -78,7 +95,7 @@ describe("solveFullHouse with skip", () => {
     expect(grid).not.toBeFalsy();
     if (grid) {
       const solvedFullHouse = solveFullHouse(grid, 2);
-      expect(solvedFullHouse).toBeUndefined();
+      expect(solvedFullHouse).toHaveLength(0);
     }
   });
-})
+});

@@ -7,11 +7,11 @@ describe("solveLastDigit", () => {
     expect(grid).not.toBeFalsy();
     if (grid) {
       const solvedLastDigit = solveLastDigit(grid);
-      expect(solvedLastDigit).not.toBeFalsy();
-      if (solvedLastDigit) {
-        expect(solvedLastDigit.technique).toBe("Last Digit");
-        expect(solvedLastDigit.coord).toStrictEqual([7, 7]);
-        expect(solvedLastDigit.digit).toBe(7);
+      expect(solvedLastDigit).toHaveLength(1);
+      if (solvedLastDigit[0]) {
+        expect(solvedLastDigit[0].technique).toBe("Last Digit");
+        expect(solvedLastDigit[0].coord).toStrictEqual([7, 7]);
+        expect(solvedLastDigit[0].digit).toBe(7);
       }
     }
   });
@@ -21,7 +21,7 @@ describe("solveLastDigit", () => {
     expect(grid).not.toBeFalsy();
     if (grid) {
       const solvedLastDigit = solveLastDigit(grid);
-      expect(solvedLastDigit).toBeUndefined();
+      expect(solvedLastDigit).toHaveLength(0);
     }
   });
 
@@ -39,11 +39,37 @@ describe("solveLastDigit", () => {
     expect(grid).not.toBeFalsy();
     if (grid) {
       const solvedLastDigit = solveLastDigit(grid, 1);
-      expect(solvedLastDigit).not.toBeFalsy();
-      if (solvedLastDigit) {
-        expect(solvedLastDigit.technique).toBe("Last Digit");
-        expect(solvedLastDigit.coord).toStrictEqual([4, 5]);
-        expect(solvedLastDigit.digit).toBe(2);
+      expect(solvedLastDigit).toHaveLength(1);
+      if (solvedLastDigit[0]) {
+        expect(solvedLastDigit[0].technique).toBe("Last Digit");
+        expect(solvedLastDigit[0].coord).toStrictEqual([4, 5]);
+        expect(solvedLastDigit[0].digit).toBe(2);
+      }
+    }
+  });
+
+  it("takes multiple last digit when requested", () => {
+    const grid = parseGrid(`
+      120000000
+      012000000
+      001200000
+      000120000
+      000000000
+      000001200
+      000000120
+      000000012
+      200000001`);
+    expect(grid).not.toBeFalsy();
+    if (grid) {
+      const solvedLastDigit = solveLastDigit(grid, 0, 2);
+      expect(solvedLastDigit).toHaveLength(2);
+      if (solvedLastDigit[0] && solvedLastDigit[1]) {
+        expect(solvedLastDigit[0].technique).toBe("Last Digit");
+        expect(solvedLastDigit[0].coord).toStrictEqual([4, 4]);
+        expect(solvedLastDigit[0].digit).toBe(1);
+        expect(solvedLastDigit[1].technique).toBe("Last Digit");
+        expect(solvedLastDigit[1].coord).toStrictEqual([4, 5]);
+        expect(solvedLastDigit[1].digit).toBe(2);
       }
     }
   });

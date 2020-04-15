@@ -1,9 +1,8 @@
 import { Digit, GridIndex, SudokuGrid, VALID_DIGITS, VALID_HOUSE_INDEXES } from "../../../types";
 import { SolvingResult } from "./types";
-import { difference, first, map, pipe } from "remeda";
+import { difference, drop, map, pipe, take } from "remeda";
 import { findDigitCells } from "../../../utils/digit/findDigitCells";
 import { filter } from "ramda";
-import { skip } from "../../../utils/fp/skip";
 import { getCellCol, getCellRow } from "../../../utils/house";
 import { getSolvingResultByCoord } from "./solvingResult";
 
@@ -27,19 +26,19 @@ const getLastDigitSolvingResult = ([digit, indexes]: readonly [Digit, readonly G
  * @since 0.0.2
  *
  * @param {SudokuGrid} grid The grid to solve.
- * @param {number} [skipCount=0] Indicates to skip some of the solving results.
- * @returns {SolvingResult | undefined} An object describing where a digit can be placed when a solution has been found;
- * otherwise, `undefined`.
+ * @param {number} [skip=0] Indicates to skip some of the solving results.
+ * @param {number} [count=1] Indicates the maximum amount of results to return.
+ * @returns {readonly SolvingResult[]} A list of objects describing where a digit can be placed.
  *
  * @see http://sudopedia.enjoysudoku.com/Last_Digit.html
  */
-export function solveLastDigit(grid: SudokuGrid, skipCount = 0): SolvingResult | undefined {
+export function solveLastDigit(grid: SudokuGrid, skip = 0, count = 1): readonly SolvingResult[] {
   return pipe(
     VALID_DIGITS,
     map((digit) => [digit, findDigitCells(grid.digits, digit)] as const),
     filter((input: readonly [Digit, readonly GridIndex[]]) => input[1].length === 8),
+    drop(skip),
+    take(count),
     map(getLastDigitSolvingResult),
-    skip(skipCount),
-    first(),
   );
 }

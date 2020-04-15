@@ -1,10 +1,9 @@
 import { CellIndex, SudokuGrid, VALID_CELL_INDEXES, VALID_DIGITS } from "../../../types";
-import { difference, filter, first, map, pipe } from "remeda";
+import { difference, drop, filter, first, map, pipe, take } from "remeda";
 import { HOUSES_LIST } from "../../../utils/house";
 import { HouseValues, getHouseValues } from "../../../utils/house/getHouseValues";
 import { getSolvingResultByHouseCellIndex } from "./solvingResult";
 import { includes, values } from "ramda";
-import { skip } from "../../../utils/fp/skip";
 import { SolvingResult } from "./types";
 
 const getFullHouseSolvingResult = (houseValues: HouseValues): SolvingResult | undefined => {
@@ -29,20 +28,20 @@ const getFullHouseSolvingResult = (houseValues: HouseValues): SolvingResult | un
  * @since 0.0.2
  *
  * @param {SudokuGrid} grid The grid to solve.
- * @param {number} [skipCount=0] Indicates to skip some of the solving results.
- * @returns {SolvingResult | undefined} An object describing where a digit can be placed when a solution has been found;
- * otherwise, `undefined`.
+ * @param {number} [skip=0] Indicates to skip some of the solving results.
+ * @param {number} [count=1] Indicates the maximum amount of results to return.
+ * @returns {readonly SolvingResult[]} A list of objects describing where a digit can be placed.
  *
  * @see http://sudopedia.enjoysudoku.com/Full_House.html
  */
-export function solveFullHouse(grid: SudokuGrid, skipCount = 0): SolvingResult | undefined {
+export function solveFullHouse(grid: SudokuGrid, skip = 0, count = 1): readonly SolvingResult[] {
   return pipe(
     HOUSES_LIST,
     map(getHouseValues(grid.digits)),
     filter((result) => result.values.size === 8),
     map(getFullHouseSolvingResult),
-    filter((result) => !!result),
-    skip(skipCount),
-    first() as () => ReturnType<typeof solveFullHouse>,
+    filter((result) => !!result) as (array: readonly (SolvingResult | undefined)[]) => readonly SolvingResult[],
+    drop(skip),
+    take(count),
   );
 }

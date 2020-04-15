@@ -1,7 +1,6 @@
 import { SolvingResult } from "./types";
 import { Digit, GridIndex, SudokuGrid } from "../../../types";
-import { filter, first, map, pipe } from "remeda";
-import { skip } from "../../../utils/fp/skip";
+import { drop, filter, map, pipe, take } from "remeda";
 import { getSolvingResultByGridIndex } from "./solvingResult";
 import { getCandidates } from "../../../utils/candidate";
 
@@ -15,19 +14,19 @@ const getNakedSingleSolvingResult = ([index, digits]: readonly [GridIndex, reado
  * @since 0.0.2
  *
  * @param {SudokuGrid} grid The grid to solve.
- * @param {number} [skipCount=0] Indicates to skip some of the solving results.
- * @returns {SolvingResult | undefined} An object describing where a digit can be placed when a solution has been found;
- * otherwise, `undefined`.
+ * @param {number} [skip=0] Indicates to skip some of the solving results.
+ * @param {number} [count=1] Indicates the maximum amount of results to return.
+ * @returns {readonly SolvingResult[]} A list of objects describing where a digit can be placed.
  *
  * @see http://sudopedia.enjoysudoku.com/Naked_Single.html
  */
-export function solveNakedSingle(grid: SudokuGrid, skipCount = 0): SolvingResult | undefined {
+export function solveNakedSingle(grid: SudokuGrid, skip = 0, count = 1): readonly SolvingResult[] {
   const candidates = grid.candidates.size > 0 ? grid.candidates : getCandidates(grid.digits);
   return pipe(
     [...candidates.entries()],
     filter((input: readonly [GridIndex, readonly Digit[]]) => input[1].length === 1),
-    skip(skipCount),
+    drop(skip),
+    take(count),
     map(getNakedSingleSolvingResult),
-    first(),
   );
 }
