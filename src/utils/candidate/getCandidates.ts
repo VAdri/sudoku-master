@@ -1,5 +1,5 @@
-import { Digit, GridIndex, House, Pencilmarks, VALID_DIGITS, VALID_GRID_INDEXES } from "../types";
-import { getCellHouses } from "./house";
+import { Digit, GridIndex, House, Pencilmarks, VALID_DIGITS, VALID_GRID_INDEXES } from "../../types";
+import { getCellHouses } from "../house";
 import { difference, filter, flatMap, map, pipe } from "remeda";
 import { values } from "ramda";
 

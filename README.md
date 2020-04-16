@@ -20,7 +20,7 @@ data or cause any side-effects.
   - [x] [Full House](http://sudopedia.enjoysudoku.com/Full_House.html)
   - [x] [Last Digit](http://sudopedia.enjoysudoku.com/Last_Digit.html)
   - [x] [Naked Single](http://sudopedia.enjoysudoku.com/Naked_Single.html)
-  - [ ] [Hidden Single](http://sudopedia.enjoysudoku.com/Hidden_Single.html)
+  - [x] [Hidden Single](http://sudopedia.enjoysudoku.com/Hidden_Single.html)
 - [ ] Indicates the candidates that can be [eliminated](http://sudopedia.enjoysudoku.com/Eliminate.html):
   - [ ] [Locked Candidates](http://sudopedia.enjoysudoku.com/Locked_Candidates.html)
   - [ ] [Naked Subset](http://sudopedia.enjoysudoku.com/Naked_Subset.html):

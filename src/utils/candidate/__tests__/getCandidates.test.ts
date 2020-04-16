@@ -1,6 +1,6 @@
-import { parseGrid } from "../../io/parser";
-import { getCandidates, getCandidatesForCell } from "../candidate";
-import { VALID_DIGITS } from "../../types";
+import { parseGrid } from "../../../io/parser";
+import { VALID_DIGITS } from "../../../types";
+import { getCandidates, getCandidatesForCell } from "..";
 
 describe("getCandidatesForCell", () => {
   it("returns the candidates of the cells with pencilmarks", () => {
