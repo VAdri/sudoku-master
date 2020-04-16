@@ -1,5 +1,5 @@
 import { VALID_HOUSE_TYPES, VALID_GRID_INDEXES } from "../../../types";
-import { getCellHouses } from "../getCellHouses";
+import { getCellHouses } from "..";
 
 describe("getCellHouses", () => {
   it("returns a row, a column and a box", () => {

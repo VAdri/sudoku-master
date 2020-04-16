@@ -1,6 +1,6 @@
 import { SudokuGrid, House, VALID_HOUSE_INDEXES } from "../../../types";
 import { parseGrid } from "../../../io/parser";
-import { HOUSES_LIST } from "../constants";
+import { HOUSES_LIST } from "..";
 
 describe("HOUSES_LIST", () => {
   let grid: SudokuGrid;

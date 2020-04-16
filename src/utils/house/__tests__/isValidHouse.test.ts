@@ -1,6 +1,5 @@
 import { parseGrid } from "../../../io/parser";
-import { isValidHouse } from "../isValidHouse";
-import { HOUSES_LIST } from "../constants";
+import { isValidHouse, HOUSES_LIST } from "..";
 
 describe("isValidHouse", () => {
   test("House without duplicate is valid", () => {

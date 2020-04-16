@@ -1,5 +1,5 @@
 import { parseGrid } from "../../../io/parser";
-import { getHouseValues } from "../getHouseValues";
+import { getHouseValues } from "..";
 import { HOUSES_LIST } from "../constants";
 import { House } from "../../../types";
 
