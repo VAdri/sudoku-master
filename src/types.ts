@@ -11,7 +11,13 @@ export type HouseIndex = typeof VALID_HOUSE_INDEXES[number];
 
 export const VALID_CELL_INDEXES = [...VALID_HOUSE_INDEXES] as const;
 export type CellIndex = typeof VALID_CELL_INDEXES[number];
-export type CellCoord = readonly [CellIndex, CellIndex];
+export type CellCoord = readonly [HouseIndex, HouseIndex];
+export type CellHouse = {
+  readonly houseType: HouseType;
+  readonly houseIndex: HouseIndex;
+  readonly cellIndex: CellIndex;
+};
+
 
 export const ROW1_INDEXES = [0, 1, 2, 3, 4, 5, 6, 7, 8] as const;
 export const ROW2_INDEXES = [9, 10, 11, 12, 13, 14, 15, 16, 17] as const;

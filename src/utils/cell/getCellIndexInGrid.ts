@@ -1,60 +1,41 @@
-import { CellIndex, GridIndex, HouseIndex, HouseType } from "../../types";
+import { CellCoord, CellHouse, GridIndex } from "../../types";
+import { always, cond, is } from "ramda";
+import { equals } from "remeda";
+
+const _getCellIndexInGridByHouse = (cellHouse: CellHouse): GridIndex => {
+  return cond([
+    [equals("row"), always((cellHouse.houseIndex * 9 + cellHouse.cellIndex) as GridIndex)],
+    [equals("col"), always((cellHouse.houseIndex + cellHouse.cellIndex * 9) as GridIndex)],
+    [
+      equals("box"),
+      always(
+        (Math.floor(cellHouse.cellIndex / 3) * 9 + // row
+        (cellHouse.cellIndex % 3) + // col
+        Math.floor(cellHouse.houseIndex / 3) * 9 * 3 + // row offset
+          (cellHouse.houseIndex % 3) * 3) as GridIndex, // col offset
+      ),
+    ],
+  ])(cellHouse.houseType);
+};
 
 /**
- * Calculate the index (between 0 and 80) of a given cell according to its position inside its house.
+ * Calculate the index (between 0 and 80) of a given cell.
  *
- * @private
- * @since 0.0.1
- *
- * @param {HouseType} houseType The type of house (row, column or box) on which the cell is located.
- * @param {HouseIndex} houseIndex The index of the house (e.g. row 1, or box 5...) in which the cell is located.
- * @param {CellIndex} cellIndex The position of the cell inside its house.
- *
+ * @param {CellCoord | GridIndex | CellHouse} cell The cell for which to find the grid index.
  * @returns {number} The index of the cell in the grid, or `-1` if the cell is not valid.
  *
  * @example
- * getCellIndexInGrid("row", 2, 0);
- * // => 18
- * getCellIndexInGrid("col", 5, 4);
- * // => 41
- * getCellIndexInGrid("box", 7, 6);
- * // => 75
- */
-export function getCellIndexInGrid(houseType: HouseType, houseIndex: HouseIndex, cellIndex: CellIndex): GridIndex | -1 {
-  switch (houseType) {
-    case "row":
-      return (houseIndex * 9 + cellIndex) as GridIndex;
-    case "col":
-      return (houseIndex + cellIndex * 9) as GridIndex;
-    case "box":
-      return (Math.floor(cellIndex / 3) * 9 + // row
-        (cellIndex % 3) + // col
-        Math.floor(houseIndex / 3) * 9 * 3 + // row offset
-        (houseIndex % 3) * 3) as GridIndex; // col offset
-    default:
-      return -1;
-  }
-}
-
-/**
- * Calculate the index (between 0 and 80) of a given cell according to its row and column positions.
- *
- * @private
- * @since 0.0.1
- *
- * @param rowIndex The index of the row.
- * @param colIndex The index of the column.
- *
- * @returns {number} The index of the cell in the grid, or `-1` if the cell is not valid.
- *
- * @example
- * getCellIndexInGridByCoord(2, 0);
- * // => 18
- * getCellIndexInGridByCoord(5, 4);
+ * getCellIndexInGrid([5, 4]);
  * // => 49
- * getCellIndexInGridByCoord(7, 6);
- * // => 69
+ * getCellIndexInGrid(72);
+ * // => 72
+ * getCellIndexInGrid({ houseType; "col", houseIndex: 5, cellIndex: 4});
+ * // => 41
  */
-export function getCellIndexInGridByCoord(rowIndex: HouseIndex, colIndex: HouseIndex): GridIndex {
-  return (rowIndex * 9 + colIndex) as GridIndex;
+export function getCellIndexInGrid(cell: CellCoord | GridIndex | CellHouse): GridIndex {
+  return cond([
+    [Array.isArray, (cellCoord: CellCoord): GridIndex => (cellCoord[0] * 9 + cellCoord[1]) as GridIndex],
+    [is(Number), (gridIndex: GridIndex): GridIndex => gridIndex],
+    [is(Object), (cellHouse: CellHouse): GridIndex => _getCellIndexInGridByHouse(cellHouse)],
+  ])(cell);
 }

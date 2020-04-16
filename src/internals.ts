@@ -1,2 +1,3 @@
 export { applyByIndex, groupN } from "./utils/fp";
-export { getCellIndexInGrid, getCellIndexInGridByCoord, getCellHouses, HOUSES_LIST } from "./utils/house";
+export { getCellHouses, HOUSES_LIST } from "./utils/house";
+export { getCellIndexInGrid } from "./utils/cell";

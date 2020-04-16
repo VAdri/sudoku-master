@@ -1,4 +1,4 @@
-import { Brackets, EMPTY_CELL_SYMBOLS, EmptyCellSymbol } from "./types";
+import { Brackets, EMPTY_CELL_SYMBOLS, EmptyCellSymbol } from "../types";
 import {
   Digit,
   GridIndex,
@@ -8,31 +8,13 @@ import {
   VALID_CELL_INDEXES,
   VALID_GRID_INDEXES,
   VALID_HOUSE_INDEXES,
-} from "../types";
-import { applyByIndex, groupN } from "../utils/fp";
-import { getCellCol, getCellIndexInGrid } from "../utils/house";
+} from "../../types";
+import { applyByIndex, groupN } from "../../utils/fp";
+import { getCellCol } from "../../utils/house";
 import { T, always, append, cond, insert, is, join, prepend, repeat, replace, sum } from "ramda";
 import { equals, map, pipe, reduce } from "remeda";
-
-export const SERIALIZER_STYLES = ["singleLine", "multiLines", "grid", "sudopedia"] as const;
-export type SerializeStyle = typeof SERIALIZER_STYLES[number];
-
-type SerializerOptionsWithPencilmarks = {
-  readonly style?: SerializeStyle;
-  readonly pencilmarks: true;
-  readonly brackets?: Brackets;
-};
-
-export type SerializerOptionsWithoutPencilmarks = {
-  readonly style?: Exclude<SerializeStyle, "sudopedia">;
-  readonly pencilmarks?: false;
-  readonly emptyCellSymbol?: EmptyCellSymbol;
-};
-
-export type SerializerOptions = SerializerOptionsWithPencilmarks | SerializerOptionsWithoutPencilmarks;
-
-type Row3ColCellsLength = readonly [number, number, number];
-type Row3ColLength = readonly [Row3ColCellsLength, Row3ColCellsLength, Row3ColCellsLength];
+import { SERIALIZER_STYLES, SerializerOptions, SerializerStyle } from "./types";
+import { getCellIndexInGrid } from "../../utils/cell";
 
 /**
  * @private
@@ -45,7 +27,7 @@ export function getColumnsLengths(
     map((houseIndex) =>
       pipe(
         VALID_CELL_INDEXES,
-        map((cellIndex) => getCellIndexInGrid("col", houseIndex, cellIndex) as GridIndex),
+        map((cellIndex) => getCellIndexInGrid({ houseType: "col", houseIndex, cellIndex }) as GridIndex),
         map((gridIndex) => candidates.get(gridIndex)?.length || 1),
         reduce((acc: number, item: number) => Math.max(acc, item), 0),
       ),
@@ -70,7 +52,7 @@ function _addMissingSpaces(maxCandidatesByCol: readonly number[]): (cell: string
 }
 
 function _createCell(
-  style: SerializeStyle,
+  style: SerializerStyle,
   pencilmarks: boolean,
   emptyCellSymbol: EmptyCellSymbol,
   maxCandidatesByCol: readonly number[],
@@ -132,9 +114,9 @@ function _gridSymbols(isSudopedia: boolean): (lineType: "start" | "middle" | "en
 
 /**
  * Converts a Sudoku grid into a string that can be read by humans or converted back into a Sudoku program.
- * 
+ *
  * @since 0.0.1
- * 
+ *
  * @param {SudokuGrid} grid The grid to serialize.
  * @param {SerializerOptions} [options] Options to apply on the serialized output.
  * @param {("singleLine" | "multiLines" | "grid" | "sudopedia")} [options.style="singleLine"] Describes the formatting style of the
@@ -144,7 +126,7 @@ function _gridSymbols(isSudopedia: boolean): (lineType: "start" | "middle" | "en
  * multiLines styles).
  * @param {("." | "*" | "-" | "0")} [options.emptyCellSymbol="."] The symbol to use to indicate an empty cell.
  * @returns {string} The grid converted into a string.
- * 
+ *
  * @example
  * const grid = parseGrid(".234..8..6....7......53.62...5......84.....36......1...52.96......1....7..8..521.");
  * const options = {
@@ -173,7 +155,7 @@ export function serializeGrid(grid: SudokuGrid, options?: SerializerOptions): st
   const groupByRow = (houseIndex: HouseIndex): string =>
     pipe(
       VALID_CELL_INDEXES,
-      map((cellIndex) => getCellIndexInGrid("row", houseIndex, cellIndex) as GridIndex),
+      map((cellIndex) => getCellIndexInGrid({ houseType: "row", houseIndex, cellIndex }) as GridIndex),
       map(getCell),
       map(createCell),
       map(surroundCell),
@@ -183,7 +165,7 @@ export function serializeGrid(grid: SudokuGrid, options?: SerializerOptions): st
   const groupByBoxRow = (houseIndex: HouseIndex): string =>
     pipe(
       VALID_CELL_INDEXES,
-      map((cellIndex) => getCellIndexInGrid("row", houseIndex, cellIndex) as GridIndex),
+      map((cellIndex) => getCellIndexInGrid({ houseType: "row", houseIndex, cellIndex }) as GridIndex),
       groupN(3),
       map((gridIndexes) =>
         pipe(gridIndexes, map(getCell), map(createCell), map(surroundCell), prepend("|"), join(cellSeparator)),

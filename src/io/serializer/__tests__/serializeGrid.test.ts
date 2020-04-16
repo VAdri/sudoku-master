@@ -1,6 +1,7 @@
-import { parseGrid } from "../parser";
-import { serializeGrid, SerializerOptions, getColumnsLengths } from "../serializer";
-import { SudokuGrid } from "../../types";
+import { parseGrid } from "../../parser";
+import { serializeGrid, getColumnsLengths } from "../serializeGrid";
+import { SerializerOptions } from "../types";
+import { SudokuGrid } from "../../../types";
 
 describe("getColumnsLengths", () => {
   it("returns the length of all the columns according to their pencilmarks", () => {

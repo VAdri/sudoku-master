@@ -1,4 +1,3 @@
-import { getCellIndexInGrid } from "./getCellIndexInGrid";
 import { flatMap, map } from "remeda";
 import {
   CellIndex,
@@ -11,6 +10,7 @@ import {
   VALID_HOUSE_TYPES,
 } from "../../types";
 import { fromPairs } from "ramda";
+import { getCellIndexInGrid } from "../cell/getCellIndexInGrid";
 
 /**
  * The list of all the houses in the grid.
@@ -25,7 +25,7 @@ export const HOUSES_LIST: readonly House[] = flatMap((houseType: HouseType) =>
       index: houseIndex,
       cells: fromPairs(
         map(VALID_CELL_INDEXES, (cellIndex: CellIndex) => {
-          const indexInGrid = getCellIndexInGrid(houseType, houseIndex, cellIndex);
+          const indexInGrid = getCellIndexInGrid({ houseType, houseIndex, cellIndex });
           return [cellIndex, indexInGrid];
         }),
       ) as HouseCells,
