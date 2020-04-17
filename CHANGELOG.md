@@ -2,7 +2,7 @@
 
 ## <sub>v0.0.2</sub>
 
-#### _Apr. 17, 2020_ — [Diff](https://github.com/VAdri/sudoku-master/compare/0.0.1-master...0.0.1-master) — [Docs](https://github.com/VAdri/sudoku-master/blob/0.0.2/doc/API.md)
+#### _Apr. 17, 2020_ — [Diff](https://github.com/VAdri/sudoku-master/compare/0.0.1...0.0.2) — [Docs](https://github.com/VAdri/sudoku-master/blob/0.0.2/doc/API.md)
 
 ##### Solver
 
