@@ -1,6 +1,7 @@
 import { CellCoord, CellHouse, GridIndex } from "../../types";
 import { always, cond, is } from "ramda";
 import { equals } from "remeda";
+import { isTypeOf } from "../fp";
 
 const _getCellIndexInGridByHouse = (cellHouse: CellHouse): GridIndex => {
   return cond([
@@ -21,21 +22,24 @@ const _getCellIndexInGridByHouse = (cellHouse: CellHouse): GridIndex => {
 /**
  * Calculate the index (between 0 and 80) of a given cell.
  *
+ * @private
+ * @since 0.0.2
+ *
  * @param {CellCoord | GridIndex | CellHouse} cell The cell for which to find the grid index.
- * @returns {number} The index of the cell in the grid, or `-1` if the cell is not valid.
+ * @returns {number} The index of the cell in the grid.
  *
  * @example
  * getCellIndexInGrid([5, 4]);
  * // => 49
  * getCellIndexInGrid(72);
  * // => 72
- * getCellIndexInGrid({ houseType; "col", houseIndex: 5, cellIndex: 4});
+ * getCellIndexInGrid({ houseType: "col", houseIndex: 5, cellIndex: 4});
  * // => 41
  */
 export function getCellIndexInGrid(cell: CellCoord | GridIndex | CellHouse): GridIndex {
   return cond([
     [Array.isArray, (cellCoord: CellCoord): GridIndex => (cellCoord[0] * 9 + cellCoord[1]) as GridIndex],
     [is(Number), (gridIndex: GridIndex): GridIndex => gridIndex],
-    [is(Object), (cellHouse: CellHouse): GridIndex => _getCellIndexInGridByHouse(cellHouse)],
+    [isTypeOf("object"), (cellHouse: CellHouse): GridIndex => _getCellIndexInGridByHouse(cellHouse)],
   ])(cell);
 }

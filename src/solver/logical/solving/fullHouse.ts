@@ -2,7 +2,7 @@ import { CellIndex, SudokuGrid, VALID_CELL_INDEXES, VALID_DIGITS } from "../../.
 import { difference, drop, filter, first, map, pipe, take } from "remeda";
 import { HOUSES_LIST } from "../../../utils/house";
 import { HouseValues, getHouseValues } from "../../../utils/house/getHouseValues";
-import { getSolvingResultByHouseCellIndex } from "./solvingResult";
+import { getSolvingResult } from "./solvingResult";
 import { includes, values } from "ramda";
 import { SolvingResult } from "./types";
 
@@ -16,7 +16,11 @@ const getFullHouseSolvingResult = (houseValues: HouseValues): SolvingResult | un
   const digit = pipe(values(VALID_DIGITS), difference([...houseValues.values.values()]), first());
 
   if (cellIndex !== undefined && digit) {
-    return getSolvingResultByHouseCellIndex("Full House", houseValues.house, cellIndex, digit);
+    return getSolvingResult(
+      "Full House",
+      { houseType: houseValues.house.type, houseIndex: houseValues.house.index, cellIndex },
+      digit,
+    );
   } else {
     return undefined;
   }

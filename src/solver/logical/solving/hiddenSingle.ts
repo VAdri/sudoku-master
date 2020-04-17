@@ -3,7 +3,7 @@ import { SolvingResult } from "./types";
 import { getCandidates } from "../../../utils/candidate";
 import { drop, filter, flatten, map, pipe, take, uniqBy } from "remeda";
 import { HOUSES_LIST, getHouseCandidates } from "../../../utils/house";
-import { getSolvingResultByGridIndex } from "./solvingResult";
+import { getSolvingResult } from "./solvingResult";
 
 type HouseSingleCandidate = {
   readonly house: House;
@@ -25,7 +25,7 @@ const _getHouseSingleCandidates = (candidates: ReadonlyMap<GridIndex, Pencilmark
 };
 
 const getHiddenSingleSolvingResult = (result: HouseSingleCandidate): SolvingResult => {
-  return getSolvingResultByGridIndex("Hidden Single", result.index, result.digit);
+  return getSolvingResult("Hidden Single", result.index, result.digit);
 };
 
 /**

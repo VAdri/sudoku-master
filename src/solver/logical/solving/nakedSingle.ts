@@ -1,11 +1,11 @@
 import { SolvingResult } from "./types";
 import { Digit, GridIndex, SudokuGrid } from "../../../types";
 import { drop, filter, map, pipe, take } from "remeda";
-import { getSolvingResultByGridIndex } from "./solvingResult";
+import { getSolvingResult } from "./solvingResult";
 import { getCandidates } from "../../../utils/candidate";
 
 const getNakedSingleSolvingResult = ([index, digits]: readonly [GridIndex, readonly Digit[]]): SolvingResult => {
-  return getSolvingResultByGridIndex("Naked Single", index, digits[0]);
+  return getSolvingResult("Naked Single", index, digits[0]);
 };
 
 /**

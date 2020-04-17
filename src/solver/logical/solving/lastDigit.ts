@@ -4,7 +4,7 @@ import { difference, drop, map, pipe, take } from "remeda";
 import { findDigitCells } from "../../../utils/digit/findDigitCells";
 import { filter } from "ramda";
 import { getCellCol, getCellRow } from "../../../utils/house";
-import { getSolvingResultByCoord } from "./solvingResult";
+import { getSolvingResult } from "./solvingResult";
 
 const getLastDigitSolvingResult = ([digit, indexes]: readonly [Digit, readonly GridIndex[]]): SolvingResult => {
   const row = difference(
@@ -17,7 +17,7 @@ const getLastDigitSolvingResult = ([digit, indexes]: readonly [Digit, readonly G
     map(indexes, (index) => getCellCol(index).index),
   )[0];
 
-  return getSolvingResultByCoord("Last Digit", [row, col], digit);
+  return getSolvingResult("Last Digit", [row, col], digit);
 };
 
 /**
