@@ -5,6 +5,7 @@ import { getCellCoord } from "../../../utils/cell";
 /**
  * Get a description of a technique that is used to solve a cell.
  *
+ * @private
  * @since 0.0.2
  *
  * @param {SolvingTechnique} technique The technique used to solve the cell.

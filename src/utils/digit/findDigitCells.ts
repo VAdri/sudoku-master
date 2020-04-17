@@ -4,6 +4,7 @@ import { filter } from "remeda";
 /**
  * Find the cells on which the given digit has been placed.
  *
+ * @private
  * @since 0.0.2
  *
  * @param {ReadonlyMap<GridIndex, Digit>} digits The digits that are placed in the grid.

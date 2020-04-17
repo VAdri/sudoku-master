@@ -1,12 +1,23 @@
 toc:
   - name: Input/Output (IO)
     description: |
-      These methods are used to send and receive data with the program.
+      Send and receive data with the program.
     children:
       - parseGrid
       - serializeGrid
-  - name: Solver
+      - solvingDescription
+      - cellIdentifier
+      - cellsIdentifiers
+  - name: Solver (brute-force)
     description: |
-      Algorithms used to solve a Sudoku.
+      Computer-oriented algorithms used to solve a Sudoku.
     children:
       - solveWithBacktracking
+  - name: Solver (logical)
+    description: |
+      Find patterns used to solve a Sudoku with human logic.
+    children:
+      - solveFullHouse
+      - solveHiddenSingle
+      - solveLastDigit
+      - solveNakedSingle

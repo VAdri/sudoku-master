@@ -10,7 +10,7 @@ type CellNotationMode = "rncn" | "k9";
  * Identify the given cell or group of cells using the {@link http://sudopedia.enjoysudoku.com/Rncn.html rncn} or
  * {@link http://sudopedia.enjoysudoku.com/K9.html k9} notation.
  *
- * **Note:** The "rncn" mode (by default) can group multiple cells in a single one if they share the same roxs and
+ * **Note:** The "rncn" mode (by default) can group multiple cells in a single one if they share the same rows and
  * columns.
  *
  * @since 0.0.2
