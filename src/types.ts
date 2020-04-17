@@ -18,7 +18,6 @@ export type CellHouse = {
   readonly cellIndex: CellIndex;
 };
 
-
 export const ROW1_INDEXES = [0, 1, 2, 3, 4, 5, 6, 7, 8] as const;
 export const ROW2_INDEXES = [9, 10, 11, 12, 13, 14, 15, 16, 17] as const;
 export const ROW3_INDEXES = [18, 19, 20, 21, 22, 23, 24, 25, 26] as const;

@@ -30,7 +30,7 @@ describe("solveHiddenSingle", () => {
     if (grid) {
       const solvedHiddenSingle = solveHiddenSingle(grid, 0, Infinity);
       expect(solvedHiddenSingle).toHaveLength(4);
-      expect(solvedHiddenSingle.filter(solving => solving.coord[0] === 5 && solving.coord[1])).toHaveLength(1)
+      expect(solvedHiddenSingle.filter((solving) => solving.coord[0] === 5 && solving.coord[1])).toHaveLength(1);
       if (solvedHiddenSingle[1]) {
         expect(solvedHiddenSingle[1].technique).toBe("Hidden Single");
         expect(solvedHiddenSingle[1].coord).toStrictEqual([5, 3]);

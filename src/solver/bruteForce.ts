@@ -129,7 +129,7 @@ function solveWithDFS(grid: SudokuGrid): ReadonlyMap<GridIndex, Digit> | undefin
  * @param {BruteForceMode} mode The type of algorithm to use to solve the puzzle.
  * @returns {ReadonlyMap<GridIndex, Digit> | undefined} The solution of the grid if it has been found; otherwise,
  * `undefined`.
- * 
+ *
  * @example
  * const grid = parseGrid(`
  *   +---+---+---+
@@ -148,7 +148,7 @@ function solveWithDFS(grid: SudokuGrid): ReadonlyMap<GridIndex, Digit> | undefin
  * const solution = solveWithBacktracking(grid);
  * serializeGrid({ digits: solution, candidates: new Map() });
  * // => "971263584345798126268145937437519862156824793892376451713952648584631279629487315"
- * 
+ *
  * @see http://sudopedia.enjoysudoku.com/Backtracking_Algorithms.html
  * @see https://en.wikipedia.org/wiki/Backtracking
  * @see https://en.wikipedia.org/wiki/Sudoku_solving_algorithms

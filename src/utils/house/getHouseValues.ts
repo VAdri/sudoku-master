@@ -18,9 +18,9 @@ const _getHouseValues = (house: House, digits: ReadonlyMap<GridIndex, Digit>): H
 
 /**
  * Get the values of the cells with a placed digits in a given house.
- * 
+ *
  * @since 0.0.2
- * 
+ *
  * @param {House} house The house on which to find the cell values.
  * @param {ReadonlyMap<GridIndex, Digit>} digits The list of digits that are placed in the grid.
  * @returns {HouseValues} The house with its associated values on each cell.
