@@ -11,6 +11,16 @@ const _getHouseCandidates = (
   return getCandidatesIndexes(new Map(filter([...candidates.entries()], (entry) => includes(entry[0], houseCells))));
 };
 
+/**
+ * Get the candidates on a house.
+ *
+ * @private
+ * @since 0.0.3
+ *
+ * @param house The house for which to get the candidates.
+ * @param candidates The list of candidates in the grid.
+ * @returns A key/value pair list that map each digit with the indexes in the grid that contain it as a candidate.
+ */
 export function getHouseCandidates<T>(
   house: House,
   candidates: ReadonlyMap<GridIndex, Pencilmarks>,

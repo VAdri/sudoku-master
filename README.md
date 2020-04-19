@@ -14,23 +14,25 @@ data or cause any side-effects.
 - [x] Serializes a grid from the program into a string representation.
 - [x] Determines whether the digits in a grid are valid according to the constraints of the game.
 - [x] Fills every empty cells with their candidates.
-- [x] Solves a grid using a backtracking algorithm:
+- [x] Solves a grid using a [backtracking algorithm](http://sudopedia.enjoysudoku.com/Backtracking_Algorithms.html):
   - [x] [Depth-first search algorithm](https://en.wikipedia.org/wiki/Depth-first_search).
-- [ ] Indicates the cells that can be [solved](http://sudopedia.enjoysudoku.com/Cell.html#Cell_Status):
+- [x] Indicates the cells that can be [solved](http://sudopedia.enjoysudoku.com/Cell.html#Cell_Status):
   - [x] [Full House](http://sudopedia.enjoysudoku.com/Full_House.html)
   - [x] [Last Digit](http://sudopedia.enjoysudoku.com/Last_Digit.html)
   - [x] [Naked Single](http://sudopedia.enjoysudoku.com/Naked_Single.html)
   - [x] [Hidden Single](http://sudopedia.enjoysudoku.com/Hidden_Single.html)
 - [ ] Indicates the candidates that can be [eliminated](http://sudopedia.enjoysudoku.com/Eliminate.html):
-  - [ ] [Locked Candidates](http://sudopedia.enjoysudoku.com/Locked_Candidates.html)
-  - [ ] [Naked Subset](http://sudopedia.enjoysudoku.com/Naked_Subset.html):
-    - [ ] [Naked Pair](http://sudopedia.enjoysudoku.com/Naked_Pair.html)
-    - [ ] [Naked Triple](http://sudopedia.enjoysudoku.com/Naked_Triple.html)
-    - [ ] [Naked Quadruple](http://sudopedia.enjoysudoku.com/Naked_Quad.html)
-  - [ ] [Hidden Subset](http://sudopedia.enjoysudoku.com/Hidden_Subset.html):
-    - [ ] [Hidden Pair](http://sudopedia.enjoysudoku.com/Hidden_Pair.html)
-    - [ ] [Hidden Triple](http://sudopedia.enjoysudoku.com/Hidden_Triple.html)
-    - [ ] [Hidden Quadruple](http://sudopedia.enjoysudoku.com/Hidden_Quad.html)
+  - [x] [Locked Candidates](http://sudopedia.enjoysudoku.com/Locked_Candidates.html)
+        ([Pointing](http://sudopedia.enjoysudoku.com/Locked_Candidates.html#Type_1_.28Pointing.29) and
+        [Claiming](http://sudopedia.enjoysudoku.com/Locked_Candidates.html#Type_2_.28Claiming_or_Box-Line_Reduction.29))
+  - [ ] [Naked Subset](http://sudopedia.enjoysudoku.com/Naked_Subset.html)
+        ([Pair](http://sudopedia.enjoysudoku.com/Naked_Pair.html),
+        [Triple](http://sudopedia.enjoysudoku.com/Naked_Triple.html)
+        and [Quadruple](http://sudopedia.enjoysudoku.com/Naked_Quad.html))
+  - [ ] [Hidden Subset](http://sudopedia.enjoysudoku.com/Hidden_Subset.html)
+        ([Pair](http://sudopedia.enjoysudoku.com/Hidden_Pair.html),
+        [Triple](http://sudopedia.enjoysudoku.com/Hidden_Triple.html) and
+        [Quadruple](http://sudopedia.enjoysudoku.com/Hidden_Quad.html))
   - [ ] [Fish](http://sudopedia.enjoysudoku.com/Fish.html):
     - [ ] Basic Fish ([X-Wing](http://sudopedia.enjoysudoku.com/X-Wing.html),
           [Swordfish](http://sudopedia.enjoysudoku.com/Swordfish.html) and

@@ -6,8 +6,10 @@ toc:
       - parseGrid
       - serializeGrid
       - solvingDescription
+      - eliminationDescription
       - cellIdentifier
       - cellsIdentifiers
+      - houseIdentifier
   - name: Solver (brute-force)
     description: |
       Computer-oriented algorithms used to solve a Sudoku.
@@ -21,3 +23,4 @@ toc:
       - solveHiddenSingle
       - solveLastDigit
       - solveNakedSingle
+      - eliminateLockedCandidates

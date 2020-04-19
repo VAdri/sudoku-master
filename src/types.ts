@@ -45,10 +45,8 @@ export type SudokuGrid = {
   readonly candidates: ReadonlyMap<GridIndex, readonly Digit[]>;
 };
 
-export type HouseCells = { [index in CellIndex]: GridIndex };
-
 export type House = {
   readonly type: HouseType;
   readonly index: HouseIndex;
-  readonly cells: HouseCells;
+  readonly cells: readonly GridIndex[];
 };

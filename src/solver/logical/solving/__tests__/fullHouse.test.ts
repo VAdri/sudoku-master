@@ -1,4 +1,5 @@
 import { parseGrid } from "../../../../io/parser";
+import { solvingDescription } from "../../../../io/serializer";
 import { solveFullHouse } from "../fullHouse";
 
 describe("solveFullHouse", () => {
@@ -83,9 +84,12 @@ describe("solveFullHouse with skip or take", () => {
         expect(solvedFullHouse[0].technique).toBe("Full House");
         expect(solvedFullHouse[0].coord).toStrictEqual([8, 4]);
         expect(solvedFullHouse[0].digit).toBe(9);
+        expect(solvingDescription(solvedFullHouse[0])).toBe("Full House: r9c5=9");
+
         expect(solvedFullHouse[1].technique).toBe("Full House");
         expect(solvedFullHouse[1].coord).toStrictEqual([8, 5]);
         expect(solvedFullHouse[1].digit).toBe(1);
+        expect(solvingDescription(solvedFullHouse[1])).toBe("Full House: r9c6=1");
       }
     }
   });

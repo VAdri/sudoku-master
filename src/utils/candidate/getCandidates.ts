@@ -1,7 +1,6 @@
 import { Digit, GridIndex, House, Pencilmarks, VALID_DIGITS, VALID_GRID_INDEXES } from "../../types";
 import { getCellHouses } from "../house";
-import { difference, filter, flatMap, map, pipe } from "remeda";
-import { values } from "ramda";
+import { compact, difference, filter, flatMap, map, pipe } from "remeda";
 
 /**
  * Resolve the list of candidates that can be placed in a cell according to the digits that have been placed in the same
@@ -43,8 +42,8 @@ export function getCandidatesForCell(digits: ReadonlyMap<GridIndex, Digit>, inde
   } else {
     const candidates = pipe(
       getCellHouses(index),
-      flatMap((house: House) => map(values(house.cells), (cell: GridIndex) => digits.get(cell))),
-      filter((digit: Digit | undefined) => digit !== undefined),
+      flatMap((house: House) => map(house.cells, (cell: GridIndex) => digits.get(cell))),
+      compact,
     ) as Pencilmarks;
 
     return difference(VALID_DIGITS, candidates);

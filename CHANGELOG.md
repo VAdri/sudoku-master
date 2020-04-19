@@ -1,8 +1,21 @@
 # Changelog
 
+## <sub>v0.0.3</sub>
+
+#### _Apr. ??, 2020_ — [Diff](https://github.com/VAdri/sudoku-master/compare/v0.0.2...v0.0.3) — [Docs](https://github.com/VAdri/sudoku-master/blob/v0.0.3/doc/API.md)
+
+##### Solver
+
+- Added [`eliminateLockedCandidates`](https://github.com/VAdri/sudoku-master/blob/0.0.3/doc/README.md#eliminateLockedCandidates).
+
+##### IO
+
+- Added [`eliminationDescription`](https://github.com/VAdri/sudoku-master/blob/0.0.3/doc/API.md#eliminationDescription).
+- Added [`houseIdentifier`](https://github.com/VAdri/sudoku-master/blob/0.0.3/doc/API.md#houseIdentifier).
+
 ## <sub>v0.0.2</sub>
 
-#### _Apr. 17, 2020_ — [Diff](https://github.com/VAdri/sudoku-master/compare/0.0.1...0.0.2) — [Docs](https://github.com/VAdri/sudoku-master/blob/0.0.2/doc/API.md)
+#### _Apr. 17, 2020_ — [Diff](https://github.com/VAdri/sudoku-master/compare/v0.0.1...v0.0.2) — [Docs](https://github.com/VAdri/sudoku-master/blob/v0.0.2/doc/API.md)
 
 ##### Solver
 
@@ -12,13 +25,14 @@
 - Added [`solveHiddenSingle`](https://github.com/VAdri/sudoku-master/blob/0.0.2/doc/README.md#solveHiddenSingle).
 
 ##### IO
+
 - Added [`cellIdentifier`](https://github.com/VAdri/sudoku-master/blob/0.0.2/doc/API.md#cellIdentifier)
   and [`cellsIdentifiers`](https://github.com/VAdri/sudoku-master/blob/0.0.2/doc/API.md#cellsIdentifiers).
 - Added [`solvingDescription`](https://github.com/VAdri/sudoku-master/blob/0.0.2/doc/API.md#solvingDescription).
 
 ## <sub>v0.0.1</sub>
 
-#### _Apr. 14, 2020_ — [Docs](https://github.com/VAdri/sudoku-master/blob/0.0.1/doc/API.md)
+#### _Apr. 14, 2020_ — [Docs](https://github.com/VAdri/sudoku-master/blob/v0.0.1/doc/API.md)
 
 ##### General
 

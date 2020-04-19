@@ -1,5 +1,5 @@
 import { CellIndex, Digit, GridIndex, House } from "../../types";
-import { filter, map, pipe, purry, toPairs } from "remeda";
+import { filter, map, pipe, purry } from "remeda";
 
 export type HouseValues = { readonly house: House; readonly values: ReadonlyMap<CellIndex, Digit | undefined> };
 
@@ -8,8 +8,8 @@ const _getHouseValues = (house: House, digits: ReadonlyMap<GridIndex, Digit>): H
     house,
     values: new Map(
       pipe(
-        toPairs(house.cells),
-        map((cell) => [parseInt(cell[0]), digits.get(cell[1])] as readonly [CellIndex, Digit | undefined]),
+        house.cells,
+        map.indexed((cell, index) => [index, digits.get(cell)] as readonly [CellIndex, Digit | undefined]),
         filter((entry) => !!entry[1]),
       ),
     ),
@@ -19,6 +19,7 @@ const _getHouseValues = (house: House, digits: ReadonlyMap<GridIndex, Digit>): H
 /**
  * Get the values of the cells with a placed digits in a given house.
  *
+ * @private
  * @since 0.0.2
  *
  * @param {House} house The house on which to find the cell values.
