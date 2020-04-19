@@ -1,21 +1,24 @@
 import {
   EliminationImplication,
+  EliminationImplicationDigitInHouse,
   EliminationImplicationType,
   EliminationResult,
 } from "../../solver/logical/eliminating/types";
-import { always, cond } from "ramda";
-import { equals } from "remeda";
 import { cellsIdentifiers } from "./cellsIdentifiers";
 import { houseIdentifier } from "./houseIdentifer";
+import { cond, join } from "ramda";
+import { map } from "remeda";
 
 const getImplication = (implication: EliminationImplication): string => {
   return (
     cond([
       [
-        equals(EliminationImplicationType.DigitInHouse),
-        always(`${implication.digit} in ${houseIdentifier(implication.house)} => `),
+        (i: EliminationImplication): boolean => i.type === EliminationImplicationType.DigitInHouse,
+        (i: EliminationImplicationDigitInHouse): string => `${i.digit} in ${houseIdentifier(i.house)} => `,
       ],
-    ])(implication.type) || ""
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+    ])(implication) || ""
   );
 };
 
@@ -39,6 +42,6 @@ const getImplication = (implication: EliminationImplication): string => {
  */
 export function eliminationDescription(eliminationResult: EliminationResult): string {
   const implication = eliminationResult.implication ? getImplication(eliminationResult.implication) : "";
-  const coords = cellsIdentifiers(eliminationResult.coords);
-  return `${eliminationResult.technique}: ${implication}${coords}<>${eliminationResult.digit}`;
+  const eliminations = map(eliminationResult.eliminations, (e) => `${cellsIdentifiers(e.coords)}<>${e.digit}`);
+  return `${eliminationResult.technique}: ${implication}${join(", ", eliminations)}`;
 }

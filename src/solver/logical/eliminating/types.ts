@@ -1,9 +1,10 @@
-import { CellCoord, Digit, House } from "../../../types";
+import { CellCoord, Digit, GridIndex, House } from "../../../types";
 
 export type EliminationTechnique = "Locked Candidates Type 1 (Pointing)" | "Locked Candidates Type 2 (Claiming)";
 
 export enum EliminationImplicationType {
   DigitInHouse,
+  NakedSubset,
 }
 
 export type EliminationImplicationDigitInHouse = {
@@ -12,11 +13,21 @@ export type EliminationImplicationDigitInHouse = {
   readonly house: House;
 };
 
-export type EliminationImplication = EliminationImplicationDigitInHouse;
+export type EliminationImplicationNakedSubset = {
+  readonly type: EliminationImplicationType.NakedSubset;
+  readonly cells: readonly GridIndex[];
+  readonly digits: readonly Digit[];
+};
+
+export type EliminationImplication = EliminationImplicationDigitInHouse | EliminationImplicationNakedSubset;
+
+export type EliminationCandidate = {
+  readonly digit: Digit;
+  readonly coords: readonly CellCoord[];
+}
 
 export type EliminationResult = {
   readonly technique: EliminationTechnique;
-  readonly coords: readonly CellCoord[];
-  readonly digit: Digit;
+  readonly eliminations: readonly EliminationCandidate[];
   readonly implication?: EliminationImplication;
 };

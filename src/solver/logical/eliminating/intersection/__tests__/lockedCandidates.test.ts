@@ -13,9 +13,10 @@ describe("eliminateLockedCandidates", () => {
       const result = eliminateLockedCandidates({ digits: grid.digits, candidates: getCandidates(grid.digits) });
       expect(result).toHaveLength(4);
       expect(result[0].technique).toBe("Locked Candidates Type 1 (Pointing)");
-      expect(result[0].coords).toHaveLength(1);
-      expect(result[0].coords[0]).toStrictEqual([2, 6]);
-      expect(result[0].digit).toBe(5);
+      expect(result[0].eliminations).toHaveLength(1);
+      expect(result[0].eliminations[0].digit).toBe(5);
+      expect(result[0].eliminations[0].coords).toHaveLength(1);
+      expect(result[0].eliminations[0].coords[0]).toStrictEqual([2, 6]);
       expect(eliminationDescription(result[0])).toBe("Locked Candidates Type 1 (Pointing): 5 in b1 => r3c7<>5");
     }
   });
@@ -27,10 +28,11 @@ describe("eliminateLockedCandidates", () => {
       const result = eliminateLockedCandidates({ digits: grid.digits, candidates: getCandidates(grid.digits) });
       expect(result).toHaveLength(4);
       expect(result[0].technique).toBe("Locked Candidates Type 1 (Pointing)");
-      expect(result[0].coords).toHaveLength(2);
-      expect(result[0].coords).toContainEqual([3, 7]);
-      expect(result[0].coords).toContainEqual([5, 7]);
-      expect(result[0].digit).toBe(4);
+      expect(result[0].eliminations).toHaveLength(1);
+      expect(result[0].eliminations[0].digit).toBe(4);
+      expect(result[0].eliminations[0].coords).toHaveLength(2);
+      expect(result[0].eliminations[0].coords).toContainEqual([3, 7]);
+      expect(result[0].eliminations[0].coords).toContainEqual([5, 7]);
       expect(eliminationDescription(result[0])).toBe("Locked Candidates Type 1 (Pointing): 4 in b3 => r46c8<>4");
     }
   });
@@ -44,8 +46,10 @@ describe("eliminateLockedCandidates", () => {
       const result = eliminateLockedCandidates({ digits: grid.digits, candidates: getCandidates(grid.digits) });
       expect(result).toHaveLength(1);
       expect(result[0].technique).toBe("Locked Candidates Type 2 (Claiming)");
-      expect(result[0].coords[0]).toStrictEqual([2, 1]);
-      expect(result[0].digit).toBe(7);
+      expect(result[0].eliminations).toHaveLength(1);
+      expect(result[0].eliminations[0].digit).toBe(7);
+      expect(result[0].eliminations[0].coords).toHaveLength(1);
+      expect(result[0].eliminations[0].coords[0]).toStrictEqual([2, 1]);
       expect(eliminationDescription(result[0])).toBe("Locked Candidates Type 2 (Claiming): 7 in r2 => r3c2<>7");
     }
   });
@@ -59,14 +63,15 @@ describe("eliminateLockedCandidates", () => {
       const result = eliminateLockedCandidates({ digits: grid.digits, candidates: getCandidates(grid.digits) });
       expect(result).toHaveLength(1);
       expect(result[0].technique).toBe("Locked Candidates Type 2 (Claiming)");
-      expect(result[0].coords).toHaveLength(6);
-      expect(result[0].coords).toContainEqual([0, 3]);
-      expect(result[0].coords).toContainEqual([0, 4]);
-      expect(result[0].coords).toContainEqual([1, 3]);
-      expect(result[0].coords).toContainEqual([1, 4]);
-      expect(result[0].coords).toContainEqual([2, 3]);
-      expect(result[0].coords).toContainEqual([2, 4]);
-      expect(result[0].digit).toBe(4);
+      expect(result[0].eliminations).toHaveLength(1);
+      expect(result[0].eliminations[0].digit).toBe(4);
+      expect(result[0].eliminations[0].coords).toHaveLength(6);
+      expect(result[0].eliminations[0].coords).toContainEqual([0, 3]);
+      expect(result[0].eliminations[0].coords).toContainEqual([0, 4]);
+      expect(result[0].eliminations[0].coords).toContainEqual([1, 3]);
+      expect(result[0].eliminations[0].coords).toContainEqual([1, 4]);
+      expect(result[0].eliminations[0].coords).toContainEqual([2, 3]);
+      expect(result[0].eliminations[0].coords).toContainEqual([2, 4]);
       expect(eliminationDescription(result[0])).toBe("Locked Candidates Type 2 (Claiming): 4 in c6 => r123c45<>4");
     }
   });

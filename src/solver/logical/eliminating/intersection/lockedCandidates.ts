@@ -45,8 +45,12 @@ const getLockedCandidatesSolvingResult = (lockedCandidates: LockedCandidates): E
   if (lockedCandidates.pointing.length > 0) {
     return {
       technique: "Locked Candidates Type 1 (Pointing)",
-      coords: map(lockedCandidates.pointing, getCellCoord),
-      digit: lockedCandidates.digit,
+      eliminations: [
+        {
+          digit: lockedCandidates.digit,
+          coords: map(lockedCandidates.pointing, getCellCoord),
+        },
+      ],
       implication: {
         type: EliminationImplicationType.DigitInHouse,
         house: lockedCandidates.box,
@@ -56,8 +60,12 @@ const getLockedCandidatesSolvingResult = (lockedCandidates: LockedCandidates): E
   } else {
     return {
       technique: "Locked Candidates Type 2 (Claiming)",
-      coords: map(lockedCandidates.claiming, getCellCoord),
-      digit: lockedCandidates.digit,
+      eliminations: [
+        {
+          digit: lockedCandidates.digit,
+          coords: map(lockedCandidates.claiming, getCellCoord),
+        },
+      ],
       implication: {
         type: EliminationImplicationType.DigitInHouse,
         house: lockedCandidates.line,
