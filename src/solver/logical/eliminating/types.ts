@@ -1,15 +1,24 @@
-import { CellCoord, Digit, House } from "../../../types";
+import { CellCoord, Digit, House, HouseIndex } from "../../../types";
 
 export type EliminationTechnique =
   | "Locked Candidates Type 1 (Pointing)"
   | "Locked Candidates Type 2 (Claiming)"
   | "Naked Pair"
   | "Naked Triple"
-  | "Naked Quadruple";
+  | "Naked Quadruple"
+  | "Locked Pair"
+  | "Locked Triple"
+  | "Hidden Pair"
+  | "Hidden Triple"
+  | "Hidden Quadruple"
+  | "X-Wing"
+  | "Swordfish"
+  | "Jellyfish";
 
 export enum EliminationImplicationType {
   DigitInHouse,
   Subset,
+  Fish,
 }
 
 export type EliminationImplicationDigitInHouse = {
@@ -24,7 +33,17 @@ export type EliminationImplicationSubset = {
   readonly digits: readonly Digit[];
 };
 
-export type EliminationImplication = EliminationImplicationDigitInHouse | EliminationImplicationSubset;
+export type EliminationImplicationFish = {
+  readonly type: EliminationImplicationType.Fish;
+  readonly digit: Digit;
+  readonly rows: readonly HouseIndex[];
+  readonly cols: readonly HouseIndex[];
+};
+
+export type EliminationImplication =
+  | EliminationImplicationDigitInHouse
+  | EliminationImplicationSubset
+  | EliminationImplicationFish;
 
 export type EliminationCandidate = {
   readonly digit: Digit;

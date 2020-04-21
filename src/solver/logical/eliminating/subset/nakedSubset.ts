@@ -4,13 +4,13 @@ import { Digit, GridIndex, SudokuGrid } from "../../../../types";
 import { HOUSES_LIST, getCellsCommonHouses } from "../../../../utils/house";
 import { SubsetResult, findSubsets } from "../../../../utils/subset";
 import { getHouseCandidates } from "../../../../utils/house";
-import { SUBSET_LEVEL_LABEL, SubsetLevel } from "./types";
+import { SUBSET_LEVEL_LABEL, SubsetType } from "./types";
 import { getCellsContainingCandidate } from "../../../../utils/candidate";
 import { getCellCoord } from "../../../../utils/cell";
 
 const getNakedSubsetEliminationResult = (
   candidates: ReadonlyMap<GridIndex, readonly Digit[]>,
-  level: SubsetLevel,
+  level: SubsetType,
 ): ((subset: SubsetResult<Digit, GridIndex>) => EliminationResult) => {
   return (subset: SubsetResult<Digit, GridIndex>): EliminationResult => {
     const houses = getCellsCommonHouses(subset.subsetValues);
@@ -68,7 +68,7 @@ const getNakedSubsetEliminationResult = (
  * @see http://sudopedia.enjoysudoku.com/Locked_Pair.html
  * @see http://sudopedia.enjoysudoku.com/Locked_Triple.html
  */
-export function eliminateNakedSubset(grid: SudokuGrid, level: SubsetLevel): readonly EliminationResult[] {
+export function eliminateNakedSubset(grid: SudokuGrid, level: SubsetType): readonly EliminationResult[] {
   return pipe(
     HOUSES_LIST,
     map(getHouseCandidates(grid.candidates)),

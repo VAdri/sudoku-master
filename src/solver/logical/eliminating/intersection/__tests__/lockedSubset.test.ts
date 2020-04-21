@@ -1,5 +1,5 @@
 import { parseGrid } from "../../../../../io/parser";
-import { eliminateNakedSubset, SubsetLevel } from "../../subset";
+import { eliminateNakedSubset, SubsetType } from "../../subset";
 import { EliminationImplicationSubset, EliminationImplicationType } from "../../types";
 import { eliminationDescription } from "../../../../../io/serializer";
 
@@ -11,7 +11,7 @@ describe("eliminateNakedSubset with Locked Pair", () => {
     );
     expect(grid).not.toBeFalsy();
     if (grid) {
-      const results = eliminateNakedSubset(grid, SubsetLevel.Pair);
+      const results = eliminateNakedSubset(grid, SubsetType.Pair);
       expect(results).toHaveLength(5);
 
       expect(results[1].technique).toBe("Locked Pair");
@@ -45,7 +45,7 @@ describe("eliminateNakedSubset with Locked Triple", () => {
     );
     expect(grid).not.toBeFalsy();
     if (grid) {
-      const results = eliminateNakedSubset(grid, SubsetLevel.Triple);
+      const results = eliminateNakedSubset(grid, SubsetType.Triple);
       expect(results).toHaveLength(2);
 
       expect(results[0].technique).toBe("Locked Triple");
@@ -98,7 +98,7 @@ describe("eliminateNakedSubset with Locked Triple", () => {
     );
     expect(grid).not.toBeFalsy();
     if (grid) {
-      const results = eliminateNakedSubset(grid, SubsetLevel.Triple);
+      const results = eliminateNakedSubset(grid, SubsetType.Triple);
       expect(results).toHaveLength(3);
 
       expect(results[1].technique).toBe("Locked Triple");

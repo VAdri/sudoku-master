@@ -3,13 +3,13 @@ import { EliminationImplicationType, EliminationResult, EliminationTechnique } f
 import { Digit, GridIndex, Pencilmarks, SudokuGrid, VALID_DIGITS } from "../../../../types";
 import { HOUSES_LIST } from "../../../../utils/house";
 import { SubsetResult, findSubsets } from "../../../../utils/subset";
-import { SUBSET_LEVEL_LABEL, SubsetLevel } from "./types";
+import { SUBSET_LEVEL_LABEL, SubsetType } from "./types";
 import { getCellsContainingCandidate } from "../../../../utils/candidate";
 import { getCellCoord } from "../../../../utils/cell";
 
 const getHiddenSubsetEliminationResult = (
   candidates: ReadonlyMap<GridIndex, readonly Digit[]>,
-  level: SubsetLevel,
+  level: SubsetType,
 ): ((subset: SubsetResult<GridIndex, Digit>) => EliminationResult) => {
   return (subset: SubsetResult<GridIndex, Digit>): EliminationResult => {
     return {
@@ -57,7 +57,7 @@ const getHiddenSubsetEliminationResult = (
  * @see http://sudopedia.enjoysudoku.com/Hidden_Triple.html
  * @see http://sudopedia.enjoysudoku.com/Hidden_Quad.html
  */
-export function eliminateHiddenSubset(grid: SudokuGrid, level: SubsetLevel): readonly EliminationResult[] {
+export function eliminateHiddenSubset(grid: SudokuGrid, level: SubsetType): readonly EliminationResult[] {
   return pipe(
     HOUSES_LIST,
     map(

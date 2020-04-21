@@ -1,6 +1,6 @@
 import { parseGrid } from "../../../../../io/parser";
 import { eliminateNakedSubset } from "..";
-import { SubsetLevel } from "..";
+import { SubsetType } from "..";
 import { EliminationImplicationType, EliminationImplicationSubset } from "../../types";
 import { eliminationDescription } from "../../../../../io/serializer";
 
@@ -12,7 +12,7 @@ describe("eliminateNakedSubset of level 2", () => {
     );
     expect(grid).not.toBeFalsy();
     if (grid) {
-      const results = eliminateNakedSubset(grid, SubsetLevel.Pair);
+      const results = eliminateNakedSubset(grid, SubsetType.Pair);
       expect(results).toHaveLength(2);
 
       expect(results[0].technique).toBe("Naked Pair");
@@ -64,7 +64,7 @@ describe("eliminateNakedSubset of level 2", () => {
     );
     expect(grid).not.toBeFalsy();
     if (grid) {
-      const results = eliminateNakedSubset(grid, SubsetLevel.Pair);
+      const results = eliminateNakedSubset(grid, SubsetType.Pair);
       expect(results).toHaveLength(3);
 
       expect(results[0].technique).toBe("Naked Pair");
@@ -157,7 +157,7 @@ describe("eliminateNakedSubset of level 3", () => {
     );
     expect(grid).not.toBeFalsy();
     if (grid) {
-      const results = eliminateNakedSubset(grid, SubsetLevel.Triple);
+      const results = eliminateNakedSubset(grid, SubsetType.Triple);
       expect(results).toHaveLength(1);
       expect(results[0].technique).toBe("Naked Triple");
       expect(results[0].eliminations).toHaveLength(1);
@@ -186,7 +186,7 @@ describe("eliminateNakedSubset of level 3", () => {
     );
     expect(grid).not.toBeFalsy();
     if (grid) {
-      const results = eliminateNakedSubset(grid, SubsetLevel.Triple);
+      const results = eliminateNakedSubset(grid, SubsetType.Triple);
       expect(results).toHaveLength(2);
 
       expect(results[0].technique).toBe("Naked Triple");
@@ -269,7 +269,7 @@ describe("eliminateNakedSubset of level 4", () => {
     );
     expect(grid).not.toBeFalsy();
     if (grid) {
-      const results = eliminateNakedSubset(grid, SubsetLevel.Quadruple);
+      const results = eliminateNakedSubset(grid, SubsetType.Quadruple);
       expect(results).toHaveLength(1);
       expect(results[0].technique).toBe("Naked Quadruple");
       expect(results[0].eliminations).toHaveLength(3);
@@ -309,7 +309,7 @@ describe("eliminateNakedSubset of level 4", () => {
     );
     expect(grid).not.toBeFalsy();
     if (grid) {
-      const results = eliminateNakedSubset(grid, SubsetLevel.Quadruple);
+      const results = eliminateNakedSubset(grid, SubsetType.Quadruple);
       expect(results).toHaveLength(1);
       expect(results[0].technique).toBe("Naked Quadruple");
       expect(results[0].eliminations).toHaveLength(3);
