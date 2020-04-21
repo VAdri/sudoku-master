@@ -31,7 +31,7 @@ export const PATTERN_LINE_WITH_SPACES = /^([1-9]+[ ]){80}[1-9]+$/;
  * @example
  * ":0708:28:963.1....+27.3........+6.27+3.7.9.6.+3.......+35...3.....9.+6+8+7.3.+1+525..+286+9+73+3+9+2+571846::218 848: "
  */
-export const PATTERN_LINE_FROM_HODOKU = /^:.*:.*:.*([\d.+]{81,}):.*:.*:.*\s*$/;
+export const PATTERN_LINE_FROM_HODOKU = /^:.*:.*:.*([\d.+]{81,}):.*:.*:.*$/;
 
 /**
  * Pattern for multiple lines with pencilmarks (cells are delimited by spaces).
@@ -237,7 +237,7 @@ export function parseGrid(stringGrid: string, addCandidates = false, onlyCleanSt
       return parseGrid(
         stringGrid
           .replace(/^(:[^:]*:[^:]*:)/, "")
-          .replace(/(:[^:]*:[^:]*:\s*)$/, "")
+          .replace(/(:[^:]*:[^:]*:.*)$/, "")
           .replace(/(\+)/g, "")
           .replace(/(\s)/g, ""),
         addCandidates,
