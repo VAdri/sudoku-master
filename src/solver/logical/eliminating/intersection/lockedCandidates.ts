@@ -41,7 +41,7 @@ const findLockedCandidates = (
   );
 };
 
-const getLockedCandidatesSolvingResult = (lockedCandidates: LockedCandidates): EliminationResult => {
+const getLockedCandidatesEliminationResult = (lockedCandidates: LockedCandidates): EliminationResult => {
   if (lockedCandidates.pointing.length > 0) {
     return {
       technique: "Locked Candidates Type 1 (Pointing)",
@@ -82,7 +82,13 @@ const getLockedCandidatesSolvingResult = (lockedCandidates: LockedCandidates): E
  * @since 0.0.3
  *
  * @param grid The grid to solve.
- * @returns {readonly SolvingResult[]} A list of objects describing where a candidate can be eliminated.
+ * @returns A list of objects describing where a candidate can be eliminated.
+ *
+ * @example
+ * const grid = parseGrid("2.....1..14..2..83..3.1.5.............67...5.8.92.13.......32....18.2.3....16..94", true);
+ * const results = eliminateLockedCandidates(grid);
+ * eliminationDescription(results[0]);
+ * // => "Locked Candidates Type 1 (Pointing): 4 in b3 => r46c8<>4"
  *
  * @see http://sudopedia.enjoysudoku.com/Locked_Candidates.html
  */
@@ -93,6 +99,6 @@ export function eliminateLockedCandidates(grid: SudokuGrid): readonly Eliminatio
     map((box) => findLockedCandidates(grid.candidates, box, findIntersectingHouses(box))),
     filter((lockedCandidates) => lockedCandidates.length > 0),
     flatten,
-    map(getLockedCandidatesSolvingResult),
+    map(getLockedCandidatesEliminationResult),
   );
 }
