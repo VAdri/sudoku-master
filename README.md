@@ -24,9 +24,9 @@ data or cause any side-effects.
 - [ ] Indicates the candidates that can be [eliminated](http://sudopedia.enjoysudoku.com/Eliminate.html):
   - [ ] [Intersections](http://sudopedia.enjoysudoku.com/Intersection.html):
     - [x] [Locked Candidates](http://sudopedia.enjoysudoku.com/Locked_Candidates.html)
-        ([Pointing](http://sudopedia.enjoysudoku.com/Locked_Candidates.html#Type_1_.28Pointing.29) and
-        [Claiming](http://sudopedia.enjoysudoku.com/Locked_Candidates.html#Type_2_.28Claiming_or_Box-Line_Reduction.29))
-    - [ ] [Locked Pair](http://sudopedia.enjoysudoku.com/Locked_Pair.html) and
+          ([Pointing](http://sudopedia.enjoysudoku.com/Locked_Candidates.html#Type_1_.28Pointing.29) and
+          [Claiming](http://sudopedia.enjoysudoku.com/Locked_Candidates.html#Type_2_.28Claiming_or_Box-Line_Reduction.29))
+    - [x] [Locked Pair](http://sudopedia.enjoysudoku.com/Locked_Pair.html) and
           [Locked Triple](http://sudopedia.enjoysudoku.com/Locked_Triple.html)
     - [ ] [Almost Locked Candidates](http://sudopedia.enjoysudoku.com/Almost_Locked_Candidates.html)
   - [x] [Subsets](http://sudopedia.enjoysudoku.com/Subset.html):

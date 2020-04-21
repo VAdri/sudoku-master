@@ -14,7 +14,7 @@ const getNakedSubsetEliminationResult = (
 ): ((subset: SubsetResult<Digit, GridIndex>) => EliminationResult) => {
   return (subset: SubsetResult<Digit, GridIndex>): EliminationResult => {
     const houses = getCellsCommonHouses(subset.subsetValues);
-    const subsetType = houses?.length === 2 ? "Naked" : "Locked";
+    const subsetType = (houses === undefined || houses[1] !== undefined) ? "Locked" : "Naked";
     const housesCells = houses !== undefined ? concat(houses[0].cells, houses[1]?.cells || []) : [];
     const solvableCells = difference(housesCells, subset.subsetValues);
     return {
