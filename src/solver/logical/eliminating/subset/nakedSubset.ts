@@ -39,12 +39,14 @@ const getNakedSubsetEliminationResult = (
 };
 
 /**
- * A Naked Subset is formed by N cells in a house with candidates for exactly N digits. It cause the elimination of the
+ * A Naked Subset is formed by N cells in a house with candidates for exactly N digits. It causes the elimination of the
  * digits that are on the same house but not in the cells of the subet.
  *
  * **Note:** When all cells are located in an intersection, spotting the subset is much easier. Because there are only
  * three cells in an intersection, it is not possible to find Naked Quadruples in an intersection. The subset can cause
  * eliminations in both intersecting houses.
+ * 
+ * @since 0.0.3
  *
  * @param grid The grid to solve.
  * @param level The level of the subset to find.

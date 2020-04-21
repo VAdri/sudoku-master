@@ -65,7 +65,7 @@ const _findSubsets = <X, Y>(
           uniq(),
           sort((a, b) => (typeof a === "number" && typeof b === "number" ? a - b : 0)),
         ),
-        subsetValues: results[0].values,
+        subsetValues: sort(results[0].values, (a, b) => (typeof a === "number" && typeof b === "number" ? a - b : 0)),
       };
     }),
     // Check that the subset is of the appropriate level
