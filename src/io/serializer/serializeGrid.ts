@@ -87,12 +87,13 @@ function _surroundCell(brackets: Brackets | undefined) {
 function _gridSeparator(
   cellSeparator: "" | " ",
   maxCandidatesByCol: readonly number[],
+  hasPencilmarks: boolean,
 ): ([edgeSymbol, middleSymbol]: readonly [string, string]) => string {
   return ([edgeSymbol, middleSymbol]: readonly [string, string]): string =>
     pipe(
       maxCandidatesByCol,
       groupN(3),
-      map((colsLengths) => repeat("-", sum(colsLengths) + cellSeparator.length * 4).join("")),
+      map((colsLengths) => hasPencilmarks ? repeat("-", sum(colsLengths) + cellSeparator.length * 4).join("") : "---"),
       join(middleSymbol),
       replace(/^(.*)$/, edgeSymbol + "$1" + edgeSymbol),
     );
@@ -146,7 +147,7 @@ export function serializeGrid(grid: SudokuGrid, options?: SerializerOptions): st
   const cellSeparator: "" | " " = pencilmarks && (style === "grid" || style === "sudopedia" || !brackets) ? " " : "";
 
   const maxCandidatesByCol = getColumnsLengths(grid.candidates);
-  const gridSeparator = _gridSeparator(cellSeparator, maxCandidatesByCol);
+  const gridSeparator = _gridSeparator(cellSeparator, maxCandidatesByCol, pencilmarks);
 
   const getCell = _getCell(pencilmarks, grid);
   const createCell = _createCell(style, pencilmarks, emptyCellSymbol, maxCandidatesByCol);
