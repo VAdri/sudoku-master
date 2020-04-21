@@ -34,7 +34,7 @@ data or cause any side-effects.
           ([Pair](http://sudopedia.enjoysudoku.com/Naked_Pair.html),
           [Triple](http://sudopedia.enjoysudoku.com/Naked_Triple.html)
           and [Quadruple](http://sudopedia.enjoysudoku.com/Naked_Quad.html))
-    - [ ] [Hidden Subset](http://sudopedia.enjoysudoku.com/Hidden_Subset.html)
+    - [x] [Hidden Subset](http://sudopedia.enjoysudoku.com/Hidden_Subset.html)
           ([Pair](http://sudopedia.enjoysudoku.com/Hidden_Pair.html),
           [Triple](http://sudopedia.enjoysudoku.com/Hidden_Triple.html) and
           [Quadruple](http://sudopedia.enjoysudoku.com/Hidden_Quad.html))

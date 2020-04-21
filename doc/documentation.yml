@@ -25,3 +25,4 @@ toc:
       - solveNakedSingle
       - eliminateLockedCandidates
       - eliminateNakedSubset
+      - eliminateHiddenSubset
