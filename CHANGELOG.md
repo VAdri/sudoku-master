@@ -7,6 +7,7 @@
 ##### Solver
 
 - Added [`eliminateLockedCandidates`](https://github.com/VAdri/sudoku-master/blob/0.0.3/doc/README.md#eliminateLockedCandidates).
+- Added [`eliminateNakedSubset`](https://github.com/VAdri/sudoku-master/blob/0.0.3/doc/README.md#eliminateNakedSubset).
 
 ##### IO
 

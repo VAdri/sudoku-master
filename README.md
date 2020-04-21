@@ -22,17 +22,22 @@ data or cause any side-effects.
   - [x] [Naked Single](http://sudopedia.enjoysudoku.com/Naked_Single.html)
   - [x] [Hidden Single](http://sudopedia.enjoysudoku.com/Hidden_Single.html)
 - [ ] Indicates the candidates that can be [eliminated](http://sudopedia.enjoysudoku.com/Eliminate.html):
-  - [x] [Locked Candidates](http://sudopedia.enjoysudoku.com/Locked_Candidates.html)
+  - [ ] [Intersections](http://sudopedia.enjoysudoku.com/Intersection.html):
+    - [x] [Locked Candidates](http://sudopedia.enjoysudoku.com/Locked_Candidates.html)
         ([Pointing](http://sudopedia.enjoysudoku.com/Locked_Candidates.html#Type_1_.28Pointing.29) and
         [Claiming](http://sudopedia.enjoysudoku.com/Locked_Candidates.html#Type_2_.28Claiming_or_Box-Line_Reduction.29))
-  - [ ] [Naked Subset](http://sudopedia.enjoysudoku.com/Naked_Subset.html)
-        ([Pair](http://sudopedia.enjoysudoku.com/Naked_Pair.html),
-        [Triple](http://sudopedia.enjoysudoku.com/Naked_Triple.html)
-        and [Quadruple](http://sudopedia.enjoysudoku.com/Naked_Quad.html))
-  - [ ] [Hidden Subset](http://sudopedia.enjoysudoku.com/Hidden_Subset.html)
-        ([Pair](http://sudopedia.enjoysudoku.com/Hidden_Pair.html),
-        [Triple](http://sudopedia.enjoysudoku.com/Hidden_Triple.html) and
-        [Quadruple](http://sudopedia.enjoysudoku.com/Hidden_Quad.html))
+    - [ ] [Locked Pair](http://sudopedia.enjoysudoku.com/Locked_Pair.html) and
+          [Locked Triple](http://sudopedia.enjoysudoku.com/Locked_Triple.html)
+    - [ ] [Almost Locked Candidates](http://sudopedia.enjoysudoku.com/Almost_Locked_Candidates.html)
+  - [x] [Subsets](http://sudopedia.enjoysudoku.com/Subset.html):
+    - [x] [Naked Subset](http://sudopedia.enjoysudoku.com/Naked_Subset.html)
+          ([Pair](http://sudopedia.enjoysudoku.com/Naked_Pair.html),
+          [Triple](http://sudopedia.enjoysudoku.com/Naked_Triple.html)
+          and [Quadruple](http://sudopedia.enjoysudoku.com/Naked_Quad.html))
+    - [ ] [Hidden Subset](http://sudopedia.enjoysudoku.com/Hidden_Subset.html)
+          ([Pair](http://sudopedia.enjoysudoku.com/Hidden_Pair.html),
+          [Triple](http://sudopedia.enjoysudoku.com/Hidden_Triple.html) and
+          [Quadruple](http://sudopedia.enjoysudoku.com/Hidden_Quad.html))
   - [ ] [Fish](http://sudopedia.enjoysudoku.com/Fish.html):
     - [ ] Basic Fish ([X-Wing](http://sudopedia.enjoysudoku.com/X-Wing.html),
           [Swordfish](http://sudopedia.enjoysudoku.com/Swordfish.html) and

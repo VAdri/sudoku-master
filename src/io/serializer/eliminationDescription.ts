@@ -1,6 +1,7 @@
 import {
   EliminationImplication,
   EliminationImplicationDigitInHouse,
+  EliminationImplicationSubset,
   EliminationImplicationType,
   EliminationResult,
 } from "../../solver/logical/eliminating/types";
@@ -15,6 +16,10 @@ const getImplication = (implication: EliminationImplication): string => {
       [
         (i: EliminationImplication): boolean => i.type === EliminationImplicationType.DigitInHouse,
         (i: EliminationImplicationDigitInHouse): string => `${i.digit} in ${houseIdentifier(i.house)} => `,
+      ],
+      [
+        (i: EliminationImplication): boolean => i.type === EliminationImplicationType.Subset,
+        (i: EliminationImplicationSubset): string => `${i.digits} in ${cellsIdentifiers(i.cells)} => `,
       ],
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore

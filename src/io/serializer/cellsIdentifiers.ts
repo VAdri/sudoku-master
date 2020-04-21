@@ -1,5 +1,5 @@
 import { CellCoord, CellHouse, GridIndex, HouseIndex } from "../../types";
-import { map, pipe, sort } from "remeda";
+import { map, pipe, sort, sortBy } from "remeda";
 import { getCellCoord } from "../../utils/cell";
 import { join } from "ramda";
 import { groupByAsArray } from "../../utils/fp/groupByAsArray";
@@ -46,10 +46,15 @@ export function cellsIdentifiers(
   cells: readonly (CellCoord | GridIndex | CellHouse)[],
   mode: CellNotationMode = "rncn",
 ): readonly string[] {
+  const sortedCells = pipe(
+    cells,
+    map(getCellCoord),
+    sortBy((coord) => coord[1]),
+    sortBy((coord) => coord[0]),
+  );
   if (mode === "rncn") {
     return pipe(
-      cells,
-      map(getCellCoord),
+      sortedCells,
       groupByAsArray((cellCoord) => cellCoord[0]),
       map(
         (entry) =>
@@ -73,7 +78,7 @@ export function cellsIdentifiers(
     );
   } else {
     return pipe(
-      cells,
+      sortedCells,
       map(getCellCoord),
       map((cellCoord) => `${String.fromCharCode(97 + cellCoord[0])}${cellCoord[1] + 1}`),
       sort((string1, string2) => string1.localeCompare(string2)),

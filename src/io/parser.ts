@@ -2,6 +2,7 @@ import { Digit, GridIndex, Pencilmarks, SudokuGrid } from "../types";
 import { filter, map, pipe } from "remeda";
 import { EMPTY_CELL_SYMBOLS } from "./types";
 import { includes } from "ramda";
+import { getCandidates } from "../utils/candidate";
 
 /**
  * Pattern for a single line with no pencilmarks but empty cells instead
@@ -149,7 +150,12 @@ export const PATTERN_TABLE = /^\s*((\+-+){3}\+\s+(((\|(\s+[1-9]+\s*){3}){3}\|\s+
  */
 export const PATTERN_TABLE_SUDOPEDIA = /^\s*(\.-+){3}\.((\s+\|((\s\d+\s*){3}\|\s*){3}){3}\s+:(-+[+\s]){2}-+:\s*){2}(\s+\|((\s\d+\s*){3}\|\s*){3}){3}\s+('-+){3}'\s*$/;
 
-function parseLine(line: string, delimiter: string, ignoredCellSymbols: readonly string[] = []): SudokuGrid {
+function parseLine(
+  line: string,
+  delimiter: string,
+  addCandidates: boolean,
+  ignoredCellSymbols: readonly string[] = [],
+): SudokuGrid {
   const cells = line.split(delimiter);
 
   const digits = new Map<GridIndex, Digit>(
@@ -172,8 +178,8 @@ function parseLine(line: string, delimiter: string, ignoredCellSymbols: readonly
 
   return {
     digits,
-    candidates,
-  } as SudokuGrid;
+    candidates: candidates.size === 0 && addCandidates ? getCandidates(digits) : candidates,
+  };
 }
 
 /**
@@ -194,10 +200,11 @@ function parseLine(line: string, delimiter: string, ignoredCellSymbols: readonly
  * @since 0.0.1
  *
  * @param {string} stringGrid The string representing a sudoku grid.
- * @param {boolean} [onlyCleanString=false] The string must match one of the
- * clean patterns.
- * @returns {(SudokuGrid | null)} The `SudokuGrid` that was parsed, or `null`
- * if the given string was not in a valid format.
+ * @param {boolean} [addCandidates=false] Indicates that the parser can find the candidates if they are not provided by
+ * the given string.
+ * @param {boolean} [onlyCleanString=false] The string must match one of the clean patterns.
+ * @returns {(SudokuGrid | null)} The `SudokuGrid` that was parsed, or `null` if the given string was not in a valid
+ * format.
  *
  * @see http://sudopedia.enjoysudoku.com/Diagrams_and_Notations.html
  * @see http://www.sadmansoftware.com/sudoku/faq22.php
@@ -219,12 +226,11 @@ function parseLine(line: string, delimiter: string, ignoredCellSymbols: readonly
  *   +---+---+---+
  * `);
  */
-// eslint-disable-next-line @typescript-eslint/no-inferrable-types
-export function parseGrid(stringGrid: string, onlyCleanString: boolean = false): SudokuGrid | null {
+export function parseGrid(stringGrid: string, addCandidates = false, onlyCleanString = false): SudokuGrid | null {
   if (stringGrid.match(PATTERN_LINE_WITHOUT_CANDIDATES)) {
-    return parseLine(stringGrid, "", EMPTY_CELL_SYMBOLS);
+    return parseLine(stringGrid, "", addCandidates, EMPTY_CELL_SYMBOLS);
   } else if (stringGrid.match(PATTERN_LINE_WITH_SPACES)) {
-    return parseLine(stringGrid, " ");
+    return parseLine(stringGrid, " ", addCandidates);
   } else if (!onlyCleanString) {
     // We may need to clean the string and parse it again
     if (stringGrid.match(PATTERN_LINE_FROM_HODOKU)) {
@@ -234,6 +240,7 @@ export function parseGrid(stringGrid: string, onlyCleanString: boolean = false):
           .replace(/(:[^:]*:[^:]*:\s*)$/, "")
           .replace(/(\+)/g, "")
           .replace(/(\s)/g, ""),
+        addCandidates,
         /* onlyCleanString: */ true,
       );
     } else if (stringGrid.match(PATTERN_LINES_WITH_SPACES)) {
@@ -242,6 +249,7 @@ export function parseGrid(stringGrid: string, onlyCleanString: boolean = false):
           .replace(/[^1-9]/g, " ")
           .replace(/(^\s+)|(\s+$)/g, "")
           .replace(/\s{2,}/g, " "),
+        addCandidates,
         /* onlyCleanString: */ true,
       );
     } else if (stringGrid.match(PATTERN_LINES_WITH_BRACKETS)) {
@@ -252,15 +260,16 @@ export function parseGrid(stringGrid: string, onlyCleanString: boolean = false):
           .replace(/(\{|\}|\(|\)|\[|\])/g, " ")
           .replace(/(^\s+)|(\s+$)/g, "")
           .replace(/\s{2,}/g, " "),
+        addCandidates,
       );
     } else if (stringGrid.match(PATTERN_NAKED_TABLE_WITHOUT_CANDIDATES)) {
-      return parseGrid(stringGrid.replace(/\s/g, ""));
+      return parseGrid(stringGrid.replace(/\s/g, ""), addCandidates);
     } else if (stringGrid.match(PATTERN_TABLE_WITHOUT_CANDIDATES)) {
-      return parseGrid(stringGrid.replace(/((\+-+){3}\+|\||\s)/g, ""));
+      return parseGrid(stringGrid.replace(/((\+-+){3}\+|\||\s)/g, ""), addCandidates);
     } else if (stringGrid.match(PATTERN_TABLE)) {
-      return parseGrid(stringGrid.replace(/((\+-+){3}\+|\||\s)/g, " "));
+      return parseGrid(stringGrid.replace(/((\+-+){3}\+|\||\s)/g, " "), addCandidates);
     } else if (stringGrid.match(PATTERN_TABLE_SUDOPEDIA)) {
-      return parseGrid(stringGrid.replace(/((\.-+){3}\.|:(-+[+\s]){2}-+:|('-+){3}'|\||\s)/g, " "));
+      return parseGrid(stringGrid.replace(/((\.-+){3}\.|:(-+[+\s]){2}-+:|('-+){3}'|\||\s)/g, " "), addCandidates);
     } else {
       // The given string is not formatted correctly
       return null;
