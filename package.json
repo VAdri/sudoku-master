@@ -1,6 +1,6 @@
 {
   "name": "sudoku-master",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A utility that analyzes a Sudoku grid and gives hints on how to solve it.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

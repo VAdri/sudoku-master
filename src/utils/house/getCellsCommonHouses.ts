@@ -5,12 +5,12 @@ import { all, cond, includes } from "ramda";
 
 /**
  * Find the houses that are shared by all the given cells.
- * 
+ *
  * **Note:** If the given cells are all identical, returns `undefined`.
- * 
+ *
  * @private
  * @since 0.0.3
- * 
+ *
  * @param cells The cells for which to find the common houses.
  * @returns A tuple containing one or two houses that are common to given cells; otherwise, if the cells have no common
  * houses or if the cells are identical, `undefined`.
