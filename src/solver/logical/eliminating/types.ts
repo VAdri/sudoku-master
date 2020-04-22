@@ -1,4 +1,4 @@
-import { CellCoord, Digit, House, HouseIndex } from "../../../types";
+import { CellCoord, Digit, House, HouseIndex, LineType } from "../../../types";
 
 export type EliminationTechnique =
   | "Locked Candidates Type 1 (Pointing)"
@@ -35,9 +35,10 @@ export type EliminationImplicationSubset = {
 
 export type EliminationImplicationFish = {
   readonly type: EliminationImplicationType.Fish;
+  readonly line: LineType;
   readonly digit: Digit;
-  readonly rows: readonly HouseIndex[];
-  readonly cols: readonly HouseIndex[];
+  readonly baseSet: readonly HouseIndex[];
+  readonly coverSet: readonly HouseIndex[];
 };
 
 export type EliminationImplication =

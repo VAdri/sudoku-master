@@ -1,26 +1,41 @@
 import { concat, difference, filter, flatten, map, pipe } from "remeda";
 import { EliminationImplicationType, EliminationResult, EliminationTechnique } from "../types";
-import { Digit, GridIndex, SudokuGrid } from "../../../../types";
+import { Digit, GridIndex, House, SudokuGrid } from "../../../../types";
 import { HOUSES_LIST, getCellsCommonHouses } from "../../../../utils/house";
-import { SubsetResult, findSubsets } from "../../../../utils/subset";
+import { FindSubsetResult, LookupData, findSubsets } from "../../../../utils/subset";
 import { getHouseCandidates } from "../../../../utils/house";
 import { SUBSET_LEVEL_LABEL, SubsetType } from "./types";
 import { getCellsContainingCandidate } from "../../../../utils/candidate";
 import { getCellCoord } from "../../../../utils/cell";
 
+type HiddenData = {
+  readonly house: House;
+};
+
+const getNakedSubsetData = (
+  candidates: ReadonlyMap<GridIndex, readonly Digit[]>,
+): ((house: House) => LookupData<HiddenData, Digit, GridIndex>) => {
+  return (house: House): LookupData<HiddenData, Digit, GridIndex> => {
+    return {
+      house,
+      lookup: getHouseCandidates(house, candidates),
+    };
+  };
+};
+
 const getNakedSubsetEliminationResult = (
   candidates: ReadonlyMap<GridIndex, readonly Digit[]>,
   level: SubsetType,
-): ((subset: SubsetResult<Digit, GridIndex>) => EliminationResult) => {
-  return (subset: SubsetResult<Digit, GridIndex>): EliminationResult => {
-    const houses = getCellsCommonHouses(subset.subsetValues);
-    const subsetType = (houses === undefined || houses[1] !== undefined) ? "Locked" : "Naked";
+): ((subset: FindSubsetResult<HiddenData, Digit, GridIndex>) => EliminationResult) => {
+  return (subset: FindSubsetResult<HiddenData, Digit, GridIndex>): EliminationResult => {
+    const houses = getCellsCommonHouses(subset.result.subsetValues);
+    const subsetType = houses === undefined || houses[1] !== undefined ? "Locked" : "Naked";
     const housesCells = houses !== undefined ? concat(houses[0].cells, houses[1]?.cells || []) : [];
-    const solvableCells = difference(housesCells, subset.subsetValues);
+    const solvableCells = difference(housesCells, subset.result.subsetValues);
     return {
       technique: `${subsetType} ${SUBSET_LEVEL_LABEL.get(level)}` as EliminationTechnique,
       eliminations: pipe(
-        subset.subsetIndexes,
+        subset.result.subsetIndexes,
         map((digit) => {
           return {
             digit,
@@ -31,8 +46,8 @@ const getNakedSubsetEliminationResult = (
       ),
       implication: {
         type: EliminationImplicationType.Subset,
-        cells: map(subset.subsetValues, getCellCoord),
-        digits: subset.subsetIndexes,
+        cells: map(subset.result.subsetValues, getCellCoord),
+        digits: subset.result.subsetIndexes,
       },
     };
   };
@@ -45,19 +60,19 @@ const getNakedSubsetEliminationResult = (
  * **Note:** When all cells are located in an intersection, spotting the subset is much easier. Because there are only
  * three cells in an intersection, it is not possible to find Naked Quadruples in an intersection. The subset can cause
  * eliminations in both intersecting houses.
- * 
+ *
  * @since 0.0.3
  *
  * @param grid The grid to solve.
  * @param level The level of the subset to find.
  * @returns A list of objects describing where a candidate can be eliminated.
- * 
+ *
  * @example
  * const grid = parseGrid(
  *   ":0201:6:...+2+94+3+8....17+86+4.48.3561....4+8+375.+1...+41+57..5..+62+9+83495+3+7+8+2+4+1612+6+5+4+3+9+78.+4.+9+6+1+2+5+3::612: ",
  *   true,
  * );
- * const results = eliminateNakedSubset(grid, SubsetLevel.Triple);
+ * const results = eliminateNakedSubset(grid, SubsetType.Triple);
  * eliminationDescription(results[0]);
  * // => "Naked Triple: 3,6,9 in r245c2 => r1c2<>6"
  *
@@ -71,7 +86,7 @@ const getNakedSubsetEliminationResult = (
 export function eliminateNakedSubset(grid: SudokuGrid, level: SubsetType): readonly EliminationResult[] {
   return pipe(
     HOUSES_LIST,
-    map(getHouseCandidates(grid.candidates)),
+    map(getNakedSubsetData(grid.candidates)),
     map(findSubsets(level)),
     flatten(),
     map(getNakedSubsetEliminationResult(grid.candidates, level)),

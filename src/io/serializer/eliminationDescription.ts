@@ -1,14 +1,16 @@
 import {
   EliminationImplication,
   EliminationImplicationDigitInHouse,
+  EliminationImplicationFish,
   EliminationImplicationSubset,
   EliminationImplicationType,
   EliminationResult,
 } from "../../solver/logical/eliminating/types";
 import { cellsIdentifiers } from "./cellsIdentifiers";
-import { houseIdentifier } from "./houseIdentifer";
-import { cond, join } from "ramda";
-import { map } from "remeda";
+import { houseIdentifier, housesIdentifiers } from "./housesIdentifiers";
+import { filter, map } from "remeda";
+import { cond, includes, join } from "ramda";
+import { COLUMNS_LIST, ROWS_LIST } from "../../utils/house";
 
 const getImplication = (implication: EliminationImplication): string => {
   return (
@@ -21,8 +23,20 @@ const getImplication = (implication: EliminationImplication): string => {
         (i: EliminationImplication): boolean => i.type === EliminationImplicationType.Subset,
         (i: EliminationImplicationSubset): string => `${i.digits} in ${cellsIdentifiers(i.cells)} => `,
       ],
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
+      [
+        (i: EliminationImplication): boolean => i.type === EliminationImplicationType.Fish,
+        (i: EliminationImplicationFish): string =>
+          i.digit +
+          " " +
+          housesIdentifiers(
+            filter(i.line === "row" ? ROWS_LIST : COLUMNS_LIST, (house) => includes(house.index, i.baseSet)),
+          ) +
+          " " +
+          housesIdentifiers(
+            filter(i.line === "row" ? COLUMNS_LIST : ROWS_LIST, (house) => includes(house.index, i.coverSet)),
+          ) +
+          " => ",
+      ],
     ])(implication) || ""
   );
 };

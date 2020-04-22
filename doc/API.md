@@ -23,28 +23,35 @@
         -   [Examples][19]
     -   [houseIdentifier][20]
         -   [Parameters][21]
--   [Solver (brute-force)][22]
-    -   [solveWithBacktracking][23]
+        -   [Examples][22]
+    -   [housesIdentifiers][23]
         -   [Parameters][24]
         -   [Examples][25]
--   [Solver (logical)][26]
-    -   [solveFullHouse][27]
+-   [Solver (brute-force)][26]
+    -   [solveWithBacktracking][27]
         -   [Parameters][28]
-    -   [solveHiddenSingle][29]
-        -   [Parameters][30]
-    -   [solveLastDigit][31]
+        -   [Examples][29]
+-   [Solver (logical)][30]
+    -   [solveFullHouse][31]
         -   [Parameters][32]
-    -   [solveNakedSingle][33]
+    -   [solveHiddenSingle][33]
         -   [Parameters][34]
-    -   [eliminateLockedCandidates][35]
+    -   [solveLastDigit][35]
         -   [Parameters][36]
-        -   [Examples][37]
-    -   [eliminateNakedSubset][38]
-        -   [Parameters][39]
-        -   [Examples][40]
-    -   [eliminateHiddenSubset][41]
-        -   [Parameters][42]
-        -   [Examples][43]
+    -   [solveNakedSingle][37]
+        -   [Parameters][38]
+    -   [eliminateLockedCandidates][39]
+        -   [Parameters][40]
+        -   [Examples][41]
+    -   [eliminateNakedSubset][42]
+        -   [Parameters][43]
+        -   [Examples][44]
+    -   [eliminateHiddenSubset][45]
+        -   [Parameters][46]
+        -   [Examples][47]
+    -   [eliminateBasicFish][48]
+        -   [Parameters][49]
+        -   [Examples][50]
 
 ## Input/Output (IO)
 
@@ -53,9 +60,9 @@ Send and receive data with the program.
 
 ### parseGrid
 
--   **See: [http://sudopedia.enjoysudoku.com/Diagrams_and_Notations.html][44]
+-   **See: [http://sudopedia.enjoysudoku.com/Diagrams_and_Notations.html][51]
     **
--   **See: [http://www.sadmansoftware.com/sudoku/faq22.php][45]
+-   **See: [http://www.sadmansoftware.com/sudoku/faq22.php][52]
     **
 
 Converts a string into a sudoku grid.
@@ -72,10 +79,10 @@ validate these formats are exported in constants prefixed with "PATTERN\_".
 
 #### Parameters
 
--   `stringGrid` **[string][46]** The string representing a sudoku grid.
--   `addCandidates` **[boolean][47]** Indicates that the parser can find the candidates if they are not provided by
+-   `stringGrid` **[string][53]** The string representing a sudoku grid.
+-   `addCandidates` **[boolean][54]** Indicates that the parser can find the candidates if they are not provided by
     the given string. (optional, default `false`)
--   `onlyCleanString` **[boolean][47]** The string must match one of the clean patterns. (optional, default `false`)
+-   `onlyCleanString` **[boolean][54]** The string must match one of the clean patterns. (optional, default `false`)
 
 #### Examples
 
@@ -114,7 +121,7 @@ Converts a Sudoku grid into a string that can be read by humans or converted bac
 -   `options` **SerializerOptions?** Options to apply on the serialized output.
     -   `options.style` **(`"singleLine"` \| `"multiLines"` \| `"grid"` \| `"sudopedia"`)** Describes the formatting style of the
         output. (optional, default `"singleLine"`)
-    -   `options.pencilmarks` **[boolean][47]** Indicates whether to show the candidates on the output.
+    -   `options.pencilmarks` **[boolean][54]** Indicates whether to show the candidates on the output.
     -   `options.brackets` **(`"{}"` \| `"()"` \| `"[]"`)** The brackets to use arround the cells (only for singleLine and
         multiLines styles). (optional, default `undefined`)
     -   `options.emptyCellSymbol` **(`"."` \| `"*"` \| `"-"` \| `"0"`)** The symbol to use to indicate an empty cell. (optional, default `"."`)
@@ -132,7 +139,7 @@ serializeGrid(grid, options);
 // => {1579}{2}{3}{4}{16}{19}{8}{579}{159}{6}{189}{149}{289}{128}{7}{3459}{459}{13459}{1479}{1789}{1479}{5}{3}{189}{6}{2}{149}{12379}{13679}{5}{236789}{124678}{123489}{479}{4789}{2489}{8}{4}{179}{279}{1257}{129}{579}{3}{6}{2379}{3679}{679}{236789}{245678}{23489}{1}{45789}{24589}{1347}{5}{2}{378}{9}{6}{34}{48}{348}{349}{369}{469}{1}{248}{2348}{3459}{45689}{7}{3479}{3679}{8}{37}{47}{5}{2}{1}{349}
 ```
 
-Returns **[string][46]** The grid converted into a string.
+Returns **[string][53]** The grid converted into a string.
 
 **Meta**
 
@@ -154,7 +161,7 @@ solvingDescription({ technique: "Full House", coord: [4, 7], digit: 3 });
 // => "Full House: r5c8=3"
 ```
 
-Returns **[string][46]** A description of the solving.
+Returns **[string][53]** A description of the solving.
 
 ### eliminationDescription
 
@@ -177,7 +184,7 @@ eliminationDescription(result[0]);
 // => "Locked Candidates Type 2 (Claiming): 7 in r2 => r3c2<>7"
 ```
 
-Returns **[string][46]** A description of the elimination.
+Returns **[string][53]** A description of the elimination.
 
 **Meta**
 
@@ -185,15 +192,15 @@ Returns **[string][46]** A description of the elimination.
 
 ### cellIdentifier
 
--   **See: [http://sudopedia.enjoysudoku.com/Diagrams_and_Notations.html#Cell_Reference][48]
+-   **See: [http://sudopedia.enjoysudoku.com/Diagrams_and_Notations.html#Cell_Reference][55]
     **
--   **See: [http://sudopedia.enjoysudoku.com/Rncn.html][49]
+-   **See: [http://sudopedia.enjoysudoku.com/Rncn.html][56]
     **
--   **See: [http://sudopedia.enjoysudoku.com/K9.html][50]
+-   **See: [http://sudopedia.enjoysudoku.com/K9.html][57]
     **
 
-Identify the given cell using the [rncn][49] or
-[k9][50] notation.
+Identify the given cell using the [rncn][56] or
+[k9][57] notation.
 
 #### Parameters
 
@@ -209,7 +216,7 @@ cellIdentifier([4, 1], "k9");
 // => "e2"
 ```
 
-Returns **[string][46]** The identifier for the given cells.
+Returns **[string][53]** The identifier for the given cells.
 
 **Meta**
 
@@ -217,15 +224,15 @@ Returns **[string][46]** The identifier for the given cells.
 
 ### cellsIdentifiers
 
--   **See: [http://sudopedia.enjoysudoku.com/Diagrams_and_Notations.html#Cell_Reference][48]
+-   **See: [http://sudopedia.enjoysudoku.com/Diagrams_and_Notations.html#Cell_Reference][55]
     **
--   **See: [http://sudopedia.enjoysudoku.com/Rncn.html][49]
+-   **See: [http://sudopedia.enjoysudoku.com/Rncn.html][56]
     **
--   **See: [http://sudopedia.enjoysudoku.com/K9.html][50]
+-   **See: [http://sudopedia.enjoysudoku.com/K9.html][57]
     **
 
-Identify the given cell or group of cells using the [rncn][49] or
-[k9][50] notation.
+Identify the given cell or group of cells using the [rncn][56] or
+[k9][57] notation.
 
 **Note:** The "rncn" mode (by default) can group multiple cells in a single one if they share the same rows and
 columns.
@@ -269,7 +276,35 @@ Get the identifier of a house (e.g. "b5" means box 5).
 
 -   `house`  The house to identify.
 
+#### Examples
+
+```javascript
+houseIdentifier({ type: "row", index: 4});
+// => "r5"
+```
+
 Returns **any** The identifier of the house.
+
+**Meta**
+
+-   **since**: 0.0.3
+
+### housesIdentifiers
+
+Get identifiers for the given houses (e.g. "r25" means rows 2 and 5).
+
+#### Parameters
+
+-   `houses`  The houses to identify.
+
+#### Examples
+
+```javascript
+housesIdentifiers([{ type: "row", index: 4}, { type: "row", index: 5}, { type: "col", index: 4}, ]);
+// => ["r56", "c5"]
+```
+
+Returns **any** An array containing identifiers for the given houses.
 
 **Meta**
 
@@ -282,11 +317,11 @@ Computer-oriented algorithms used to solve a Sudoku.
 
 ### solveWithBacktracking
 
--   **See: [http://sudopedia.enjoysudoku.com/Backtracking_Algorithms.html][51]
+-   **See: [http://sudopedia.enjoysudoku.com/Backtracking_Algorithms.html][58]
     **
--   **See: [https://en.wikipedia.org/wiki/Backtracking][52]
+-   **See: [https://en.wikipedia.org/wiki/Backtracking][59]
     **
--   **See: [https://en.wikipedia.org/wiki/Sudoku_solving_algorithms][53]
+-   **See: [https://en.wikipedia.org/wiki/Sudoku_solving_algorithms][60]
     **
 
 Solves a grid using a backtracking algorithm.
@@ -325,7 +360,7 @@ serializeGrid({ digits: solution, candidates: new Map() });
 // => "971263584345798126268145937437519862156824793892376451713952648584631279629487315"
 ```
 
-Returns **(ReadonlyMap&lt;GridIndex, Digit> | [undefined][54])** The solution of the grid if it has been found; otherwise,
+Returns **(ReadonlyMap&lt;GridIndex, Digit> | [undefined][61])** The solution of the grid if it has been found; otherwise,
 `undefined`.
 
 **Meta**
@@ -339,7 +374,7 @@ Find patterns used to solve a Sudoku with human logic.
 
 ### solveFullHouse
 
--   **See: [http://sudopedia.enjoysudoku.com/Full_House.html][55]
+-   **See: [http://sudopedia.enjoysudoku.com/Full_House.html][62]
     **
 
 Finds a house with a single unsolved cell.
@@ -347,8 +382,8 @@ Finds a house with a single unsolved cell.
 #### Parameters
 
 -   `grid` **SudokuGrid** The grid to solve.
--   `skip` **[number][56]** Indicates to skip some of the solving results. (optional, default `0`)
--   `count` **[number][56]** Indicates the maximum amount of results to return. (optional, default `1`)
+-   `skip` **[number][63]** Indicates to skip some of the solving results. (optional, default `0`)
+-   `count` **[number][63]** Indicates the maximum amount of results to return. (optional, default `1`)
 
 **Meta**
 
@@ -356,7 +391,7 @@ Finds a house with a single unsolved cell.
 
 ### solveHiddenSingle
 
--   **See: [http://sudopedia.enjoysudoku.com/Hidden_Single.html][57]
+-   **See: [http://sudopedia.enjoysudoku.com/Hidden_Single.html][64]
     **
 
 Find a house containing a single candidate remaining for a specific digit.
@@ -364,8 +399,8 @@ Find a house containing a single candidate remaining for a specific digit.
 #### Parameters
 
 -   `grid` **SudokuGrid** The grid to solve.
--   `skip` **[number][56]** Indicates to skip some of the solving results. (optional, default `0`)
--   `count` **[number][56]** Indicates the maximum amount of results to return. (optional, default `1`)
+-   `skip` **[number][63]** Indicates to skip some of the solving results. (optional, default `0`)
+-   `count` **[number][63]** Indicates the maximum amount of results to return. (optional, default `1`)
 
 **Meta**
 
@@ -373,7 +408,7 @@ Find a house containing a single candidate remaining for a specific digit.
 
 ### solveLastDigit
 
--   **See: [http://sudopedia.enjoysudoku.com/Last_Digit.html][58]
+-   **See: [http://sudopedia.enjoysudoku.com/Last_Digit.html][65]
     **
 
 Finds a digit with a single unsolved cell.
@@ -381,8 +416,8 @@ Finds a digit with a single unsolved cell.
 #### Parameters
 
 -   `grid` **SudokuGrid** The grid to solve.
--   `skip` **[number][56]** Indicates to skip some of the solving results. (optional, default `0`)
--   `count` **[number][56]** Indicates the maximum amount of results to return. (optional, default `1`)
+-   `skip` **[number][63]** Indicates to skip some of the solving results. (optional, default `0`)
+-   `count` **[number][63]** Indicates the maximum amount of results to return. (optional, default `1`)
 
 **Meta**
 
@@ -390,7 +425,7 @@ Finds a digit with a single unsolved cell.
 
 ### solveNakedSingle
 
--   **See: [http://sudopedia.enjoysudoku.com/Naked_Single.html][59]
+-   **See: [http://sudopedia.enjoysudoku.com/Naked_Single.html][66]
     **
 
 Finds a cell containing only one candidate.
@@ -398,8 +433,8 @@ Finds a cell containing only one candidate.
 #### Parameters
 
 -   `grid` **SudokuGrid** The grid to solve.
--   `skip` **[number][56]** Indicates to skip some of the solving results. (optional, default `0`)
--   `count` **[number][56]** Indicates the maximum amount of results to return. (optional, default `1`)
+-   `skip` **[number][63]** Indicates to skip some of the solving results. (optional, default `0`)
+-   `count` **[number][63]** Indicates the maximum amount of results to return. (optional, default `1`)
 
 **Meta**
 
@@ -407,7 +442,7 @@ Finds a cell containing only one candidate.
 
 ### eliminateLockedCandidates
 
--   **See: [http://sudopedia.enjoysudoku.com/Locked_Candidates.html][60]
+-   **See: [http://sudopedia.enjoysudoku.com/Locked_Candidates.html][67]
     **
 
 When all candidates for a digit in a house are located inside the intersection with another house, we can eliminate
@@ -434,17 +469,17 @@ Returns **any** A list of objects describing where a candidate can be eliminated
 
 ### eliminateNakedSubset
 
--   **See: [http://sudopedia.enjoysudoku.com/Naked_Subset.html][61]
+-   **See: [http://sudopedia.enjoysudoku.com/Naked_Subset.html][68]
     **
--   **See: [http://sudopedia.enjoysudoku.com/Naked_Pair.html][62]
+-   **See: [http://sudopedia.enjoysudoku.com/Naked_Pair.html][69]
     **
--   **See: [http://sudopedia.enjoysudoku.com/Naked_Triple.html][63]
+-   **See: [http://sudopedia.enjoysudoku.com/Naked_Triple.html][70]
     **
--   **See: [http://sudopedia.enjoysudoku.com/Naked_Quad.html][64]
+-   **See: [http://sudopedia.enjoysudoku.com/Naked_Quad.html][71]
     **
--   **See: [http://sudopedia.enjoysudoku.com/Locked_Pair.html][65]
+-   **See: [http://sudopedia.enjoysudoku.com/Locked_Pair.html][72]
     **
--   **See: [http://sudopedia.enjoysudoku.com/Locked_Triple.html][66]
+-   **See: [http://sudopedia.enjoysudoku.com/Locked_Triple.html][73]
     **
 
 A Naked Subset is formed by N cells in a house with candidates for exactly N digits. It causes the elimination of the
@@ -466,7 +501,7 @@ const grid = parseGrid(
   ":0201:6:...+2+94+3+8....17+86+4.48.3561....4+8+375.+1...+41+57..5..+62+9+83495+3+7+8+2+4+1612+6+5+4+3+9+78.+4.+9+6+1+2+5+3::612: ",
   true,
 );
-const results = eliminateNakedSubset(grid, SubsetLevel.Triple);
+const results = eliminateNakedSubset(grid, SubsetType.Triple);
 eliminationDescription(results[0]);
 // => "Naked Triple: 3,6,9 in r245c2 => r1c2<>6"
 ```
@@ -479,13 +514,13 @@ Returns **any** A list of objects describing where a candidate can be eliminated
 
 ### eliminateHiddenSubset
 
--   **See: [http://sudopedia.enjoysudoku.com/Hidden_Subset.html][67]
+-   **See: [http://sudopedia.enjoysudoku.com/Hidden_Subset.html][74]
     **
--   **See: [http://sudopedia.enjoysudoku.com/Hidden_Pair.html][68]
+-   **See: [http://sudopedia.enjoysudoku.com/Hidden_Pair.html][75]
     **
--   **See: [http://sudopedia.enjoysudoku.com/Hidden_Triple.html][69]
+-   **See: [http://sudopedia.enjoysudoku.com/Hidden_Triple.html][76]
     **
--   **See: [http://sudopedia.enjoysudoku.com/Hidden_Quad.html][70]
+-   **See: [http://sudopedia.enjoysudoku.com/Hidden_Quad.html][77]
     **
 
 A Hidden Subset is formed when N digits have only candidates in N cells in a house. All candidates in the cells of
@@ -503,9 +538,47 @@ const grid = parseGrid(
   ":0210:123589:....+6........4273+6..67+3..4..94....+6+8....96+4.+7+6.7.+5.+9231......85.6..8.27+1..5.1..+9+4::112 211 212 311 312 511 512 811 812 911: ",
   true,
 );
-const results = eliminateHiddenSubset(grid, SubsetLevel.Triple);
+const results = eliminateHiddenSubset(grid, SubsetType.Triple);
 eliminationDescription(results[0]);
 // => "Hidden Pair: 4,7 in r1c12 => r1c2<>1, r1c12<>2, r1c12<>3, r1c12<>5, r1c12<>8, r1c1<>9"
+```
+
+Returns **any** A list of objects describing where a candidate can be eliminated.
+
+**Meta**
+
+-   **since**: 0.0.3
+
+### eliminateBasicFish
+
+-   **See: [http://sudopedia.enjoysudoku.com/Fish.html][78]
+    **
+-   **See: [http://sudopedia.enjoysudoku.com/X-Wing.html][79]
+    **
+-   **See: [http://sudopedia.enjoysudoku.com/Swordfish.html][80]
+    **
+-   **See: [http://sudopedia.enjoysudoku.com/Jellyfish.html][81]
+    **
+
+A Basic Fish is formed with a digit that is a candidate for N lines (rows or columns) - the base set - on exactly N
+opposite lines - the cover set. All candidates of the digit that are on the lines of the cover set but not on the
+base set can be eliminated.
+
+#### Parameters
+
+-   `grid`  The grid to solve.
+-   `level`  The level of the subset to find.
+
+#### Examples
+
+```javascript
+const grid = parseGrid(
+  ":0301:2:16.54+3.7..+78+6.1+43+5+43+58.+7+6.+17+2.+45+8.696..9+12.57...+3+7+6..+4.+1+6.3..4.+3...+8..16..+71645.+3::268 271:r239 c158 ",
+  true,
+);
+const results = eliminateBasicFish(grid, SubsetType.Triple);
+eliminationDescription(results[0]);
+// => "Swordfish: 2 r239 c158 => r6c8,r7c1<>2"
 ```
 
 Returns **any** A list of objects describing where a candidate can be eliminated.
@@ -556,100 +629,122 @@ Returns **any** A list of objects describing where a candidate can be eliminated
 
 [21]: #parameters-6
 
-[22]: #solver-brute-force
+[22]: #examples-6
 
-[23]: #solvewithbacktracking
+[23]: #housesidentifiers
 
 [24]: #parameters-7
 
-[25]: #examples-6
+[25]: #examples-7
 
-[26]: #solver-logical
+[26]: #solver-brute-force
 
-[27]: #solvefullhouse
+[27]: #solvewithbacktracking
 
 [28]: #parameters-8
 
-[29]: #solvehiddensingle
+[29]: #examples-8
 
-[30]: #parameters-9
+[30]: #solver-logical
 
-[31]: #solvelastdigit
+[31]: #solvefullhouse
 
-[32]: #parameters-10
+[32]: #parameters-9
 
-[33]: #solvenakedsingle
+[33]: #solvehiddensingle
 
-[34]: #parameters-11
+[34]: #parameters-10
 
-[35]: #eliminatelockedcandidates
+[35]: #solvelastdigit
 
-[36]: #parameters-12
+[36]: #parameters-11
 
-[37]: #examples-7
+[37]: #solvenakedsingle
 
-[38]: #eliminatenakedsubset
+[38]: #parameters-12
 
-[39]: #parameters-13
+[39]: #eliminatelockedcandidates
 
-[40]: #examples-8
+[40]: #parameters-13
 
-[41]: #eliminatehiddensubset
+[41]: #examples-9
 
-[42]: #parameters-14
+[42]: #eliminatenakedsubset
 
-[43]: #examples-9
+[43]: #parameters-14
 
-[44]: http://sudopedia.enjoysudoku.com/Diagrams_and_Notations.html
+[44]: #examples-10
 
-[45]: http://www.sadmansoftware.com/sudoku/faq22.php
+[45]: #eliminatehiddensubset
 
-[46]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[46]: #parameters-15
 
-[47]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+[47]: #examples-11
 
-[48]: http://sudopedia.enjoysudoku.com/Diagrams_and_Notations.html#Cell_Reference
+[48]: #eliminatebasicfish
 
-[49]: http://sudopedia.enjoysudoku.com/Rncn.html
+[49]: #parameters-16
 
-[50]: http://sudopedia.enjoysudoku.com/K9.html
+[50]: #examples-12
 
-[51]: http://sudopedia.enjoysudoku.com/Backtracking_Algorithms.html
+[51]: http://sudopedia.enjoysudoku.com/Diagrams_and_Notations.html
 
-[52]: https://en.wikipedia.org/wiki/Backtracking
+[52]: http://www.sadmansoftware.com/sudoku/faq22.php
 
-[53]: https://en.wikipedia.org/wiki/Sudoku_solving_algorithms
+[53]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 
-[54]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined
+[54]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
 
-[55]: http://sudopedia.enjoysudoku.com/Full_House.html
+[55]: http://sudopedia.enjoysudoku.com/Diagrams_and_Notations.html#Cell_Reference
 
-[56]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+[56]: http://sudopedia.enjoysudoku.com/Rncn.html
 
-[57]: http://sudopedia.enjoysudoku.com/Hidden_Single.html
+[57]: http://sudopedia.enjoysudoku.com/K9.html
 
-[58]: http://sudopedia.enjoysudoku.com/Last_Digit.html
+[58]: http://sudopedia.enjoysudoku.com/Backtracking_Algorithms.html
 
-[59]: http://sudopedia.enjoysudoku.com/Naked_Single.html
+[59]: https://en.wikipedia.org/wiki/Backtracking
 
-[60]: http://sudopedia.enjoysudoku.com/Locked_Candidates.html
+[60]: https://en.wikipedia.org/wiki/Sudoku_solving_algorithms
 
-[61]: http://sudopedia.enjoysudoku.com/Naked_Subset.html
+[61]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined
 
-[62]: http://sudopedia.enjoysudoku.com/Naked_Pair.html
+[62]: http://sudopedia.enjoysudoku.com/Full_House.html
 
-[63]: http://sudopedia.enjoysudoku.com/Naked_Triple.html
+[63]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
 
-[64]: http://sudopedia.enjoysudoku.com/Naked_Quad.html
+[64]: http://sudopedia.enjoysudoku.com/Hidden_Single.html
 
-[65]: http://sudopedia.enjoysudoku.com/Locked_Pair.html
+[65]: http://sudopedia.enjoysudoku.com/Last_Digit.html
 
-[66]: http://sudopedia.enjoysudoku.com/Locked_Triple.html
+[66]: http://sudopedia.enjoysudoku.com/Naked_Single.html
 
-[67]: http://sudopedia.enjoysudoku.com/Hidden_Subset.html
+[67]: http://sudopedia.enjoysudoku.com/Locked_Candidates.html
 
-[68]: http://sudopedia.enjoysudoku.com/Hidden_Pair.html
+[68]: http://sudopedia.enjoysudoku.com/Naked_Subset.html
 
-[69]: http://sudopedia.enjoysudoku.com/Hidden_Triple.html
+[69]: http://sudopedia.enjoysudoku.com/Naked_Pair.html
 
-[70]: http://sudopedia.enjoysudoku.com/Hidden_Quad.html
+[70]: http://sudopedia.enjoysudoku.com/Naked_Triple.html
+
+[71]: http://sudopedia.enjoysudoku.com/Naked_Quad.html
+
+[72]: http://sudopedia.enjoysudoku.com/Locked_Pair.html
+
+[73]: http://sudopedia.enjoysudoku.com/Locked_Triple.html
+
+[74]: http://sudopedia.enjoysudoku.com/Hidden_Subset.html
+
+[75]: http://sudopedia.enjoysudoku.com/Hidden_Pair.html
+
+[76]: http://sudopedia.enjoysudoku.com/Hidden_Triple.html
+
+[77]: http://sudopedia.enjoysudoku.com/Hidden_Quad.html
+
+[78]: http://sudopedia.enjoysudoku.com/Fish.html
+
+[79]: http://sudopedia.enjoysudoku.com/X-Wing.html
+
+[80]: http://sudopedia.enjoysudoku.com/Swordfish.html
+
+[81]: http://sudopedia.enjoysudoku.com/Jellyfish.html

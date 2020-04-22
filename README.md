@@ -39,7 +39,7 @@ data or cause any side-effects.
           [Triple](http://sudopedia.enjoysudoku.com/Hidden_Triple.html) and
           [Quadruple](http://sudopedia.enjoysudoku.com/Hidden_Quad.html))
   - [ ] [Fish](http://sudopedia.enjoysudoku.com/Fish.html):
-    - [ ] Basic Fish ([X-Wing](http://sudopedia.enjoysudoku.com/X-Wing.html),
+    - [x] Basic Fish ([X-Wing](http://sudopedia.enjoysudoku.com/X-Wing.html),
           [Swordfish](http://sudopedia.enjoysudoku.com/Swordfish.html) and
           [Jellyfish](http://sudopedia.enjoysudoku.com/Jellyfish.html))
     - [ ] [Finned Fish](http://sudopedia.enjoysudoku.com/Finned_Fish.html)

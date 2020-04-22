@@ -1,7 +1,7 @@
-import { filter, flatten, map, pipe, purry, sort, uniq } from "remeda";
+import { filter, flatten, map, merge, pipe, purry, sort, uniq } from "remeda";
 import { generateTuples } from "../tuple";
 import { all, includes } from "ramda";
-import { SubsetLevel, SubsetResult } from "./types";
+import { FindSubsetResult, LookupData, SubsetLevel } from "./types";
 
 const _getIndexesForValue = <X, Y>(lookup: readonly (readonly [X, readonly Y[]])[]) => {
   return (value: Y): readonly X[] => {
@@ -37,17 +37,17 @@ const _getIndexesAssociatedToValues = <X, Y>(
   };
 };
 
-const _findSubsets = <X, Y>(
-  lookup: ReadonlyMap<X, readonly Y[]>,
+const _findSubsets = <T extends object, X, Y>(
+  data: LookupData<T, X, Y>,
   level: SubsetLevel,
-): readonly SubsetResult<X, Y>[] => {
-  const getIndexesAssociatedToValues = _getIndexesAssociatedToValues(lookup);
+): readonly FindSubsetResult<T, X, Y>[] => {
+  const getIndexesAssociatedToValues = _getIndexesAssociatedToValues(data.lookup);
 
   return pipe(
     // Loop through all the combinations of the values in the lookup
     generateTuples({
       size: level,
-      validValues: flatten([...lookup.values()]),
+      validValues: flatten([...data.lookup.values()]),
       getDuplicates: false,
       getSameValues: false,
     }),
@@ -58,18 +58,24 @@ const _findSubsets = <X, Y>(
     // Keep only one occurence of each index on the subset (e.g. [1, 2, 1, 2, 3, 4] => [1, 2, 3, 4]).
     map((results) => {
       return {
-        subsetIndexes: pipe(
-          results,
-          map((result) => result.indexes),
-          flatten(),
-          uniq(),
-          sort((a, b) => (typeof a === "number" && typeof b === "number" ? a - b : 0)),
-        ),
-        subsetValues: sort(results[0].values, (a, b) => (typeof a === "number" && typeof b === "number" ? a - b : 0)),
+        result: {
+          subsetIndexes: pipe(
+            results,
+            map((result) => result.indexes),
+            flatten(),
+            uniq(),
+            sort((a, b) => (typeof a === "number" && typeof b === "number" ? a - b : 0)),
+          ) as readonly X[],
+          subsetValues: sort(results[0].values, (a, b) =>
+            typeof a === "number" && typeof b === "number" ? a - b : 0,
+          ) as readonly Y[],
+        },
       };
     }),
     // Check that the subset is of the appropriate level
-    filter((result) => result.subsetIndexes.length === level),
+    filter((result) => result.result.subsetIndexes.length === level),
+    // Encapsulate the result with the data in parameters
+    map(merge(data)),
   );
 };
 
@@ -147,13 +153,13 @@ const _findSubsets = <X, Y>(
  *
  * @see eliminateNakedSubset,eliminateHiddenSubset,eliminateBasicFish
  */
-export function findSubsets<X, Y>(
-  lookup: ReadonlyMap<X, readonly Y[]>,
+export function findSubsets<T extends object, X, Y>(
+  data: LookupData<T, X, Y>,
   level: SubsetLevel,
-): readonly SubsetResult<X, Y>[];
-export function findSubsets<X, Y>(
+): readonly FindSubsetResult<T, X, Y>[];
+export function findSubsets<T extends object, X, Y>(
   level: SubsetLevel,
-): (lookup: ReadonlyMap<X, readonly Y[]>) => readonly SubsetResult<X, Y>[];
+): (data: LookupData<T, X, Y>) => readonly FindSubsetResult<T, X, Y>[];
 
 // eslint-disable-next-line functional/functional-parameters,@typescript-eslint/explicit-function-return-type
 export function findSubsets() {

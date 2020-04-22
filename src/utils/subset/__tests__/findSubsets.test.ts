@@ -29,16 +29,16 @@ describe("Find subsets", () => {
       [8, [3, 4]],
     ] as [number, number[]][];
 
-    const results = findSubsets(new Map(lookup), 3);
+    const results = findSubsets({ lookup: new Map(lookup) }, 3);
     expect(results).toHaveLength(1);
-    expect(results[0].subsetIndexes).toHaveLength(3);
-    expect(results[0].subsetIndexes).toContain(1);
-    expect(results[0].subsetIndexes).toContain(4);
-    expect(results[0].subsetIndexes).toContain(7);
-    expect(results[0].subsetValues).toHaveLength(3);
-    expect(results[0].subsetValues).toContain(1);
-    expect(results[0].subsetValues).toContain(5);
-    expect(results[0].subsetValues).toContain(8);
+    expect(results[0].result.subsetIndexes).toHaveLength(3);
+    expect(results[0].result.subsetIndexes).toContain(1);
+    expect(results[0].result.subsetIndexes).toContain(4);
+    expect(results[0].result.subsetIndexes).toContain(7);
+    expect(results[0].result.subsetValues).toHaveLength(3);
+    expect(results[0].result.subsetValues).toContain(1);
+    expect(results[0].result.subsetValues).toContain(5);
+    expect(results[0].result.subsetValues).toContain(8);
   });
 
   test("Lookup where a Y-axis has only one value is not a valid subset", () => {
@@ -70,7 +70,7 @@ describe("Find subsets", () => {
       [8, [3, 4]],
     ] as [number, number[]][];
 
-    const results = findSubsets(new Map(lookup), 3);
+    const results = findSubsets({ lookup: new Map(lookup) }, 3);
     expect(results).toHaveLength(0);
   });
 
@@ -103,7 +103,7 @@ describe("Find subsets", () => {
       [8, [3, 4]],
     ] as [number, number[]][];
 
-    const results = findSubsets(new Map(lookup), 3);
+    const results = findSubsets({ lookup: new Map(lookup) }, 3);
     expect(results).toHaveLength(0);
   });
 
@@ -136,7 +136,7 @@ describe("Find subsets", () => {
       [8, [3, 4]],
     ] as [number, number[]][];
 
-    const results = findSubsets(new Map(lookup), 3);
+    const results = findSubsets({ lookup: new Map(lookup) }, 3);
     expect(results).toHaveLength(0);
   });
 
@@ -169,7 +169,7 @@ describe("Find subsets", () => {
       [8, [3, 4]],
     ] as [number, number[]][];
 
-    const results = findSubsets(new Map(lookup), 3);
+    const results = findSubsets({ lookup: new Map(lookup) }, 3);
     expect(results).toHaveLength(0);
   });
 });
@@ -203,7 +203,7 @@ describe("Find subsets", () => {
 //       [8, [0, 4]],
 //     ] as [number, number[]][];
 
-//     const results = [...findSubsets(new Map(lookup), 3, { hasLeftovers: true })];
+//     const results = [...findSubsets({ lookup: new Map(lookup) }, 3, { hasLeftovers: true })];
 //     expect(results).toHaveLength(0);
 //   });
 
@@ -235,7 +235,7 @@ describe("Find subsets", () => {
 //       [8, [0, 4]],
 //     ] as [number, number[]][];
 
-//     const results = [...findSubsets(new Map(lookup), 3, { hasLeftovers: true })];
+//     const results = [...findSubsets({ lookup: new Map(lookup) }, 3, { hasLeftovers: true })];
 //     expect(results).toHaveLength(1);
 //     expect([...results[0][0]].sort()).toStrictEqual([1, 4, 7]);
 //     expect([...results[0][1]].sort()).toStrictEqual([1, 5, 8]);
@@ -271,7 +271,7 @@ describe("Find subsets", () => {
 //       [8, [0, 4]],
 //     ] as [number, number[]][];
 
-//     const results = [...findSubsets(new Map(lookup), 3, { hasLeftovers: true })];
+//     const results = [...findSubsets({ lookup: new Map(lookup) }, 3, { hasLeftovers: true })];
 //     expect(results).toHaveLength(1);
 //     expect([...results[0][0]].sort()).toStrictEqual([1, 4, 7]);
 //     expect([...results[0][1]].sort()).toStrictEqual([1, 5, 8]);
@@ -307,7 +307,7 @@ describe("Find subsets", () => {
 //       [8, [0, 4]],
 //     ] as [number, number[]][];
 
-//     const results = [...findSubsets(new Map(lookup), 3, { hasLeftovers: true })];
+//     const results = [...findSubsets({ lookup: new Map(lookup) }, 3, { hasLeftovers: true })];
 //     expect(results).toHaveLength(0);
 //   });
 
@@ -339,7 +339,7 @@ describe("Find subsets", () => {
 //       [8, [0, 4]],
 //     ] as [number, number[]][];
 
-//     const results = [...findSubsets(new Map(lookup), 3, { hasLeftovers: true })];
+//     const results = [...findSubsets({ lookup: new Map(lookup) }, 3, { hasLeftovers: true })];
 //     expect(results).toHaveLength(0);
 //   });
 
@@ -371,7 +371,7 @@ describe("Find subsets", () => {
 //       [8, [0, 4]],
 //     ] as [number, number[]][];
 
-//     const results = [...findSubsets(new Map(lookup), 3, { hasLeftovers: true })];
+//     const results = [...findSubsets({ lookup: new Map(lookup) }, 3, { hasLeftovers: true })];
 //     expect(results).toHaveLength(0);
 //   });
 // });
